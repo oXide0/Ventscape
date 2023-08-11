@@ -10,6 +10,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ICountry {
 	name: {
@@ -18,7 +19,7 @@ interface ICountry {
 }
 
 type FormDataType = {
-	username: string;
+	name: string;
 	about: string;
 	firstName: string;
 	lastName: string;
@@ -32,8 +33,7 @@ type FormDataType = {
 };
 
 const ProfilePage = () => {
-	const user = localStorage.getItem('user');
-	const userData = user && JSON.parse(user);
+	const { userData } = useAuth();
 	const [countries, setCountries] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 	const {
@@ -47,11 +47,11 @@ const ProfilePage = () => {
 		isLoading,
 		error,
 	} = useFetching(async () => {
-		if (userData) {
+		if (userData.id) {
 			const docRef = doc(db, 'users', userData.id);
 			const docSnap = await getDoc(docRef);
 			if (docSnap.exists()) {
-				setValue('username', docSnap.data().name);
+				setValue('name', docSnap.data().name);
 				setValue('about', docSnap.data().about);
 				setValue('firstName', docSnap.data().firstName);
 				setValue('lastName', docSnap.data().lastName);
@@ -68,7 +68,7 @@ const ProfilePage = () => {
 
 	const onSubmit: SubmitHandler<FormDataType> = async (data) => {
 		setLoading(true);
-		if (userData) {
+		if (userData.id) {
 			try {
 				const docRef = doc(db, 'users', userData.id);
 				await updateDoc(docRef, { ...data });
@@ -128,10 +128,10 @@ const ProfilePage = () => {
 					<div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
 						<Input
 							label='Username'
-							id='username'
+							id='name'
 							autoComplete='name'
 							placeholder='Your name'
-							register={register('username')}
+							register={register('name')}
 							errors={errors}
 							className='sm:col-span-3'
 						/>

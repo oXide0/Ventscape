@@ -18,11 +18,9 @@ export const eventSlice = createSlice({
 		},
 		addFavorite: (state, action: PayloadAction<string>) => {
 			state.favoriteEvents.push(action.payload);
-			localStorage.setItem('events', JSON.stringify(state.favoriteEvents));
 		},
 		removeFavorite: (state, action: PayloadAction<string>) => {
 			state.favoriteEvents = state.favoriteEvents.filter((favorite) => favorite !== action.payload);
-			localStorage.setItem('events', JSON.stringify(state.favoriteEvents));
 		},
 	},
 });

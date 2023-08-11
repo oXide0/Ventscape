@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Suspense } from 'react';
-import Layout from './components/Layout';
+import Layout from './hoc/Layout';
 import RequireAuth from './hoc/RequireAuth';
 import CreatorAuth from './hoc/CreatorAuth';
 import { SpinnerCircular } from 'spinners-react';

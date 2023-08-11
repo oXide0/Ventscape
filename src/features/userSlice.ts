@@ -24,15 +24,12 @@ export const userSlice = createSlice({
 			state.email = action.payload.email;
 			state.id = action.payload.id;
 			state.userType = action.payload.userType;
-			localStorage.setItem('user', JSON.stringify(state));
 		},
 		removeUser: (state) => {
 			state.name = null;
 			state.email = null;
 			state.id = null;
 			state.userType = null;
-			localStorage.removeItem('user');
-			localStorage.setItem('events', JSON.stringify([]));
 		},
 	},
 });

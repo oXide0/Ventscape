@@ -34,7 +34,7 @@ const EventsPage = () => {
 	return (
 		<div className='p-10 flex flex-wrap gap-4'>
 			{events.map((event) => (
-				<EventCard key={event.id} {...event} />
+				<EventCard key={event.id} variant='default' {...event} />
 			))}
 		</div>
 	);

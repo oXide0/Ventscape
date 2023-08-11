@@ -3,47 +3,22 @@ import { getEventImg } from '../../utils/events';
 import { FaLocationDot } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiTime } from 'react-icons/bi';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { formatDate } from '../../utils/date';
 import { Link } from 'react-router-dom';
-import { MdEdit } from 'react-icons/md';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { addFavorite, removeFavorite } from '../../features/eventSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-
-interface CardProps {
-	id: string;
-	name: string;
-	about: string;
-	kind: string;
-	type: string;
-	date: string;
-	price: string;
-	city: string;
-	country: string;
-	cardType?: string;
-}
+import { useLiked } from '../../hooks/useLiked';
+import { CardProps } from './index';
+import EventEditCard from './EventEditCard';
 
 const EventCard = memo((props: CardProps) => {
 	const { isAuth } = useAuth();
+	const { isLiked, setIsLiked } = useLiked(props.id);
 	const navigate = useNavigate();
-	const [isLiked, setIsLiked] = useState(false);
 	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		const favoriteEvents = localStorage.getItem('events');
-		if (favoriteEvents) {
-			const parsedFavoriteEvents = JSON.parse(favoriteEvents);
-			if (parsedFavoriteEvents.includes(props.id)) {
-				setIsLiked(true);
-			}
-		}
-	}, []);
-
-	if (props.cardType === 'edit') {
-		return <EventEditCard {...props} />;
-	}
 
 	const toggleLike = () => {
 		if (!isAuth) {
@@ -58,6 +33,10 @@ const EventCard = memo((props: CardProps) => {
 			setIsLiked(false);
 		}
 	};
+
+	if (props.variant === 'edit') {
+		return <EventEditCard {...props} />;
+	}
 
 	return (
 		<div className='w-365'>
@@ -110,34 +89,6 @@ const EventCard = memo((props: CardProps) => {
 						className='bg-indigo-600 px-4 py-1 rounded-md duration-100 hover:bg-indigo-800 active:scale-95'
 					>
 						Learn More
-					</Link>
-				</div>
-			</div>
-		</div>
-	);
-});
-
-const EventEditCard = memo((props: CardProps) => {
-	return (
-		<div className='w-365'>
-			<div className='bg-gray-100 py-2 px-4 rounded'>
-				<div className='flex justify-between'>
-					<div className='flex gap-2'>
-						<BiTime className='text-indigo-600' size='1.5em' />
-						<p className='text-gray-800 font-semibold'>{formatDate(props.date)}</p>
-					</div>
-				</div>
-				<div className='pt-1'>
-					<h2 className='text-gray-800 text-xl font-semibold'>{props.name}</h2>
-					<p className='text-gray-600 whitespace-nowrap text-ellipsis overflow-hidden'>{props.about}</p>
-				</div>
-				<div className='pt-3 flex'>
-					<Link
-						className='bg-indigo-600 px-4 py-1 rounded-md duration-100 hover:bg-indigo-800 active:scale-95 flex items-center gap-3'
-						to={`/events/edit/${props.id}`}
-					>
-						<MdEdit />
-						Edit
 					</Link>
 				</div>
 			</div>

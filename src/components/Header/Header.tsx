@@ -1,34 +1,16 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import Button from '../UI/Button/Button';
 import { GoSearch } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import Avatar from '../UI/Avatar/Avatar';
 import { useAuth } from '../../hooks/useAuth';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { setUser } from '../../features/userSlice';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useAppSelector } from '../../hooks/redux-hooks';
-import { selectFavoriteEvents, setFavorite } from '../../features/eventSlice';
+import { selectFavoriteEvents } from '../../features/eventSlice';
 
 const Header = memo(() => {
-	const dispatch = useAppDispatch();
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
 	const { isAuth, userData } = useAuth();
-
-	const favoriteIds = localStorage.getItem('events');
-
-	useEffect(() => {
-		const userData = localStorage.getItem('user');
-		if (userData) {
-			dispatch(setUser(JSON.parse(userData)));
-		}
-
-		if (favoriteIds) {
-			dispatch(setFavorite(JSON.parse(favoriteIds)));
-		} else {
-			dispatch(setFavorite([]));
-		}
-	}, [favoriteIds]);
 
 	return (
 		<header className='flex justify-between relative z-50 px-10 py-6 max-lg:gap-10'>
