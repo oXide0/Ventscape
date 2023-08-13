@@ -1,3 +1,5 @@
+import { IEvent } from '../types/types';
+
 const eventTypes = [
 	'Social',
 	'Business or Corporate',
@@ -23,7 +25,7 @@ export const getEventImg = (eventType: string) => {
 			return 'https://cdn.uniacco.com/blog/wp-content/uploads/2021/06/02122221/stem-list-EVgsAbL51Rk-unsplash1-min-1024x576.jpg';
 		case 'Cultural':
 			return 'https://greenglobaltravel.com/wp-content/uploads/2021/03/Cultural-Festivals-Around-the-World.jpg';
-		case 'Sports':
+		case 'Sport':
 			return 'https://www.habegger.ch/content/uploads/2022/08/sportevent_1-scaled.jpg';
 		case 'Charitable or Fundraising':
 			return 'https://www.socialtables.com/wp-content/uploads/2016/10/iStock-540095978.jpg';
@@ -45,3 +47,31 @@ export const getEventImg = (eventType: string) => {
 };
 
 export const sortedEventTypes = eventTypes.sort();
+
+export const filterEventData = (data: IEvent) => {
+	if (data.kind === 'Online') {
+		return {
+			name: data.name,
+			about: data.about,
+			kind: data.kind,
+			type: data.type,
+			date: data.date,
+			link: data.link,
+			price: data.price ? data.price : 0,
+			totalParticipants: data.totalParticipants,
+		};
+	} else {
+		return {
+			name: data.name,
+			about: data.about,
+			kind: data.kind,
+			type: data.type,
+			date: data.date,
+			street: data.street,
+			city: data.city,
+			country: data.country,
+			price: data.price ? data.price : 0,
+			totalParticipants: data.totalParticipants,
+		};
+	}
+};

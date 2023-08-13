@@ -16,6 +16,7 @@ export interface DefaultCardProps extends CommonCardProps {
 
 export interface EditCardProps extends CommonCardProps {
 	variant: 'edit';
+	onRemoveEvent: (eventId: string) => void;
 }
 
 export type CardProps = DefaultCardProps | EditCardProps;

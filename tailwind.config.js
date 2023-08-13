@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			spacing: {
-				365: '365px',
+				360: '360px',
 			},
 		},
 	},

@@ -2,9 +2,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '../../components/UI/Input/Input';
 import { inputClasses } from '../../utils/styles';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Button from '../../components/UI/Button/Button';
-import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { sortedEventTypes } from '../../utils/events';
 import ToggleButton from '../../components/UI/ToogleButton/ToggleButton';
@@ -12,43 +11,24 @@ import { SpinnerCircular } from 'spinners-react';
 import Select from '../../components/UI/Select/Select';
 import { useParams } from 'react-router-dom';
 import { useFetching } from '../../hooks/useFetching';
-
-interface ICountry {
-	name: {
-		common: string;
-	};
-}
-
-interface FormDataType {
-	name: string;
-	about: string;
-	kind: string;
-	type: string;
-	date: string;
-	street: string;
-	city: string;
-	country: string;
-	link: string;
-	price: string;
-	totalParticipants: number;
-	freePlaces: number;
-}
+import { useSubmiting } from '../../hooks/useSubmiting';
+import { useCountries } from '../../hooks/useCountries';
+import { updateEvent } from '../../services/eventActions';
+import { IEvent } from '../../types/types';
 
 const EditEventPage = () => {
 	const { id } = useParams();
 	const [activeValue, setActiveValue] = useState(1);
-	const [loading, setLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
-	const [countries, setCountries] = useState<string[]>([]);
-	const [eventType, setEventType] = useState('Online');
+	const countries = useCountries();
 	const {
 		register,
 		handleSubmit,
 		setValue,
+		watch,
 		formState: { errors },
-	} = useForm<FormDataType>();
+	} = useForm<IEvent>();
 
-	const { fetching: fetchEvent, isLoading: isEventLoading } = useFetching(async () => {
+	const { fetching: fetchEvent, isLoading } = useFetching(async () => {
 		if (id) {
 			const docRef = doc(db, 'events', id);
 			const docSnap = await getDoc(docRef);
@@ -67,50 +47,33 @@ const EditEventPage = () => {
 					setValue('link', docSnap.data().link);
 				}
 				setValue('price', docSnap.data().price);
+				if (docSnap.data().price) {
+					setActiveValue(2);
+				}
 				setValue('totalParticipants', docSnap.data().totalParticipants);
 			}
 		}
 	});
 
-	const onSubmit: SubmitHandler<FormDataType> = async (data) => {
-		setLoading(true);
+	const { submitting, isSubmitting, error } = useSubmiting(async (data) => {
 		if (id) {
-			try {
-				const docRef = doc(db, 'events', id);
-				await updateDoc(docRef, { ...data });
-				fetchEvent();
-				setErrorMessage('');
-			} catch (error) {
-				if (error instanceof Error) {
-					setErrorMessage(error.message);
-				}
-			} finally {
-				setLoading(false);
-			}
+			await updateEvent(data, id);
+			fetchEvent();
 		}
+	});
+
+	const onSubmit: SubmitHandler<IEvent> = async (data) => {
+		submitting(data);
 	};
 
 	useEffect(() => {
-		const getCountries = async () => {
-			try {
-				const response = await axios.get('https://restcountries.com/v3.1/region/europe');
-				const countriesNames = response.data.map((country: ICountry) => country.name.common);
-				const sortedCountries = countriesNames.sort();
-				setCountries(sortedCountries);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-
-		getCountries();
-		// Maybe we should use another useEffect for fetchEvent() or something like that
 		fetchEvent();
 	}, []);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className='p-10 max-w-5xl my-0 mx-auto'>
-				{loading || isEventLoading ? (
+				{isSubmitting || isLoading ? (
 					<div className='flex justify-center'>
 						<SpinnerCircular className='pt-40' color='rgb(67 56 202)' />
 					</div>
@@ -155,8 +118,6 @@ const EditEventPage = () => {
 									label='Online/Offline'
 									id='kind'
 									register={register('kind', { required: true })}
-									value={eventType}
-									setValue={setEventType}
 									options={['Online', 'Offline']}
 								/>
 								<Select
@@ -177,7 +138,7 @@ const EditEventPage = () => {
 									className='sm:col-span-full'
 								/>
 
-								{eventType === 'Offline' ? (
+								{watch('kind') === 'Offline' ? (
 									<>
 										<Select
 											label='Country'
@@ -262,7 +223,7 @@ const EditEventPage = () => {
 							</div>
 						</div>
 						<div className='pt-5 text-center sm:col-span-2'>
-							<p className='text-red-600'>{errorMessage}</p>
+							<p className='text-red-600'>{error}</p>
 							<Button className='w-full' type='submit'>
 								Update Event
 							</Button>

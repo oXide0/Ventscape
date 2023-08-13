@@ -39,7 +39,7 @@ const EventCard = memo((props: CardProps) => {
 	}
 
 	return (
-		<div className='w-365'>
+		<div className='w-360'>
 			<div className='relative'>
 				<img src={getEventImg(props.type)} alt={props.type} className='h-56 w-full object-cover rounded' />
 				<div className='absolute bg-black/60 px-4 py-2 bottom-0 flex justify-between w-full'>

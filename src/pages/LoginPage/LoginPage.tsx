@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../hooks/redux-hooks';
 import { getDocs, collection } from 'firebase/firestore';
 import { IUser } from '../../types/types';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSubmiting } from '../../hooks/useSubmiting';
 
 type FormData = {
 	email: string;
@@ -19,7 +20,6 @@ const LoginPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [errorMessage, setErrorMessage] = useState('');
-	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -27,38 +27,34 @@ const LoginPage = () => {
 		formState: { errors, isValid },
 	} = useForm<FormData>({ mode: 'onChange' });
 
-	const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-		setLoading(true);
-		try {
-			const users = await getDocs(collection(db, 'users'));
-			const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
-			const foundUser = filteredUsers.find((user) => user.email === data.email && user.password === data.pwd);
-			if (foundUser) {
-				dispatch(
-					setUser({
-						id: foundUser.id,
-						name: foundUser.name,
-						email: foundUser.email,
-						userType: foundUser.userType,
-					})
-				);
-				reset();
-				setErrorMessage('');
-				navigate('/');
-			} else {
-				setErrorMessage('User not found');
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				setErrorMessage(error.message);
-			}
-		} finally {
-			setLoading(false);
+	const { submitting, isSubmitting } = useSubmiting(async (data: FormData) => {
+		const users = await getDocs(collection(db, 'users'));
+		const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
+		const foundUser = filteredUsers.find((user) => user.email === data.email && user.password === data.pwd);
+		if (foundUser) {
+			dispatch(
+				setUser({
+					id: foundUser.id,
+					name: foundUser.name,
+					email: foundUser.email,
+					userType: foundUser.userType,
+				})
+			);
+			reset();
+			setErrorMessage('');
+			navigate('/');
+		} else {
+			setErrorMessage('User not found');
 		}
+	});
+
+	const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+		submitting(data);
 	};
+
 	return (
 		<div className='flex justify-center items-center flex-col'>
-			{loading ? (
+			{isSubmitting ? (
 				<SpinnerCircular className='pt-40' color='rgb(67 56 202)' />
 			) : (
 				<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col pt-8 gap-3 w-96'>

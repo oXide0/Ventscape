@@ -40,7 +40,7 @@ const FavoriteEventsPage = () => {
 			<h1 className='text-4xl font-bold text-center'>Your favorites events</h1>
 			<div className='flex flex-wrap gap-4 pt-10'>
 				{events.map((event) => (
-					<EventCard key={event.id} {...event} />
+					<EventCard key={event.id} variant='default' {...event} />
 				))}
 			</div>
 		</div>

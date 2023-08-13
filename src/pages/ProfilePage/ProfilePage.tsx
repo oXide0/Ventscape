@@ -2,46 +2,28 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '../../components/UI/Input/Input';
 import { inputClasses } from '../../utils/styles';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import Button from '../../components/UI/Button/Button';
 import { useFetching } from '../../hooks/useFetching';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
-
-interface ICountry {
-	name: {
-		common: string;
-	};
-}
-
-type FormDataType = {
-	name: string;
-	about: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	street: string;
-	city: string;
-	state: string;
-	zip: string;
-	notifications: boolean;
-	country: string;
-};
+import { updateUser } from '../../services/userActions';
+import { useSubmiting } from '../../hooks/useSubmiting';
+import { useCountries } from '../../hooks/useCountries';
+import { IUser } from '../../types/types';
 
 const ProfilePage = () => {
 	const { userData } = useAuth();
-	const [countries, setCountries] = useState<string[]>([]);
-	const [loading, setLoading] = useState(false);
+	const countries = useCountries();
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		formState: { errors },
-	} = useForm<FormDataType>();
+	} = useForm<IUser>();
 	const {
 		fetching: fetchUser,
 		isLoading,
@@ -66,37 +48,18 @@ const ProfilePage = () => {
 		}
 	});
 
-	const onSubmit: SubmitHandler<FormDataType> = async (data) => {
-		setLoading(true);
+	const { submitting, isSubmitting } = useSubmiting(async (data: IUser) => {
 		if (userData.id) {
-			try {
-				const docRef = doc(db, 'users', userData.id);
-				await updateDoc(docRef, { ...data });
-				fetchUser();
-			} catch (error) {
-				if (error instanceof Error) {
-					console.log(error.message);
-				}
-			} finally {
-				setLoading(false);
-			}
+			await updateUser(data, userData.id);
+			fetchUser();
 		}
+	});
+
+	const onSubmit: SubmitHandler<IUser> = async (data) => {
+		submitting(data);
 	};
 
 	useEffect(() => {
-		const getCountries = async () => {
-			try {
-				const response = await axios.get('https://restcountries.com/v3.1/region/europe');
-				const countriesNames = response.data.map((country: ICountry) => country.name.common);
-				const sortedCountries = countriesNames.sort();
-				setCountries(sortedCountries);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-
-		getCountries();
-		// Maybe we should use another useEffect for fetchUser() or something like that
 		fetchUser();
 	}, []);
 
@@ -108,7 +71,7 @@ const ProfilePage = () => {
 		);
 	}
 
-	if (isLoading || loading) {
+	if (isLoading || isSubmitting) {
 		return (
 			<div className='p-10 max-w-5xl my-0 mx-auto'>
 				<SpinnerCircular className='pt-40' color='rgb(67 56 202)' />

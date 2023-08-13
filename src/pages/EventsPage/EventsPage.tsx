@@ -31,6 +31,10 @@ const EventsPage = () => {
 		);
 	}
 
+	if (events.length === 0) {
+		return <ErrorTitle>No events found😦</ErrorTitle>;
+	}
+
 	return (
 		<div className='p-10 flex flex-wrap gap-4'>
 			{events.map((event) => (

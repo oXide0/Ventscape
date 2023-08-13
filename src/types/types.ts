@@ -1,10 +1,19 @@
 export type TypeIcon = 'home' | 'events' | 'notifications' | 'add-event' | 'stats' | 'my-events';
 
 export interface IUser {
-	name: string;
-	email: string;
-	password: string;
 	id: string;
+	name: string;
+	password: string;
+	about: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	street: string;
+	city: string;
+	state: string;
+	zip: string;
+	notifications: boolean;
+	country: string;
 	userType: string;
 }
 

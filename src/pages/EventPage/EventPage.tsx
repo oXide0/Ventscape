@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { IEvent } from '../../types/types';
 import { useFetching } from '../../hooks/useFetching';
 import { db } from '../../config/firebase';
-import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { SpinnerCircular } from 'spinners-react';
 import { formatDate } from '../../utils/date';
@@ -12,14 +12,17 @@ import { HiStatusOnline } from 'react-icons/hi';
 import { FaLocationDot } from 'react-icons/fa6';
 import { BiTime } from 'react-icons/bi';
 import { BsFillPersonFill } from 'react-icons/bs';
+import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 import { VscSymbolEvent } from 'react-icons/vsc';
 import { IconContext } from 'react-icons';
 import { useAuth } from '../../hooks/useAuth';
+import { applyForEvent, unApplyForEvent } from '../../services/eventActions';
+import InfoSnippet from '../../components/InfoSnippet/InfoSnippet';
 
 const EventPage = () => {
-	const [isApplied, setIsApplied] = useState(false);
 	const { userType, userData } = useAuth();
 	const { id } = useParams();
+	const [isApplied, setIsApplied] = useState(false);
 	const [event, setEvent] = useState<IEvent>();
 	const { fetching, isLoading, error } = useFetching(async () => {
 		if (id) {
@@ -35,33 +38,13 @@ const EventPage = () => {
 	});
 
 	const onApply = async () => {
+		applyForEvent(event, id, userData.id);
 		setIsApplied(true);
-		if (event && id) {
-			try {
-				const docRef = doc(db, 'events', id);
-				await updateDoc(docRef, {
-					freePlaces: event.freePlaces - 1,
-					appliedUsers: [...event.appliedUsers, userData.id],
-				});
-			} catch (error) {
-				console.log(error);
-			}
-		}
 	};
 
 	const onUnApply = async () => {
+		unApplyForEvent(event, id, userData.id);
 		setIsApplied(false);
-		if (event && id) {
-			try {
-				const docRef = doc(db, 'events', id);
-				await updateDoc(docRef, {
-					freePlaces: event.freePlaces + 1,
-					appliedUsers: event.appliedUsers.filter((userId) => userId !== userData.id),
-				});
-			} catch (error) {
-				console.log(error);
-			}
-		}
 	};
 
 	useEffect(() => {
@@ -99,18 +82,14 @@ const EventPage = () => {
 							<span className='text-xl text-white font-semibold'>Online</span>
 						</p>
 					)}
-					<p className='text-lg text-gray-300 flex items-end gap-2'>
-						<BiTime />
-						<span className='text-white font-semibold'>Date:</span> {formatDate(event.date)}
-					</p>
-					<p className='text-lg text-gray-300 flex items-end gap-2'>
-						<BsFillPersonFill />
-						<span className='text-white font-semibold'>Free places: </span> {event.freePlaces}
-					</p>
-					<p className='text-lg text-gray-300 flex items-end gap-2'>
-						<VscSymbolEvent />
-						<span className='text-white font-semibold'>Type: </span> {event.type}
-					</p>
+					<InfoSnippet title='Date:' content={formatDate(event.date)} icon={<BiTime />} />
+					<InfoSnippet
+						title='Price:'
+						content={event.price ? event.price : 'Free'}
+						icon={<RiMoneyEuroCircleLine />}
+					/>
+					<InfoSnippet title='Free places:' content={event.freePlaces} icon={<BsFillPersonFill />} />
+					<InfoSnippet title='Type:' content={event.type} icon={<VscSymbolEvent />} />
 					<h2 className='text-xl font-bold pt-4'>About</h2>
 					<p>{event.about}</p>
 				</div>

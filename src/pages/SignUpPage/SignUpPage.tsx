@@ -1,16 +1,14 @@
 import Button from '../../components/UI/Button/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import { firebaseErrorHandler } from '../../utils/fireBaseErrorHandler';
 import { SpinnerCircular } from 'spinners-react';
 import Input from '../../components/UI/Input/Input';
 import { setUser } from '../../features/userSlice';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { db } from '../../config/firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { nanoid } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../types/types';
+import { useSubmiting } from '../../hooks/useSubmiting';
+import { createUser } from '../../services/userActions';
 
 type FormData = {
 	name: string;
@@ -26,7 +24,6 @@ const SignUpPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [errorMessage, setErrorMessage] = useState('');
-	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -34,59 +31,33 @@ const SignUpPage = () => {
 		formState: { errors, isValid },
 	} = useForm<FormData>({ mode: 'onChange' });
 
-	const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-		setLoading(true);
-
-		try {
-			const users = await getDocs(collection(db, 'users'));
-			const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
-			const foundUser = filteredUsers.find((user) => user.email === data.email);
-			if (foundUser) {
-				setErrorMessage('User already exists');
-				setLoading(false);
-				return;
-			}
-			const id = nanoid();
-			await addDoc(collection(db, 'users'), {
+	const { submitting, isSubmitting, error } = useSubmiting(async (data: FormData) => {
+		const id = nanoid();
+		if ((await createUser(data, id)) === 'User already exists') {
+			setErrorMessage('User already exists');
+			return;
+		}
+		dispatch(
+			setUser({
 				id,
 				name: data.name,
 				email: data.email,
-				password: data.pwd,
 				userType: data.userType,
-				about: '',
-				firstName: '',
-				lastName: '',
-				country: '',
-				street: '',
-				city: '',
-				state: '',
-				zip: '',
-				notifications: false,
-			});
+			})
+		);
 
-			dispatch(
-				setUser({
-					id,
-					name: data.name,
-					email: data.email,
-					userType: data.userType,
-				})
-			);
+		reset();
+		setErrorMessage('');
+		navigate('/');
+	});
 
-			reset();
-			setErrorMessage('');
-			navigate('/');
-		} catch (error) {
-			if (error instanceof Error) {
-				setErrorMessage(firebaseErrorHandler(error.message));
-			}
-		} finally {
-			setLoading(false);
-		}
+	const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+		submitting(data);
+		if (error) setErrorMessage(error);
 	};
 	return (
 		<div className='flex justify-center items-center flex-col'>
-			{loading ? (
+			{isSubmitting ? (
 				<SpinnerCircular className='pt-40' color='rgb(67 56 202)' />
 			) : (
 				<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col pt-8 gap-3 w-96'>

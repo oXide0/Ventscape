@@ -7,6 +7,7 @@ import EventCard from '../../components/EventCard/EventCard';
 import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
+import { deleteEvent } from '../../services/eventActions';
 
 const MyEventsPage = () => {
 	const { userData } = useAuth();
@@ -22,6 +23,11 @@ const MyEventsPage = () => {
 		fetching();
 	}, []);
 
+	const removeEvent = (eventId: string) => {
+		deleteEvent(eventId);
+		fetching();
+	};
+
 	if (error) {
 		return <ErrorTitle>Something went wrong😕</ErrorTitle>;
 	}
@@ -34,10 +40,14 @@ const MyEventsPage = () => {
 		);
 	}
 
+	if (events.length === 0) {
+		return <ErrorTitle>No events found😦</ErrorTitle>;
+	}
+
 	return (
 		<div className='p-10 flex flex-wrap gap-4'>
 			{events.map((event) => (
-				<EventCard key={event.id} variant='edit' {...event} />
+				<EventCard key={event.id} variant='edit' {...event} onRemoveEvent={removeEvent} />
 			))}
 		</div>
 	);

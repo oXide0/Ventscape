@@ -1,21 +1,19 @@
 import { memo } from 'react';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	children: string;
 	disabled?: boolean;
-	onClick?: () => void;
 	className?: string;
-	type?: 'button' | 'submit' | 'reset';
 }
 
 const buttonClasses = 'font-bold px-6 py-2 rounded-md bg-indigo-500 duration-100 active:scale-95';
 
-const Button = memo(({ children, disabled, onClick, className, type }: ButtonProps) => {
+const Button = memo((props: ButtonProps) => {
+	const { children, className, disabled, ...restProps } = props;
+
 	return (
 		<button
-			type={type || 'button'}
-			onClick={onClick}
-			disabled={disabled}
+			{...restProps}
 			className={
 				disabled
 					? `${buttonClasses} opacity-20 ${className}`
