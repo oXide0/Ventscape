@@ -6,6 +6,7 @@ import { IEvent } from '../../types/types';
 import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
 import { useFetching } from '../../hooks/useFetching';
+import List from '../../components/List/List';
 
 const EventsPage = () => {
 	const [events, setEvents] = useState<IEvent[]>([]);
@@ -37,9 +38,7 @@ const EventsPage = () => {
 
 	return (
 		<div className='p-10 flex flex-wrap gap-4'>
-			{events.map((event) => (
-				<EventCard key={event.id} variant='default' {...event} />
-			))}
+			<List items={events} renderItem={(event) => <EventCard key={event.id} variant='default' {...event} />} />
 		</div>
 	);
 };

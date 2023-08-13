@@ -8,6 +8,7 @@ import { SpinnerCircular } from 'spinners-react';
 import { useFetching } from '../../hooks/useFetching';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { selectFavoriteEvents } from '../../features/eventSlice';
+import List from '../../components/List/List';
 
 const FavoriteEventsPage = () => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
@@ -39,9 +40,10 @@ const FavoriteEventsPage = () => {
 		<div className='p-10'>
 			<h1 className='text-4xl font-bold text-center'>Your favorites events</h1>
 			<div className='flex flex-wrap gap-4 pt-10'>
-				{events.map((event) => (
-					<EventCard key={event.id} variant='default' {...event} />
-				))}
+				<List
+					items={events}
+					renderItem={(event) => <EventCard key={event.id} variant='default' {...event} />}
+				/>
 			</div>
 		</div>
 	);

@@ -14,6 +14,7 @@ const Button = memo((props: ButtonProps) => {
 	return (
 		<button
 			{...restProps}
+			disabled={disabled}
 			className={
 				disabled
 					? `${buttonClasses} opacity-20 ${className}`

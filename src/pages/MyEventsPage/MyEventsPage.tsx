@@ -8,6 +8,7 @@ import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteEvent } from '../../services/eventActions';
+import List from '../../components/List/List';
 
 const MyEventsPage = () => {
 	const { userData } = useAuth();
@@ -46,9 +47,12 @@ const MyEventsPage = () => {
 
 	return (
 		<div className='p-10 flex flex-wrap gap-4'>
-			{events.map((event) => (
-				<EventCard key={event.id} variant='edit' {...event} onRemoveEvent={removeEvent} />
-			))}
+			<List
+				items={events}
+				renderItem={(event) => (
+					<EventCard key={event.id} variant='edit' {...event} onRemoveEvent={removeEvent} />
+				)}
+			/>
 		</div>
 	);
 };
