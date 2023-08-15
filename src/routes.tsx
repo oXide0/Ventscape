@@ -15,6 +15,7 @@ import MyEventsPage from './pages/MyEventsPage/MyEventsPage';
 import EditEventPage from './pages/EditEventPage/EditEventPage';
 import FavoriteEventsPage from './pages/FavoriteEventsPage/FavoriteEventsPage';
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
+import ProgressPage from './pages/ProgressPage/ProgressPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
 				<Route path='events/favorite' element={<FavoriteEventsPage />} />
 				<Route path='events/:id' element={<EventPage />} />
 				<Route path='events/edit/:id' element={<EditEventPage />} />
+				<Route path='settings' element={<ProgressPage />} />
 				<Route element={<CreatorAuth />}>
 					<Route path='events/create' element={<CreateEventPage />} />
 					<Route path='events/my' element={<MyEventsPage />} />

@@ -21,16 +21,25 @@ export interface IEvent {
 	id: string;
 	name: string;
 	about: string;
-	kind: string;
-	type: string;
+	mode: string;
+	category: string;
 	date: string;
 	street: string;
 	city: string;
 	country: string;
 	link: string;
-	price: string;
+	price: number;
+	currency: string;
 	totalParticipants: number;
 	freePlaces: number;
 	creatorId: string;
 	appliedUsers: string[];
+}
+
+export interface IEventsFilter {
+	datePosted: string;
+	country: string;
+	type: string;
+	category: string;
+	price: string;
 }

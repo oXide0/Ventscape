@@ -17,7 +17,7 @@ import { IUser } from '../../types/types';
 
 const ProfilePage = () => {
 	const { userData } = useAuth();
-	const countries = useCountries();
+	const { countries } = useCountries();
 	const {
 		register,
 		handleSubmit,

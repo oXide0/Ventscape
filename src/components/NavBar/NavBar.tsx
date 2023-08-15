@@ -11,7 +11,7 @@ const NavBar = memo(() => {
 		<IconContext.Provider value={{ size: '1.7em' }}>
 			<div className='bg-slate-900 p-5 h-full w-80 fixed z-10 max-lg:w-24 max-lg:flex max-lg:flex-col max-lg:items-center'>
 				<Link to='/' className='text-2xl font-bold max-lg:hidden'>
-					Virtual Event Platform
+					VENTSCAPE
 				</Link>
 				<div className='pt-10'>
 					<p className='opacity-60 max-lg:hidden'>Navigation</p>

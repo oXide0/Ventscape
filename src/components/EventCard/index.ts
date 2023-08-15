@@ -7,11 +7,12 @@ interface CommonCardProps {
 
 export interface DefaultCardProps extends CommonCardProps {
 	variant: 'default';
-	kind: string;
-	type: string;
-	price: string;
+	mode: string;
+	category: string;
+	price: number;
 	city: string;
 	country: string;
+	currency: string;
 }
 
 export interface EditCardProps extends CommonCardProps {

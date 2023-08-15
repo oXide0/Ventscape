@@ -41,9 +41,13 @@ const EventCard = memo((props: CardProps) => {
 	return (
 		<div className='w-360'>
 			<div className='relative'>
-				<img src={getEventImg(props.type)} alt={props.type} className='h-56 w-full object-cover rounded' />
+				<img
+					src={getEventImg(props.category)}
+					alt={props.category}
+					className='h-56 w-full object-cover rounded'
+				/>
 				<div className='absolute bg-black/60 px-4 py-2 bottom-0 flex justify-between w-full'>
-					{props.kind === 'Offline' ? (
+					{props.mode === 'Offline' ? (
 						<div className='flex gap-2'>
 							<FaLocationDot className='text-indigo-600' size='1.5em' />
 							<p>{`${props.city}, ${props.country}`}</p>
@@ -56,7 +60,7 @@ const EventCard = memo((props: CardProps) => {
 					)}
 
 					<div className='px-2 bg-indigo-600 rounded-xl'>
-						<p>{!props.price ? 'Free' : props.price}</p>
+						<p>{!props.price ? 'Free' : props.price + ' ' + props.currency}</p>
 					</div>
 				</div>
 			</div>
@@ -82,7 +86,7 @@ const EventCard = memo((props: CardProps) => {
 				</div>
 				<div className='pt-3 flex justify-between'>
 					<span className='inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10'>
-						#{props.type}
+						#{props.category}
 					</span>
 					<Link
 						to={`/events/${props.id}`}

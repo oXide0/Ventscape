@@ -44,7 +44,7 @@ const LoginPage = () => {
 			setErrorMessage('');
 			navigate('/');
 		} else {
-			setErrorMessage('User not found');
+			setErrorMessage('Incorrect data');
 		}
 	});
 

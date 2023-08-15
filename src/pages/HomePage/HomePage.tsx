@@ -21,7 +21,7 @@ const HomePage = () => {
 						}}
 					/>
 				</div>
-				<div className='mx-auto max-w-2xl py-0 sm:py-48 lg:py-0'>
+				<div className='mx-auto max-w-3xl py-0 sm:py-48 lg:py-0'>
 					<div className='hidden sm:mb-8 sm:flex sm:justify-center'>
 						<div className='relative rounded-full px-3 py-1 text-sm leading-6 text-gray-200 ring-1 ring-gray-100/10 hover:ring-gray-100/40'>
 							<Link
@@ -37,13 +37,13 @@ const HomePage = () => {
 					<div className='text-center'>
 						<h1 className='text-4xl font-bold tracking-tight text-white sm:text-6xl flex flex-col'>
 							<span data-testid='test-text'>Meet a new one</span>
-							<span>Virtual Event Platform</span>
+							<span>Event Platform - Ventscape</span>
 						</h1>
 						<p className='mt-6 text-lg leading-8 text-gray-400'>
-							Introducing my innovative Virtual Event Platform – an immersive and seamless online
-							experience that connects you with a world of dynamic events, networking opportunities, and
-							interactive content, right from the comfort of your own space. Elevate your virtual event
-							participation to new heights and embrace a whole new dimension of engagement.
+							Introducing my innovative Ventscape – an immersive and seamless online experience that
+							connects you with a world of dynamic events, networking opportunities, and interactive
+							content, right from the comfort of your own space. Elevate your event participation to new
+							heights and embrace a whole new dimension of engagement.
 						</p>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
 							<Link to={isAuth ? '/events' : 'signup'}>

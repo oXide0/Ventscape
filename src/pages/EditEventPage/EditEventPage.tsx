@@ -19,7 +19,7 @@ import { IEvent } from '../../types/types';
 const EditEventPage = () => {
 	const { id } = useParams();
 	const [activeValue, setActiveValue] = useState(1);
-	const countries = useCountries();
+	const { countries, currencies } = useCountries();
 	const {
 		register,
 		handleSubmit,
@@ -35,8 +35,8 @@ const EditEventPage = () => {
 			if (docSnap.exists()) {
 				setValue('name', docSnap.data().name);
 				setValue('about', docSnap.data().about);
-				setValue('kind', docSnap.data().kind);
-				setValue('type', docSnap.data().type);
+				setValue('mode', docSnap.data().kind);
+				setValue('category', docSnap.data().type);
 				setValue('date', docSnap.data().date);
 				setValue('freePlaces', docSnap.data().freePlaces);
 				if (docSnap.data().kind === 'Offline') {
@@ -47,6 +47,7 @@ const EditEventPage = () => {
 					setValue('link', docSnap.data().link);
 				}
 				setValue('price', docSnap.data().price);
+				setValue('currency', docSnap.data().currency);
 				if (docSnap.data().price) {
 					setActiveValue(2);
 				}
@@ -117,13 +118,13 @@ const EditEventPage = () => {
 								<Select
 									label='Online/Offline'
 									id='kind'
-									register={register('kind', { required: true })}
+									register={register('mode', { required: true })}
 									options={['Online', 'Offline']}
 								/>
 								<Select
 									label='Type of event'
 									id='type'
-									register={register('type', { required: true })}
+									register={register('category', { required: true })}
 									options={[...sortedEventTypes, 'Other']}
 								/>
 
@@ -138,7 +139,7 @@ const EditEventPage = () => {
 									className='sm:col-span-full'
 								/>
 
-								{watch('kind') === 'Offline' ? (
+								{watch('mode') === 'Offline' ? (
 									<>
 										<Select
 											label='Country'
@@ -189,15 +190,23 @@ const EditEventPage = () => {
 										/>
 									</div>
 									{activeValue === 2 && (
-										<Input
-											label=''
-											placeholder='Price'
-											id='price'
-											autoComplete='price'
-											register={register('price', { required: true })}
-											errors={errors}
-											className='sm:col-span-3'
-										/>
+										<div className='flex gap-4 items-center w-52'>
+											<Input
+												label='Price'
+												placeholder='Price'
+												id='price'
+												autoComplete='price'
+												register={register('price', { required: true })}
+												errors={errors}
+											/>
+											<Select
+												label='Currency'
+												id='currency'
+												register={register('currency', { required: true })}
+												options={[...currencies, 'Other']}
+												width='w-36'
+											/>
+										</div>
 									)}
 								</div>
 								<Input

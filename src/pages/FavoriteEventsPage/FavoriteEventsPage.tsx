@@ -36,13 +36,17 @@ const FavoriteEventsPage = () => {
 		);
 	}
 
+	if (!events.length) {
+		return <ErrorTitle>No events found😦</ErrorTitle>;
+	}
+
 	return (
 		<div className='p-10'>
 			<h1 className='text-4xl font-bold text-center'>Your favorites events</h1>
 			<div className='flex flex-wrap gap-4 pt-10'>
 				<List
 					items={events}
-					renderItem={(event) => <EventCard key={event.id} variant='default' {...event} />}
+					renderItem={(event: IEvent) => <EventCard key={event.id} variant='default' {...event} />}
 				/>
 			</div>
 		</div>

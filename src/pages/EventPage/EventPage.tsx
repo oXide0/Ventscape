@@ -68,7 +68,7 @@ const EventPage = () => {
 			<div className='w-full p-10'>
 				<h1 className='text-4xl font-bold'>{event.name}</h1>
 				<div className='pt-6 flex flex-col gap-3'>
-					{event.kind === 'Offline' ? (
+					{event.mode === 'Offline' ? (
 						<div className='text-lg text-gray-300 flex items-end gap-2'>
 							<p className='flex items-center gap-2'>
 								<FaLocationDot />
@@ -85,11 +85,11 @@ const EventPage = () => {
 					<InfoSnippet title='Date:' content={formatDate(event.date)} icon={<BiTime />} />
 					<InfoSnippet
 						title='Price:'
-						content={event.price ? event.price : 'Free'}
+						content={event.price ? event.price + ' ' + event.currency : 'Free'}
 						icon={<RiMoneyEuroCircleLine />}
 					/>
 					<InfoSnippet title='Free places:' content={event.freePlaces} icon={<BsFillPersonFill />} />
-					<InfoSnippet title='Type:' content={event.type} icon={<VscSymbolEvent />} />
+					<InfoSnippet title='Type:' content={event.category} icon={<VscSymbolEvent />} />
 					<h2 className='text-xl font-bold pt-4'>About</h2>
 					<p>{event.about}</p>
 				</div>

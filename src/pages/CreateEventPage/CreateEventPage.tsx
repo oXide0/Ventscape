@@ -16,7 +16,7 @@ import { IEvent } from '../../types/types';
 const CreateEventPage = () => {
 	const { userData } = useAuth();
 	const [activeValue, setActiveValue] = useState(1);
-	const countries = useCountries();
+	const { countries, currencies } = useCountries();
 	const {
 		register,
 		handleSubmit,
@@ -82,13 +82,13 @@ const CreateEventPage = () => {
 								<Select
 									label='Online/Offline'
 									id='kind'
-									register={register('kind', { required: true })}
+									register={register('mode', { required: true })}
 									options={['Online', 'Offline']}
 								/>
 								<Select
 									label='Type of event'
 									id='type'
-									register={register('type', { required: true })}
+									register={register('category', { required: true })}
 									options={[...sortedEventTypes, 'Other']}
 								/>
 								<Input
@@ -102,7 +102,7 @@ const CreateEventPage = () => {
 									className='sm:col-span-full'
 								/>
 
-								{watch('kind') === 'Offline' ? (
+								{watch('mode') === 'Offline' ? (
 									<>
 										<Select
 											label='Country'
@@ -153,15 +153,24 @@ const CreateEventPage = () => {
 										/>
 									</div>
 									{activeValue === 2 && (
-										<Input
-											label=''
-											placeholder='Price'
-											id='price'
-											autoComplete='price'
-											register={register('price', { required: true })}
-											errors={errors}
-											className='sm:col-span-3'
-										/>
+										<div className='flex gap-4 items-center w-52'>
+											<Input
+												type='number'
+												label='Price'
+												placeholder='Price'
+												id='price'
+												autoComplete='price'
+												register={register('price', { required: true, valueAsNumber: true })}
+												errors={errors}
+											/>
+											<Select
+												label='Currency'
+												id='currency'
+												register={register('currency', { required: true })}
+												options={[...currencies, 'Other']}
+												width='w-36'
+											/>
+										</div>
 									)}
 								</div>
 								<Input

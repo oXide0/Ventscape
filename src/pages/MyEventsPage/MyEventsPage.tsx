@@ -49,7 +49,7 @@ const MyEventsPage = () => {
 		<div className='p-10 flex flex-wrap gap-4'>
 			<List
 				items={events}
-				renderItem={(event) => (
+				renderItem={(event: IEvent) => (
 					<EventCard key={event.id} variant='edit' {...event} onRemoveEvent={removeEvent} />
 				)}
 			/>
