@@ -1,5 +1,6 @@
 import { collection, addDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../config/firebase';
 import { IUser } from '../types/types';
 
 type FormData = {
@@ -14,7 +15,7 @@ export const updateUser = async (data: IUser, userId: string) => {
 	await updateDoc(docRef, { ...data });
 };
 
-export const createUser = async (data: FormData, userId: string) => {
+export const createUser = async (data: FormData) => {
 	const users = await getDocs(collection(db, 'users'));
 	const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
 	const foundUser = filteredUsers.find((user) => user.email === data.email);
@@ -24,7 +25,6 @@ export const createUser = async (data: FormData, userId: string) => {
 	}
 
 	await addDoc(collection(db, 'users'), {
-		id: userId,
 		name: data.name,
 		email: data.email,
 		password: data.pwd,
@@ -39,4 +39,23 @@ export const createUser = async (data: FormData, userId: string) => {
 		zip: '',
 		notifications: false,
 	});
+};
+
+export const getUser = async (email: string, password: string) => {
+	const users = await getDocs(collection(db, 'users'));
+	const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
+	const foundUser = filteredUsers.find((user) => user.email === email && user.password === password);
+	return foundUser;
+};
+
+export const uploadUserAvatar = async (file: File | null, userId: string) => {
+	if (file === null) return;
+	const avatarRef = ref(storage, `avatars/${userId}`);
+	await uploadBytes(avatarRef, file);
+};
+
+export const getUserAvatar = async (userId: string) => {
+	const imageRef = ref(storage, `avatars/${userId}`);
+	const url = await getDownloadURL(imageRef);
+	return url;
 };

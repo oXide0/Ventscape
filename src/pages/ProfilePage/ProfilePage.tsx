@@ -1,8 +1,8 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '../../components/UI/Input/Input';
 import { inputClasses } from '../../utils/styles';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../components/UI/Button/Button';
 import { useFetching } from '../../hooks/useFetching';
 import { doc, getDoc } from 'firebase/firestore';
@@ -10,14 +10,17 @@ import { db } from '../../config/firebase';
 import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
-import { updateUser } from '../../services/userActions';
+import { updateUser, uploadUserAvatar } from '../../services/userActions';
 import { useSubmiting } from '../../hooks/useSubmiting';
 import { useCountries } from '../../hooks/useCountries';
 import { IUser } from '../../types/types';
+import { useAvatar } from '../../hooks/useAvatar';
 
 const ProfilePage = () => {
 	const { userData } = useAuth();
 	const { countries } = useCountries();
+	const [avatarFile, setAvatarFile] = useState<File | null>(null);
+	const avatarUrl = useAvatar();
 	const {
 		register,
 		handleSubmit,
@@ -51,12 +54,27 @@ const ProfilePage = () => {
 	const { submitting, isSubmitting } = useSubmiting(async (data: IUser) => {
 		if (userData.id) {
 			await updateUser(data, userData.id);
+			await uploadUserAvatar(avatarFile, userData.id);
 			fetchUser();
 		}
 	});
 
 	const onSubmit: SubmitHandler<IUser> = async (data) => {
 		submitting(data);
+	};
+
+	const onAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files && e.target.files[0];
+		if (file) {
+			setAvatarFile(file);
+		}
+	};
+
+	const onUpdateAvatar = async () => {
+		if (userData.id) {
+			await uploadUserAvatar(avatarFile, userData.id);
+			window.location.reload();
+		}
 	};
 
 	useEffect(() => {
@@ -113,43 +131,32 @@ const ProfilePage = () => {
 
 						<div className='col-span-full'>
 							<label htmlFor='photo' className='block text-sm font-medium leading-6 text-white'>
-								Photo
+								Avatar
 							</label>
 							<div className='mt-2 flex items-center gap-x-3'>
-								<UserCircleIcon className='h-12 w-12 text-gray-300' aria-hidden='true' />
-								<button
-									type='button'
-									className='rounded-md bg-white/5px-2.5 py-1.5 px-2 text-sm font-semibold text-white shadow-sm ring-inset ring-1 ring-indigo-500'
-								>
-									Change
-								</button>
-							</div>
-						</div>
-
-						<div className='col-span-full'>
-							<label htmlFor='cover-photo' className='block text-sm font-medium leading-6 text-white'>
-								Cover photo
-							</label>
-							<div className='mt-2 flex justify-center rounded-lg border border-dashed border-white/50 px-6 py-10'>
-								<div className='text-center'>
-									<PhotoIcon className='mx-auto h-12 w-12 text-gray-300' aria-hidden='true' />
-									<div className='mt-4 flex text-sm leading-6 text-gray-400'>
-										<label
-											htmlFor='file-upload'
-											className='relative cursor-pointer rounded-md  font-semibold text-indigo-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-300 focus-within:ring-offset-2 hover:text-indigo-300'
-										>
-											<span>Upload a file</span>
-											<input
-												id='file-upload'
-												name='file-upload'
-												type='file'
-												className='sr-only'
-											/>
-										</label>
-										<p className='pl-1'>or drag and drop</p>
+								{avatarUrl ? (
+									<div className='h-12 w-12'>
+										<img src={avatarUrl} alt={avatarUrl} />
 									</div>
-									<p className='text-xs leading-5 text-gray-400'>PNG, JPG, GIF up to 10MB</p>
-								</div>
+								) : (
+									<UserCircleIcon className='h-12 w-12 text-gray-300' aria-hidden='true' />
+								)}
+
+								<label
+									htmlFor='avatar'
+									className='relative cursor-pointer rounded-md bg-white/5px-2.5 py-1.5 px-2 text-sm font-semibold text-white shadow-sm ring-inset ring-1 ring-indigo-500'
+								>
+									<span>Upload a file</span>
+									<input
+										id='avatar'
+										type='file'
+										className={`${inputClasses} sr-only`}
+										onChange={(e) => onAvatarChange(e)}
+									/>
+								</label>
+								<Button className='h-8 flex items-center text-sm font-normal' onClick={onUpdateAvatar}>
+									Update Avatar
+								</Button>
 							</div>
 						</div>
 					</div>

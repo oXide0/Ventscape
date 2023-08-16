@@ -50,7 +50,7 @@ export const filterEventData = (data: IEvent) => {
 			date: data.date,
 			link: data.link,
 			price: data.price ? data.price : 0,
-			currency: data.currency,
+			currency: data.currency ? data.currency : '',
 			totalParticipants: data.totalParticipants,
 		};
 	} else {
@@ -64,7 +64,7 @@ export const filterEventData = (data: IEvent) => {
 			city: data.city,
 			country: data.country,
 			price: data.price ? data.price : 0,
-			currency: data.currency,
+			currency: data.currency ? data.currency : '',
 			totalParticipants: data.totalParticipants,
 		};
 	}

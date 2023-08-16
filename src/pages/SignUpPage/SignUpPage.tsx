@@ -5,10 +5,9 @@ import { SpinnerCircular } from 'spinners-react';
 import Input from '../../components/UI/Input/Input';
 import { setUser } from '../../features/userSlice';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { nanoid } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
 import { useSubmiting } from '../../hooks/useSubmiting';
-import { createUser } from '../../services/userActions';
+import { createUser, getUser } from '../../services/userActions';
 
 type FormData = {
 	name: string;
@@ -32,19 +31,22 @@ const SignUpPage = () => {
 	} = useForm<FormData>({ mode: 'onChange' });
 
 	const { submitting, isSubmitting, error } = useSubmiting(async (data: FormData) => {
-		const id = nanoid();
-		if ((await createUser(data, id)) === 'User already exists') {
+		if ((await createUser(data)) === 'User already exists') {
 			setErrorMessage('User already exists');
 			return;
 		}
-		dispatch(
-			setUser({
-				id,
-				name: data.name,
-				email: data.email,
-				userType: data.userType,
-			})
-		);
+
+		const authUser = await getUser(data.email, data.pwd);
+		if (authUser) {
+			dispatch(
+				setUser({
+					id: authUser.id,
+					name: data.name,
+					email: data.email,
+					userType: data.userType,
+				})
+			);
+		}
 
 		reset();
 		setErrorMessage('');

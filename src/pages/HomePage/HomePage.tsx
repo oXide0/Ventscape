@@ -40,10 +40,10 @@ const HomePage = () => {
 							<span>Event Platform - Ventscape</span>
 						</h1>
 						<p className='mt-6 text-lg leading-8 text-gray-400'>
-							Introducing my innovative Ventscape – an immersive and seamless online experience that
-							connects you with a world of dynamic events, networking opportunities, and interactive
-							content, right from the comfort of your own space. Elevate your event participation to new
-							heights and embrace a whole new dimension of engagement.
+							Introducing my innovative event platform Ventscape – an immersive and seamless online
+							experience that connects you with a world of dynamic events, networking opportunities, and
+							interactive content, right from the comfort of your own space. Elevate your event
+							participation to new heights and embrace a whole new dimension of engagement.
 						</p>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
 							<Link to={isAuth ? '/events' : 'signup'}>

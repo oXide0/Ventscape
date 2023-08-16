@@ -15,6 +15,8 @@ export interface IUser {
 	notifications: boolean;
 	country: string;
 	userType: string;
+	avatar: string;
+	favorites: string[];
 }
 
 export interface IEvent {

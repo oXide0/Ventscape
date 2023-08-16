@@ -6,7 +6,11 @@ import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import MenuItem from '../MenuItem/MenuItem';
 
-const Avatar = memo(() => {
+interface AvatarProps {
+	avatarUrl: string | null;
+}
+
+const Avatar = memo(({ avatarUrl }: AvatarProps) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const signOut = () => {
@@ -21,7 +25,13 @@ const Avatar = memo(() => {
 					className='flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'
 					data-testid='avatar-button'
 				>
-					<UserCircleIcon className='h-8 w-8 text-gray-300' aria-hidden='true' data-testid='icon' />
+					{avatarUrl ? (
+						<div className='h-7 w-7'>
+							<img src={avatarUrl} alt={avatarUrl} />
+						</div>
+					) : (
+						<UserCircleIcon className='h-8 w-8 text-gray-300' aria-hidden='true' data-testid='icon' />
+					)}
 				</Menu.Button>
 			</div>
 			<Transition

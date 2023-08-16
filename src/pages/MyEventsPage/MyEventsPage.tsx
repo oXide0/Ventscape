@@ -24,8 +24,8 @@ const MyEventsPage = () => {
 		fetching();
 	}, []);
 
-	const removeEvent = (eventId: string) => {
-		deleteEvent(eventId);
+	const removeEvent = async (eventId: string) => {
+		await deleteEvent(eventId);
 		fetching();
 	};
 

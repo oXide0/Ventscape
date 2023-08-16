@@ -1,15 +1,13 @@
 import Button from '../../components/UI/Button/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { db } from '../../config/firebase';
 import { useState } from 'react';
 import { SpinnerCircular } from 'spinners-react';
 import Input from '../../components/UI/Input/Input';
 import { setUser } from '../../features/userSlice';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { getDocs, collection } from 'firebase/firestore';
-import { IUser } from '../../types/types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSubmiting } from '../../hooks/useSubmiting';
+import { getUser } from '../../services/userActions';
 
 type FormData = {
 	email: string;
@@ -28,9 +26,7 @@ const LoginPage = () => {
 	} = useForm<FormData>({ mode: 'onChange' });
 
 	const { submitting, isSubmitting } = useSubmiting(async (data: FormData) => {
-		const users = await getDocs(collection(db, 'users'));
-		const filteredUsers = users.docs.map((user) => ({ ...user.data(), id: user.id } as IUser));
-		const foundUser = filteredUsers.find((user) => user.email === data.email && user.password === data.pwd);
+		const foundUser = await getUser(data.email, data.pwd);
 		if (foundUser) {
 			dispatch(
 				setUser({
