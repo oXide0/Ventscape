@@ -14,7 +14,6 @@ export interface DefaultCardProps extends CommonCardProps {
 	country: string;
 	currency: string;
 	isLiked: boolean;
-	refetchEvents?: () => void;
 }
 
 export interface EditCardProps extends CommonCardProps {

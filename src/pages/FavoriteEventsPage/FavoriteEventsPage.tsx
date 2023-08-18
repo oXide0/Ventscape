@@ -51,13 +51,7 @@ const FavoriteEventsPage = () => {
 				<List
 					items={events}
 					renderItem={(event: IEvent) => (
-						<EventCard
-							key={event.id}
-							variant='default'
-							isLiked={true}
-							refetchEvents={fetching}
-							{...event}
-						/>
+						<EventCard key={event.id} variant='default' isLiked={true} {...event} />
 					)}
 				/>
 			</div>

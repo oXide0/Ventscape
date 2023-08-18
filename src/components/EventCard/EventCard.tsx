@@ -40,9 +40,6 @@ const EventCard = memo((props: CardProps) => {
 				setIsLiked(false);
 				removeEventFromFavorites(userData.id, props.id);
 				dispatch(removeFavorite(props.id));
-				if (props.refetchEvents) {
-					props.refetchEvents();
-				}
 			} else {
 				setIsLiked(true);
 				addEeventToFavorites(userData.id, props.id);
