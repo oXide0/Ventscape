@@ -15,7 +15,7 @@ export const useAvatar = () => {
 			}
 		};
 		getAvatar();
-	}, []);
+	}, [userData.isUploadedAvatar]);
 
 	return avatarUrl;
 };

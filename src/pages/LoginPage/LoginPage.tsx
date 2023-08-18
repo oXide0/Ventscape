@@ -7,7 +7,8 @@ import { setUser } from '../../features/userSlice';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSubmiting } from '../../hooks/useSubmiting';
-import { getUser } from '../../services/userActions';
+import { getUser, getUserFavorites } from '../../services/userActions';
+import { setFavorites } from '../../features/eventSlice';
 
 type FormData = {
 	email: string;
@@ -21,22 +22,23 @@ const LoginPage = () => {
 	const {
 		register,
 		handleSubmit,
-		reset,
 		formState: { errors, isValid },
 	} = useForm<FormData>({ mode: 'onChange' });
 
 	const { submitting, isSubmitting } = useSubmiting(async (data: FormData) => {
 		const foundUser = await getUser(data.email, data.pwd);
 		if (foundUser) {
+			const favorites = await getUserFavorites(foundUser.id);
+			dispatch(setFavorites(favorites));
 			dispatch(
 				setUser({
 					id: foundUser.id,
 					name: foundUser.name,
 					email: foundUser.email,
 					userType: foundUser.userType,
+					isUploadedAvatar: false,
 				})
 			);
-			reset();
 			setErrorMessage('');
 			navigate('/');
 		} else {

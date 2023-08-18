@@ -7,7 +7,6 @@ import eventReducer from '../features/eventSlice';
 const persistConfig = {
 	key: 'root',
 	storage,
-	blacklist: ['event'],
 };
 
 const rootReducer = combineReducers({

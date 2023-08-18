@@ -4,7 +4,7 @@ import { db } from '../../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import EventCard from '../../components/EventCard/EventCard';
-import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
+import Title from '../../components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteEvent } from '../../services/eventActions';
@@ -30,7 +30,7 @@ const MyEventsPage = () => {
 	};
 
 	if (error) {
-		return <ErrorTitle>Something went wrong😕</ErrorTitle>;
+		return <Title>Something went wrong😕</Title>;
 	}
 
 	if (isLoading) {
@@ -42,7 +42,7 @@ const MyEventsPage = () => {
 	}
 
 	if (events.length === 0) {
-		return <ErrorTitle>No events found😦</ErrorTitle>;
+		return <Title>No events found😦</Title>;
 	}
 
 	return (

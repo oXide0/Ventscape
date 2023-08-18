@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { IconContext } from 'react-icons';
 import CustomLink from '../UI/CustomLink/CustomLink';
 import { useAuth } from '../../hooks/useAuth';
-
 const NavBar = memo(() => {
 	const { userType } = useAuth();
 

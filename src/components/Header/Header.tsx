@@ -7,12 +7,10 @@ import { useAuth } from '../../hooks/useAuth';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { selectFavoriteEvents } from '../../features/eventSlice';
-import { useAvatar } from '../../hooks/useAvatar';
 
 const Header = memo(() => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
 	const { isAuth, userData } = useAuth();
-	const avatarUrl = useAvatar();
 
 	return (
 		<header className='flex justify-between relative z-50 px-10 py-6 max-lg:gap-10'>
@@ -36,7 +34,7 @@ const Header = memo(() => {
 					</Link>
 					<div className='flex items-center'>
 						<p className='font-bold'>{userData?.name}</p>
-						<Avatar avatarUrl={avatarUrl} />
+						<Avatar />
 					</div>
 				</div>
 			) : (

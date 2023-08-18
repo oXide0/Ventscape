@@ -3,40 +3,53 @@ import { getEventImg } from '../../utils/events';
 import { FaLocationDot } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiTime } from 'react-icons/bi';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { formatDate } from '../../utils/date';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { addFavorite, removeFavorite } from '../../features/eventSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useLiked } from '../../hooks/useLiked';
 import { CardProps } from './index';
 import EventEditCard from './EventEditCard';
+import { addEeventToFavorites, removeEventFromFavorites } from '../../services/userActions';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { addFavorite, removeFavorite } from '../../features/eventSlice';
 
 const EventCard = memo((props: CardProps) => {
-	const { isAuth } = useAuth();
-	const { isLiked, setIsLiked } = useLiked(props.id);
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const [isLiked, setIsLiked] = useState<boolean | null>(null);
+	const { isAuth, userData } = useAuth();
+	const navigate = useNavigate();
 
-	const toggleLike = () => {
-		if (!isAuth) {
-			navigate('/signup');
-			return;
+	useEffect(() => {
+		if (props.variant === 'default') {
+			setIsLiked(props.isLiked);
 		}
-		if (!isLiked) {
-			dispatch(addFavorite(props.id));
-			setIsLiked(true);
-		} else {
-			dispatch(removeFavorite(props.id));
-			setIsLiked(false);
-		}
-	};
+	}, []);
 
 	if (props.variant === 'edit') {
 		return <EventEditCard {...props} />;
 	}
+
+	const toggleLike = async () => {
+		if (!isAuth) {
+			navigate('/signup');
+			return;
+		}
+		if (userData.id) {
+			if (isLiked) {
+				setIsLiked(false);
+				removeEventFromFavorites(userData.id, props.id);
+				dispatch(removeFavorite(props.id));
+				if (props.refetchEvents) {
+					props.refetchEvents();
+				}
+			} else {
+				setIsLiked(true);
+				addEeventToFavorites(userData.id, props.id);
+				dispatch(addFavorite(props.id));
+			}
+		}
+	};
 
 	return (
 		<div className='w-360'>

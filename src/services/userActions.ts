@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../config/firebase';
 import { IUser } from '../types/types';
@@ -38,6 +38,7 @@ export const createUser = async (data: FormData) => {
 		state: '',
 		zip: '',
 		notifications: false,
+		favoriteEvents: [],
 	});
 };
 
@@ -55,7 +56,32 @@ export const uploadUserAvatar = async (file: File | null, userId: string) => {
 };
 
 export const getUserAvatar = async (userId: string) => {
-	const imageRef = ref(storage, `avatars/${userId}`);
-	const url = await getDownloadURL(imageRef);
-	return url;
+	try {
+		const imageRef = ref(storage, `avatars/${userId}`);
+		const url = await getDownloadURL(imageRef);
+		return url;
+	} catch (e) {
+		return null;
+	}
+};
+
+export const addEeventToFavorites = async (userId: string, eventId: string) => {
+	const favoriteEvents = await getUserFavorites(userId);
+	const docRef = doc(db, 'users', userId);
+	await updateDoc(docRef, { favoriteEvents: [...favoriteEvents, eventId] });
+};
+
+export const removeEventFromFavorites = async (userId: string, eventId: string) => {
+	const favoriteEvents = await getUserFavorites(userId);
+	const docRef = doc(db, 'users', userId);
+	await updateDoc(docRef, { favoriteEvents: favoriteEvents.filter((id: string) => id !== eventId) });
+};
+
+export const getUserFavorites = async (userId: string) => {
+	const docRef = doc(db, 'users', userId);
+	const docSnap = await getDoc(docRef);
+	if (docSnap.exists()) {
+		return docSnap.data().favoriteEvents;
+	}
+	return [];
 };

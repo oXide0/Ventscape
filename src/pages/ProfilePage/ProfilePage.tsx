@@ -7,7 +7,7 @@ import Button from '../../components/UI/Button/Button';
 import { useFetching } from '../../hooks/useFetching';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
-import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
+import Title from '../../components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import { useAuth } from '../../hooks/useAuth';
 import { updateUser, uploadUserAvatar } from '../../services/userActions';
@@ -15,8 +15,11 @@ import { useSubmiting } from '../../hooks/useSubmiting';
 import { useCountries } from '../../hooks/useCountries';
 import { IUser } from '../../types/types';
 import { useAvatar } from '../../hooks/useAvatar';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { setAvatarUploaded } from '../../features/userSlice';
 
 const ProfilePage = () => {
+	const dispatch = useAppDispatch();
 	const { userData } = useAuth();
 	const { countries } = useCountries();
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -55,6 +58,7 @@ const ProfilePage = () => {
 		if (userData.id) {
 			await updateUser(data, userData.id);
 			await uploadUserAvatar(avatarFile, userData.id);
+			dispatch(setAvatarUploaded(true));
 			fetchUser();
 		}
 	});
@@ -73,18 +77,19 @@ const ProfilePage = () => {
 	const onUpdateAvatar = async () => {
 		if (userData.id) {
 			await uploadUserAvatar(avatarFile, userData.id);
-			window.location.reload();
+			dispatch(setAvatarUploaded(true));
 		}
 	};
 
 	useEffect(() => {
 		fetchUser();
+		dispatch(setAvatarUploaded(false));
 	}, []);
 
 	if (error) {
 		return (
 			<div className='p-10 max-w-5xl my-0 mx-auto'>
-				<ErrorTitle>Something went wrong😕</ErrorTitle>
+				<Title>Something went wrong😕</Title>
 			</div>
 		);
 	}
@@ -144,7 +149,7 @@ const ProfilePage = () => {
 
 								<label
 									htmlFor='avatar'
-									className='relative cursor-pointer rounded-md bg-white/5px-2.5 py-1.5 px-2 text-sm font-semibold text-white shadow-sm ring-inset ring-1 ring-indigo-500'
+									className='relative cursor-pointer rounded-md bg-white/5px-2.5 py-1.5 px-2 text-sm font-semibold text-white ring-inset ring-1 ring-indigo-500'
 								>
 									<span>Upload a file</span>
 									<input

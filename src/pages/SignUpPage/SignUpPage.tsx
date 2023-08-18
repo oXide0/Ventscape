@@ -26,7 +26,6 @@ const SignUpPage = () => {
 	const {
 		register,
 		handleSubmit,
-		reset,
 		formState: { errors, isValid },
 	} = useForm<FormData>({ mode: 'onChange' });
 
@@ -44,11 +43,11 @@ const SignUpPage = () => {
 					name: data.name,
 					email: data.email,
 					userType: data.userType,
+					isUploadedAvatar: false,
 				})
 			);
 		}
 
-		reset();
 		setErrorMessage('');
 		navigate('/');
 	});

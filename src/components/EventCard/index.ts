@@ -13,6 +13,8 @@ export interface DefaultCardProps extends CommonCardProps {
 	city: string;
 	country: string;
 	currency: string;
+	isLiked: boolean;
+	refetchEvents?: () => void;
 }
 
 export interface EditCardProps extends CommonCardProps {

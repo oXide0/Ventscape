@@ -3,21 +3,25 @@ import EventCard from '../../components/EventCard/EventCard';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { IEvent } from '../../types/types';
-import ErrorTitle from '../../components/ErrorTitle/ErrorTitle';
+import Title from '../../components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import { useFetching } from '../../hooks/useFetching';
+import List from '../../components/List/List';
+import { useAuth } from '../../hooks/useAuth';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { selectFavoriteEvents } from '../../features/eventSlice';
-import List from '../../components/List/List';
 
 const FavoriteEventsPage = () => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
+	const { userData } = useAuth();
 	const [events, setEvents] = useState<IEvent[]>([]);
 	const { fetching, isLoading, error } = useFetching(async () => {
-		const data = await getDocs(collection(db, 'events'));
-		const filteredData = data.docs.map((event) => ({ ...event.data(), id: event.id } as IEvent));
-		const filteredFavoriteEvents = filteredData.filter((event) => favoriteEvents.includes(event.id));
-		setEvents(filteredFavoriteEvents);
+		if (userData.id) {
+			const data = await getDocs(collection(db, 'events'));
+			const filteredData = data.docs.map((event) => ({ ...event.data(), id: event.id } as IEvent));
+			const filteredFavoriteEvents = filteredData.filter((event) => favoriteEvents.includes(event.id));
+			setEvents(filteredFavoriteEvents);
+		}
 	});
 
 	useEffect(() => {
@@ -25,7 +29,7 @@ const FavoriteEventsPage = () => {
 	}, [favoriteEvents]);
 
 	if (error) {
-		return <ErrorTitle>Something went wrong😕</ErrorTitle>;
+		return <Title>Something went wrong😕</Title>;
 	}
 
 	if (isLoading) {
@@ -37,16 +41,24 @@ const FavoriteEventsPage = () => {
 	}
 
 	if (!events.length) {
-		return <ErrorTitle>No events found😦</ErrorTitle>;
+		return <Title>No events found😦</Title>;
 	}
 
 	return (
 		<div className='p-10'>
-			<h1 className='text-4xl font-bold text-center'>Your favorites events</h1>
+			<Title pt='0'>Your favorites events💜</Title>
 			<div className='flex flex-wrap gap-4 pt-10'>
 				<List
 					items={events}
-					renderItem={(event: IEvent) => <EventCard key={event.id} variant='default' {...event} />}
+					renderItem={(event: IEvent) => (
+						<EventCard
+							key={event.id}
+							variant='default'
+							isLiked={true}
+							refetchEvents={fetching}
+							{...event}
+						/>
+					)}
 				/>
 			</div>
 		</div>
