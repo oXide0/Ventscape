@@ -4,13 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../../store/store';
 
-describe('Avatar', () => {
+describe('Avatar component', () => {
 	it('renders avatar with icon', () => {
 		render(
 			<Provider store={store}>
-				<Avatar />
-			</Provider>,
-			{ wrapper: BrowserRouter }
+				<BrowserRouter>
+					<Avatar />
+				</BrowserRouter>
+			</Provider>
 		);
 		const icon = screen.getByTestId('icon');
 		expect(icon).toBeInTheDocument();

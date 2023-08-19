@@ -1,9 +1,10 @@
 import { memo } from 'react';
 import { BiSolidDownArrow } from 'react-icons/bi';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface FilterSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 	title: string;
-	register: any;
+	register: UseFormRegisterReturn;
 	options: string[];
 }
 
@@ -14,6 +15,7 @@ const FilterSelect = memo((props: FilterSelectProps) => {
 		<div className='relative inline-block w-40'>
 			<select
 				className='block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+				data-testid={title}
 				defaultValue={title}
 				{...register}
 				{...restProps}

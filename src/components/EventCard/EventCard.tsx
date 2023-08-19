@@ -81,9 +81,9 @@ const EventCard = memo((props: CardProps) => {
 						<p className='text-gray-800 font-semibold'>{formatDate(props.date)}</p>
 					</div>
 					<div>
-						<button onClick={toggleLike}>
+						<button onClick={toggleLike} data-testid='like-button'>
 							{isLiked ? (
-								<AiFillHeart className='text-indigo-600' size='1.5em' />
+								<AiFillHeart data-testid='active-like' className='text-indigo-600' size='1.5em' />
 							) : (
 								<AiOutlineHeart className='text-indigo-600' size='1.5em' />
 							)}

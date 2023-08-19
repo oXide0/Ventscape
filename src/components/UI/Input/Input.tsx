@@ -1,10 +1,11 @@
 import { memo } from 'react';
 import { inputClasses } from '../../../utils/styles';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string;
 	id: string;
-	register: any;
+	register: UseFormRegisterReturn;
 	errors: any;
 	className?: string;
 }

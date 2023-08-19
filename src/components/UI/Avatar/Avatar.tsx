@@ -26,7 +26,7 @@ const Avatar = memo(() => {
 					data-testid='avatar-button'
 				>
 					{avatarUrl ? (
-						<div className='h-7 w-7'>
+						<div className='h-7 w-7' data-testid='avatar-img'>
 							<img src={avatarUrl} alt={avatarUrl} className='rounded-xl' />
 						</div>
 					) : (

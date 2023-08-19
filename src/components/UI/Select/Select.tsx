@@ -1,10 +1,11 @@
 import { memo } from 'react';
 import { inputClasses } from '../../../utils/styles';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 	id: string;
 	label: string;
-	register: any;
+	register: UseFormRegisterReturn;
 	options: string[];
 	width?: string;
 }

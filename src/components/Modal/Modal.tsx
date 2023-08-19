@@ -6,7 +6,7 @@ interface ModalProps {
 	setActive: (active: boolean) => void;
 	children: ReactNode;
 }
-// Not used ----------------------------------------
+
 const Modal = memo(({ active, setActive, children }: ModalProps) => {
 	const cancelButtonRef = useRef(null);
 
