@@ -1,21 +1,21 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import Layout from './hoc/Layout';
-import RequireAuth from './hoc/RequireAuth';
-import CreatorAuth from './hoc/CreatorAuth';
-import Test from './pages/Test';
-import HomePage from './pages/HomePage/HomePage';
-import SignUpPage from './pages/SignUpPage/SignUpPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
-import EventsPage from './pages/EventsPage/EventsPage';
-import CreateEventPage from './pages/CreateEventPage/CreateEventPage';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
-import EventPage from './pages/EventPage/EventPage';
-import MyEventsPage from './pages/MyEventsPage/MyEventsPage';
-import EditEventPage from './pages/EditEventPage/EditEventPage';
-import FavoriteEventsPage from './pages/FavoriteEventsPage/FavoriteEventsPage';
-import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
-import ProgressPage from './pages/ProgressPage/ProgressPage';
+import Layout from 'hoc/Layout';
+import RequireAuth from 'hoc/RequireAuth';
+import CreatorAuth from 'hoc/CreatorAuth';
+import Test from 'pages/Test';
+import HomePage from 'pages/HomePage/HomePage';
+import SignUpPage from 'pages/SignUpPage/SignUpPage';
+import LoginPage from 'pages/LoginPage/LoginPage';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import EventsPage from 'pages/EventsPage/EventsPage';
+import CreateEventPage from 'pages/CreateEventPage/CreateEventPage';
+import ProfilePage from 'pages/ProfilePage/ProfilePage';
+import EventPage from 'pages/EventPage/EventPage';
+import MyEventsPage from 'pages/MyEventsPage/MyEventsPage';
+import EditEventPage from 'pages/EditEventPage/EditEventPage';
+import FavoriteEventsPage from 'pages/FavoriteEventsPage/FavoriteEventsPage';
+import NotificationsPage from 'pages/NotificationsPage/NotificationsPage';
+import ProgressPage from 'pages/ProgressPage/ProgressPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(

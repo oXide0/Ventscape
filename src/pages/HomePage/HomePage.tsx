@@ -1,7 +1,7 @@
-import Button from '../../components/UI/Button/Button';
-import { Link } from 'react-router-dom';
+import { useAuth } from 'hooks/useAuth';
 import { AiFillGithub } from 'react-icons/ai';
-import { useAuth } from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
+import Button from 'components/UI/Button/Button';
 
 const HomePage = () => {
 	const { isAuth } = useAuth();

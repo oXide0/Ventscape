@@ -1,22 +1,22 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Input from '../../components/UI/Input/Input';
-import { inputClasses } from '../../utils/styles';
 import { useEffect, useState } from 'react';
-import Button from '../../components/UI/Button/Button';
-import { useFetching } from '../../hooks/useFetching';
+import { useFetching } from 'hooks/useFetching';
+import { useAuth } from 'hooks/useAuth';
+import { useSubmiting } from 'hooks/useSubmiting';
+import { useCountries } from 'hooks/useCountries';
+import { useAvatar } from 'hooks/useAvatar';
+import { useAppDispatch } from 'hooks/redux-hooks';
+import Input from 'components/UI/Input/Input';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
-import Title from '../../components/Title/Title';
+import { db } from 'config/firebase';
+import { inputClasses } from 'utils/styles';
+import { updateUser, uploadUserAvatar } from 'services/userActions';
+import { setAvatarUploaded } from 'features/userSlice';
+import { IUser } from 'types/types';
+import Button from 'components/UI/Button/Button';
+import Title from 'components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
-import { useAuth } from '../../hooks/useAuth';
-import { updateUser, uploadUserAvatar } from '../../services/userActions';
-import { useSubmiting } from '../../hooks/useSubmiting';
-import { useCountries } from '../../hooks/useCountries';
-import { IUser } from '../../types/types';
-import { useAvatar } from '../../hooks/useAvatar';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { setAvatarUploaded } from '../../features/userSlice';
 
 const ProfilePage = () => {
 	const dispatch = useAppDispatch();

@@ -12,4 +12,19 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: ['./src/setupTests.ts'],
 	},
+	resolve: {
+		alias: {
+			components: '/src/components',
+			config: '/src/config',
+			features: '/src/features',
+			hoc: '/src/hoc',
+			hooks: '/src/hooks',
+			pages: '/src/pages',
+			services: '/src/services',
+			store: '/src/store',
+			types: '/src/types',
+			utils: '/src/utils',
+			UI: '/src/components/UI',
+		},
+	},
 });

@@ -20,11 +20,53 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "src",
+    "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "config/*": [
+        "config/*"
+      ],
+      "features/*": [
+        "features/*"
+      ],
+      "hoc/*": [
+        "hoc/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "pages/*": [
+        "pages/*"
+      ],
+      "services/*": [
+        "services/*"
+      ],
+      "store/*": [
+        "store/*"
+      ],
+      "types/*": [
+        "types/*"
+      ],
+      "utils/*": [
+        "utils/*"
+      ],
+      "UI/*": [
+        "components/UI/*"
+      ]
+    }
   },
   "include": [
     "src",
     "vite.config.ts"
+  ],
+  "exclude": [
+    "**/*.test.tsx",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.spec.ts"
   ],
   "references": [
     {

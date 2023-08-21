@@ -1,7 +1,7 @@
 import { collection, addDoc, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../config/firebase';
-import { IUser } from '../types/types';
+import { db, storage } from 'config/firebase';
+import { IUser } from 'types/types';
 
 type FormData = {
 	name: string;

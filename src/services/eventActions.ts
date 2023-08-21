@@ -1,7 +1,7 @@
 import { doc, updateDoc, collection, addDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
-import { filterEventData } from '../utils/events';
-import { IEvent } from '../types/types';
+import { db } from 'config/firebase';
+import { filterEventData } from 'utils/events';
+import { IEvent } from 'types/types';
 
 export const applyForEvent = async (event: IEvent | undefined, id: string | undefined, userId: string | null) => {
 	if (event && id) {

@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import EventCard from '../../components/EventCard/EventCard';
+import { useFetching } from 'hooks/useFetching';
+import { useAppSelector } from 'hooks/redux-hooks';
+import { db } from 'config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../config/firebase';
-import { IEvent, IEventsFilter } from '../../types/types';
-import Title from '../../components/Title/Title';
+import { filterEvents } from 'utils/events';
+import { IEvent, IEventsFilter } from 'types/types';
+import EventCard from 'components/EventCard/EventCard';
+import Title from 'components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
-import { useFetching } from '../../hooks/useFetching';
-import List from '../../components/List/List';
-import FiltersBar from '../../components/FilterBar/FiltersBar';
-import { filterEvents } from '../../utils/events';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { selectFavoriteEvents } from '../../features/eventSlice';
+import List from 'components/List/List';
+import FiltersBar from 'components/FilterBar/FiltersBar';
+
+import { selectFavoriteEvents } from 'features/eventSlice';
 
 const EventsPage = () => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);

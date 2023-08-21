@@ -1,18 +1,18 @@
+import { memo, useEffect, useState } from 'react';
+import { useAuth } from 'hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'hooks/redux-hooks';
 import { HiStatusOnline } from 'react-icons/hi';
-import { getEventImg } from '../../utils/events';
 import { FaLocationDot } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiTime } from 'react-icons/bi';
-import { memo, useEffect, useState } from 'react';
-import { formatDate } from '../../utils/date';
+import { getEventImg } from 'utils/events';
+import { formatDate } from 'utils/date';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
 import { CardProps } from './index';
 import EventEditCard from './EventEditCard';
-import { addEeventToFavorites, removeEventFromFavorites } from '../../services/userActions';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { addFavorite, removeFavorite } from '../../features/eventSlice';
+import { addEeventToFavorites, removeEventFromFavorites } from 'services/userActions';
+import { addFavorite, removeFavorite } from 'features/eventSlice';
 
 const EventCard = memo((props: CardProps) => {
 	const dispatch = useAppDispatch();

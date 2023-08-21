@@ -1,5 +1,5 @@
 import { useAppSelector } from './redux-hooks';
-import { selectUser } from '../features/userSlice';
+import { selectUser } from 'features/userSlice';
 
 export const useAuth = () => {
 	const userData = useAppSelector(selectUser);

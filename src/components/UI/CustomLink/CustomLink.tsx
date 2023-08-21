@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { getIconFromName } from './getIconFromName';
-import { TypeIcon } from '../../../types/types';
+import { TypeIcon } from 'types/types';
 
 interface CustomLinkProps {
 	children: ReactNode;

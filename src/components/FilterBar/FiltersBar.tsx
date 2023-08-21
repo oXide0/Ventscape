@@ -1,10 +1,10 @@
 import { memo } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import FilterSelect from '../UI/FilterSelect/FilterSelect';
-import { useCountries } from '../../hooks/useCountries';
-import { sortedEventTypes } from '../../utils/events';
-import Button from '../UI/Button/Button';
-import { IEventsFilter } from '../../types/types';
+import FilterSelect from 'UI/FilterSelect/FilterSelect';
+import { useCountries } from 'hooks/useCountries';
+import { sortedEventTypes } from 'utils/events';
+import Button from 'UI/Button/Button';
+import { IEventsFilter } from 'types/types';
 
 interface FilterBarProps {
 	setFilter: (value: IEventsFilter) => void;

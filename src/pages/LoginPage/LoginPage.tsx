@@ -1,14 +1,14 @@
-import Button from '../../components/UI/Button/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import { useSubmiting } from 'hooks/useSubmiting';
+import { useAppDispatch } from 'hooks/redux-hooks';
+import Button from 'components/UI/Button/Button';
+import { setUser } from 'features/userSlice';
+import { getUser, getUserFavorites } from 'services/userActions';
+import { setFavorites } from 'features/eventSlice';
 import { SpinnerCircular } from 'spinners-react';
-import Input from '../../components/UI/Input/Input';
-import { setUser } from '../../features/userSlice';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import Input from 'components/UI/Input/Input';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSubmiting } from '../../hooks/useSubmiting';
-import { getUser, getUserFavorites } from '../../services/userActions';
-import { setFavorites } from '../../features/eventSlice';
 
 type FormData = {
 	email: string;

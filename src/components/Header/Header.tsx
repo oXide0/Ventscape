@@ -1,12 +1,12 @@
 import { memo } from 'react';
-import Button from '../UI/Button/Button';
+import Button from 'UI/Button/Button';
 import { GoSearch } from 'react-icons/go';
 import { Link } from 'react-router-dom';
-import Avatar from '../UI/Avatar/Avatar';
-import { useAuth } from '../../hooks/useAuth';
+import Avatar from 'UI/Avatar/Avatar';
+import { useAuth } from 'hooks/useAuth';
 import { AiOutlineHeart } from 'react-icons/ai';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { selectFavoriteEvents } from '../../features/eventSlice';
+import { useAppSelector } from 'hooks/redux-hooks';
+import { selectFavoriteEvents } from 'features/eventSlice';
 
 const Header = memo(() => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);

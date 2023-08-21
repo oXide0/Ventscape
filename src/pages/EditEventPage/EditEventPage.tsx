@@ -1,20 +1,20 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Input from '../../components/UI/Input/Input';
-import { inputClasses } from '../../utils/styles';
 import { useEffect, useState } from 'react';
-import Button from '../../components/UI/Button/Button';
-import { getDoc, doc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
-import { sortedEventTypes } from '../../utils/events';
-import ToggleButton from '../../components/UI/ToogleButton/ToggleButton';
-import { SpinnerCircular } from 'spinners-react';
-import Select from '../../components/UI/Select/Select';
 import { useParams } from 'react-router-dom';
-import { useFetching } from '../../hooks/useFetching';
-import { useSubmiting } from '../../hooks/useSubmiting';
-import { useCountries } from '../../hooks/useCountries';
-import { updateEvent } from '../../services/eventActions';
-import { IEvent } from '../../types/types';
+import { useFetching } from 'hooks/useFetching';
+import { useSubmiting } from 'hooks/useSubmiting';
+import { useCountries } from 'hooks/useCountries';
+import { getDoc, doc } from 'firebase/firestore';
+import { db } from 'config/firebase';
+import { updateEvent } from 'services/eventActions';
+import { sortedEventTypes } from 'utils/events';
+import { IEvent } from 'types/types';
+import Input from 'components/UI/Input/Input';
+import { inputClasses } from 'utils/styles';
+import Button from 'components/UI/Button/Button';
+import ToggleButton from 'components/UI/ToogleButton/ToggleButton';
+import { SpinnerCircular } from 'spinners-react';
+import Select from 'components/UI/Select/Select';
 
 const EditEventPage = () => {
 	const { id } = useParams();

@@ -1,13 +1,13 @@
-import Button from '../../components/UI/Button/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import { SpinnerCircular } from 'spinners-react';
-import Input from '../../components/UI/Input/Input';
-import { setUser } from '../../features/userSlice';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch } from 'hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
-import { useSubmiting } from '../../hooks/useSubmiting';
-import { createUser, getUser } from '../../services/userActions';
+import { useSubmiting } from 'hooks/useSubmiting';
+import { createUser, getUser } from 'services/userActions';
+import { SpinnerCircular } from 'spinners-react';
+import Button from 'components/UI/Button/Button';
+import Input from 'components/UI/Input/Input';
+import { setUser } from 'features/userSlice';
 
 type FormData = {
 	name: string;

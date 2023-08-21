@@ -1,17 +1,17 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Input from '../../components/UI/Input/Input';
-import { inputClasses } from '../../utils/styles';
 import { useState } from 'react';
-import Button from '../../components/UI/Button/Button';
-import { sortedEventTypes } from '../../utils/events';
-import { useAuth } from '../../hooks/useAuth';
-import ToggleButton from '../../components/UI/ToogleButton/ToggleButton';
+import { useAuth } from 'hooks/useAuth';
+import { useSubmiting } from 'hooks/useSubmiting';
+import { useCountries } from 'hooks/useCountries';
+import { inputClasses } from 'utils/styles';
+import { sortedEventTypes } from 'utils/events';
+import { createEvent } from 'services/eventActions';
+import { IEvent } from 'types/types';
+import Input from 'components/UI/Input/Input';
+import Button from 'components/UI/Button/Button';
+import ToggleButton from 'components/UI/ToogleButton/ToggleButton';
 import { SpinnerCircular } from 'spinners-react';
-import Select from '../../components/UI/Select/Select';
-import { useSubmiting } from '../../hooks/useSubmiting';
-import { useCountries } from '../../hooks/useCountries';
-import { createEvent } from '../../services/eventActions';
-import { IEvent } from '../../types/types';
+import Select from 'components/UI/Select/Select';
 
 const CreateEventPage = () => {
 	const { userData } = useAuth();

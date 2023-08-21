@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { inputClasses } from '../../../utils/styles';
+import { inputClasses } from 'utils/styles';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {

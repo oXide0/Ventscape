@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Button from '../../components/UI/Button/Button';
+import Button from 'components/UI/Button/Button';
 import { SpinnerInfinity } from 'spinners-react';
 
 const ProgressPage = () => {

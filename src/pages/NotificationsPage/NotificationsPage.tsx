@@ -1,4 +1,4 @@
-import ProgressPage from '../ProgressPage/ProgressPage';
+import ProgressPage from 'pages/ProgressPage/ProgressPage';
 
 const NotificationsPage = () => {
 	return <ProgressPage />;

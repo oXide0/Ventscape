@@ -1,12 +1,12 @@
 import { memo, Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { removeUser } from '../../../features/userSlice';
-import { useAppDispatch } from '../../../hooks/redux-hooks';
+import { removeUser } from 'features/userSlice';
+import { useAppDispatch } from 'hooks/redux-hooks';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
-import { useAvatar } from '../../../hooks/useAvatar';
-import MenuItem from '../MenuItem/MenuItem';
-import { removeAllFavorites } from '../../../features/eventSlice';
+import { useAvatar } from 'hooks/useAvatar';
+import MenuItem from 'UI/MenuItem/MenuItem';
+import { removeAllFavorites } from 'features/eventSlice';
 
 const Avatar = memo(() => {
 	const avatarUrl = useAvatar();

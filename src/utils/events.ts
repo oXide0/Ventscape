@@ -1,4 +1,4 @@
-import { IEvent, IEventsFilter } from '../types/types';
+import { IEvent, IEventsFilter } from 'types/types';
 
 const eventTypes = [
 	'Social',

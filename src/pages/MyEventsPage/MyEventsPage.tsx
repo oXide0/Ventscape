@@ -1,14 +1,14 @@
-import { useFetching } from '../../hooks/useFetching';
-import { IEvent } from '../../types/types';
-import { db } from '../../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { useFetching } from 'hooks/useFetching';
+import { useAuth } from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import EventCard from '../../components/EventCard/EventCard';
-import Title from '../../components/Title/Title';
+import { deleteEvent } from 'services/eventActions';
+import { db } from 'config/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { IEvent } from 'types/types';
+import EventCard from 'components/EventCard/EventCard';
+import Title from 'components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
-import { useAuth } from '../../hooks/useAuth';
-import { deleteEvent } from '../../services/eventActions';
-import List from '../../components/List/List';
+import List from 'components/List/List';
 
 const MyEventsPage = () => {
 	const { userData } = useAuth();

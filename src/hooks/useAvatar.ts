@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUserAvatar } from '../services/userActions';
+import { getUserAvatar } from 'services/userActions';
 import { useAuth } from './useAuth';
 
 export const useAvatar = () => {

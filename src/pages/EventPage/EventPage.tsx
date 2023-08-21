@@ -1,13 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { IEvent } from '../../types/types';
-import { useFetching } from '../../hooks/useFetching';
-import { db } from '../../config/firebase';
+import { useFetching } from 'hooks/useFetching';
+import { useAuth } from 'hooks/useAuth';
+import { IEvent } from 'types/types';
+import { db } from 'config/firebase';
 import { getDoc, doc } from 'firebase/firestore';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { SpinnerCircular } from 'spinners-react';
-import { formatDate } from '../../utils/date';
-import Button from '../../components/UI/Button/Button';
+import { formatDate } from 'utils/date';
 import { HiStatusOnline } from 'react-icons/hi';
 import { FaLocationDot } from 'react-icons/fa6';
 import { BiTime } from 'react-icons/bi';
@@ -15,9 +13,11 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 import { VscSymbolEvent } from 'react-icons/vsc';
 import { IconContext } from 'react-icons';
-import { useAuth } from '../../hooks/useAuth';
-import { applyForEvent, unApplyForEvent } from '../../services/eventActions';
-import InfoSnippet from '../../components/InfoSnippet/InfoSnippet';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import { SpinnerCircular } from 'spinners-react';
+import Button from 'components/UI/Button/Button';
+import { applyForEvent, unApplyForEvent } from 'services/eventActions';
+import InfoSnippet from 'components/InfoSnippet/InfoSnippet';
 
 const EventPage = () => {
 	const { userType, userData } = useAuth();
