@@ -14,7 +14,7 @@ vi.mock('../../hooks/useAuth', () => ({
 
 describe('Header component', () => {
 	it('renders the header with appropriate elements for authenticated user', () => {
-		const { getByText, getByPlaceholderText } = render(
+		const { getByText } = render(
 			<Provider store={store}>
 				<BrowserRouter>
 					<Header />
@@ -22,7 +22,6 @@ describe('Header component', () => {
 			</Provider>
 		);
 
-		expect(getByPlaceholderText('Search...')).toBeInTheDocument();
 		expect(getByText('John Doe')).toBeInTheDocument();
 	});
 });

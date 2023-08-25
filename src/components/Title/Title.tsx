@@ -6,10 +6,10 @@ interface TitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
 }
 
 const Title = memo((props: TitleProps) => {
-	const { children, pt = '20', ...restProps } = props;
+	const { children, pt = '40', ...restProps } = props;
 
 	return (
-		<div className={`flex justify-center pt-${pt}`} data-testid='title-container'>
+		<div className={`flex justify-center`} style={{ paddingTop: `${pt}px` }} data-testid='title-container'>
 			<h1 className={'text-5xl text-white font-bold'} {...restProps}>
 				{children}
 			</h1>

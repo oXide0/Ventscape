@@ -65,8 +65,6 @@
   "exclude": [
     "**/*.test.tsx",
     "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.spec.ts"
   ],
   "references": [
     {

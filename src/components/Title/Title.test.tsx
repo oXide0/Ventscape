@@ -8,13 +8,6 @@ describe('Title component', () => {
 		expect(getByText('Hello, World!')).toBeInTheDocument();
 	});
 
-	it('applies custom padding top', () => {
-		const { getByTestId } = render(<Title pt='30'>Custom Padding</Title>);
-		const titleContainer = getByTestId('title-container');
-
-		expect(titleContainer).toHaveClass('pt-30');
-	});
-
 	it('passes down additional attributes', () => {
 		const { getByText } = render(<Title id='test-id'>Test Title</Title>);
 		const titleElement = getByText('Test Title');

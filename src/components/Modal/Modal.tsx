@@ -5,14 +5,21 @@ interface ModalProps {
 	active: boolean;
 	setActive: (active: boolean) => void;
 	children: ReactNode;
+	background?: string;
+	handleClose?: () => void;
 }
 
-const Modal = memo(({ active, setActive, children }: ModalProps) => {
+const Modal = memo(({ active, setActive, children, background = 'bg-white', handleClose }: ModalProps) => {
 	const cancelButtonRef = useRef(null);
+
+	const onClose = () => {
+		setActive(false);
+		if (handleClose) handleClose();
+	};
 
 	return (
 		<Transition.Root show={active} as={Fragment}>
-			<Dialog as='div' className='relative z-10' initialFocus={cancelButtonRef} onClose={setActive}>
+			<Dialog as='div' className='relative z-10' initialFocus={cancelButtonRef} onClose={onClose}>
 				<Transition.Child
 					as={Fragment}
 					enter='ease-out duration-300'
@@ -36,7 +43,9 @@ const Modal = memo(({ active, setActive, children }: ModalProps) => {
 							leaveFrom='opacity-100 translate-y-0 sm:scale-100'
 							leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
 						>
-							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+							<Dialog.Panel
+								className={`relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ${background}`}
+							>
 								{children}
 							</Dialog.Panel>
 						</Transition.Child>

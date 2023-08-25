@@ -1,28 +1,21 @@
 import { memo } from 'react';
-import Button from 'UI/Button/Button';
-import { GoSearch } from 'react-icons/go';
-import { Link } from 'react-router-dom';
-import Avatar from 'UI/Avatar/Avatar';
 import { useAuth } from 'hooks/useAuth';
-import { AiOutlineHeart } from 'react-icons/ai';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectFavoriteEvents } from 'features/eventSlice';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import Button from 'UI/Button/Button';
+import Avatar from 'UI/Avatar/Avatar';
+import SearchBar from 'UI/SearchBar/SearchBar';
 
 const Header = memo(() => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
 	const { isAuth, userData } = useAuth();
 
 	return (
-		<header className='flex justify-between relative z-50 px-10 py-6 max-lg:gap-10'>
-			<div className='flex w-96'>
-				<input
-					type='text'
-					placeholder='Search...'
-					className='bg-white/10 px-4 h-10 outline-none w-full rounded-l-lg'
-				/>
-				<button className='font-bold px-4 py-1 rounded-r-md duration-100 bg-indigo-500 hover:bg-indigo-700 active:scale-95'>
-					<GoSearch size='1.5em' />
-				</button>
+		<header className='flex justify-between relative z-50 px-10 py-5 max-lg:gap-10'>
+			<div className='w-2/4 relative'>
+				<SearchBar />
 			</div>
 			{isAuth ? (
 				<div className='flex gap-8 items-center'>
