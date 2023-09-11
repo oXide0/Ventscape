@@ -106,7 +106,7 @@ const ProfilePage = () => {
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className='p-10 max-w-5xl my-0 mx-auto'>
 				<div className='border-b border-white/30 pb-12'>
-					<h2 className='text-base font-semibold leading-7 text-white'>Profile</h2>
+					<h2 className='text-lg font-semibold leading-7 text-white'>Profile</h2>
 					<p className='mt-1 text-sm leading-6 text-gray-400'>
 						This information will be displayed publicly so be careful what you share.
 					</p>
@@ -168,7 +168,7 @@ const ProfilePage = () => {
 				</div>
 
 				<div className='border-b border-white/30 pb-12'>
-					<h2 className='text-base font-semibold leading-7 text-white'>Personal Information</h2>
+					<h2 className='text-lg font-semibold leading-7 text-white'>Personal Information</h2>
 					<p className='mt-1 text-sm leading-6 text-gray-400'>
 						Use a permanent address where you can receive mail.
 					</p>
@@ -263,7 +263,7 @@ const ProfilePage = () => {
 				</div>
 
 				<div className='border-b border-white/30 pb-12'>
-					<h2 className='text-base font-semibold leading-7 text-white'>Notifications</h2>
+					<h2 className='text-lg font-semibold leading-7 text-white'>Notifications</h2>
 
 					<div className='mt-4 space-y-10'>
 						<div className='relative flex gap-x-3'>

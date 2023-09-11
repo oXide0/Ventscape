@@ -77,7 +77,7 @@ const CreateEventPage = () => {
 						</div>
 
 						<div className='pb-12'>
-							<h2 className='text-base font-semibold leading-7 text-white'>Event Information</h2>
+							<h2 className='text-lg font-semibold leading-7 text-white'>Event Information</h2>
 							<div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
 								<Select
 									label='Online/Offline'
