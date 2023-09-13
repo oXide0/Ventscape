@@ -5,17 +5,20 @@ import { useSubmiting } from 'hooks/useSubmiting';
 import { useCountries } from 'hooks/useCountries';
 import { inputClasses } from 'utils/styles';
 import { sortedEventTypes } from 'utils/events';
-import { createEvent } from 'services/eventActions';
+import { nanoid } from '@reduxjs/toolkit';
+import { createEvent, uploadEventImg } from 'services/eventActions';
 import { IEvent } from 'types/types';
 import Input from 'components/UI/Input/Input';
 import Button from 'components/UI/Button/Button';
 import ToggleButton from 'components/UI/ToogleButton/ToggleButton';
 import { SpinnerCircular } from 'spinners-react';
 import Select from 'components/UI/Select/Select';
+import { PhotoIcon } from '@heroicons/react/24/solid';
 
 const CreateEventPage = () => {
 	const { userData } = useAuth();
 	const [activeValue, setActiveValue] = useState(1);
+	const [eventFile, setEventFile] = useState<File | null>(null);
 	const { countries, currencies } = useCountries();
 	const {
 		register,
@@ -26,13 +29,22 @@ const CreateEventPage = () => {
 	} = useForm<IEvent>();
 	const { submitting, isSubmitting, error } = useSubmiting(async (event) => {
 		if (userData.id) {
-			await createEvent(event, userData.id);
+			const eventId = nanoid();
+			await createEvent(event, userData.id, eventId);
+			await uploadEventImg(eventFile, eventId); // fix
 			reset();
 		}
 	});
 
 	const onSubmit: SubmitHandler<IEvent> = async (data) => {
 		await submitting(data);
+	};
+
+	const onEventFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files && e.target.files[0];
+		if (file) {
+			setEventFile(file);
+		}
 	};
 
 	return (
@@ -78,6 +90,33 @@ const CreateEventPage = () => {
 
 						<div className='pb-12'>
 							<h2 className='text-lg font-semibold leading-7 text-white'>Event Information</h2>
+							<div className='col-span-full pt-5'>
+								<label htmlFor='cover-photo' className='block text-sm font-medium leading-6'>
+									Cover photo
+								</label>
+								<div className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'>
+									<div className='text-center'>
+										<PhotoIcon className='mx-auto h-12 w-12 text-gray-100' aria-hidden='true' />
+										<div className='mt-4 flex text-sm leading-6 text-gray-100'>
+											<label
+												htmlFor='file-upload'
+												className='relative cursor-pointer rounded-md font-semibold text-indigo-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'
+											>
+												<span>Upload a file</span>
+												<input
+													id='file-upload'
+													name='file-upload'
+													type='file'
+													className='sr-only'
+													onChange={onEventFileChange}
+												/>
+											</label>
+											<p className='pl-1'>or drag and drop</p>
+										</div>
+										<p className='text-xs leading-5 text-gray-100'>PNG, JPG, GIF up to 10MB</p>
+									</div>
+								</div>
+							</div>
 							<div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
 								<Select
 									label='Online/Offline'
@@ -96,7 +135,6 @@ const CreateEventPage = () => {
 									label='Date and time'
 									placeholder='Date and time'
 									id='date'
-									autoComplete='date'
 									register={register('date', { required: true })}
 									errors={errors}
 									className='sm:col-span-full'
@@ -115,7 +153,6 @@ const CreateEventPage = () => {
 											label='City'
 											placeholder='City'
 											id='city'
-											autoComplete='city'
 											register={register('city', { required: true })}
 											errors={errors}
 											className='sm:col-span-3 sm:col-start-1'
@@ -125,7 +162,6 @@ const CreateEventPage = () => {
 											label='Street address'
 											placeholder='Street address'
 											id='street'
-											autoComplete='street'
 											register={register('street', { required: true })}
 											errors={errors}
 											className='sm:col-span-3'
@@ -136,7 +172,6 @@ const CreateEventPage = () => {
 										label='Link to event'
 										placeholder='Your link to event'
 										id='link'
-										autoComplete='off'
 										register={register('link', { required: false })}
 										errors={errors}
 										className='sm:col-span-full'
@@ -159,7 +194,6 @@ const CreateEventPage = () => {
 												label='Price'
 												placeholder='Price'
 												id='price'
-												autoComplete='price'
 												register={register('price', { required: true, valueAsNumber: true })}
 												errors={errors}
 											/>
@@ -177,7 +211,6 @@ const CreateEventPage = () => {
 									label='Maximum number of participants'
 									placeholder='Maximum number of participants'
 									id='totalParticipants'
-									autoComplete='off'
 									type='number'
 									register={register('totalParticipants', { required: true, valueAsNumber: true })}
 									errors={errors}

@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { useAuth } from 'hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'hooks/redux-hooks';
+import { useEventImg } from 'hooks/useEventImg';
 import { HiStatusOnline } from 'react-icons/hi';
 import { FaLocationDot } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
@@ -18,6 +19,7 @@ const EventCard = memo((props: CardProps) => {
 	const dispatch = useAppDispatch();
 	const [isLiked, setIsLiked] = useState<boolean | null>(null);
 	const { isAuth, userData } = useAuth();
+	const eventImg = useEventImg(props.imgId);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -52,7 +54,7 @@ const EventCard = memo((props: CardProps) => {
 		<div className='w-360'>
 			<div className='relative'>
 				<img
-					src={getEventImg(props.category)}
+					src={eventImg ? eventImg : getEventImg(props.category)}
 					alt={props.category}
 					className='h-56 w-full object-cover rounded'
 				/>
@@ -74,7 +76,7 @@ const EventCard = memo((props: CardProps) => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-gray-100 py-2 px-4 rounded'>
+			<div className='bg-gray-100 py-2 px-4 rounded-b'>
 				<div className='flex justify-between'>
 					<div className='flex gap-2'>
 						<BiTime className='text-indigo-600' size='1.5em' />

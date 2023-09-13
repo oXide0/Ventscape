@@ -3,6 +3,7 @@ interface CommonCardProps {
 	name: string;
 	about: string;
 	date: string;
+	imgId: string;
 }
 
 export interface DefaultCardProps extends CommonCardProps {
@@ -14,6 +15,7 @@ export interface DefaultCardProps extends CommonCardProps {
 	country: string;
 	currency: string;
 	isLiked: boolean;
+	freePlaces: number;
 }
 
 export interface EditCardProps extends CommonCardProps {

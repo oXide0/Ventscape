@@ -54,15 +54,17 @@ const EventsPage = () => {
 	}
 
 	return (
-		<div className='px-10 py-4'>
+		<div className='px-10 py-4 max-w-1945 3xl:w-full 3xl:my-0 3xl:mx-auto'>
 			<FiltersBar setFilter={setFilter} />
-			<div className='pt-10 flex flex-wrap gap-4'>
-				<List
-					items={filterEvents(events, filter)}
-					renderItem={(event: IEvent) => (
-						<EventCard key={event.id} variant='default' isLiked={isEventLiked(event.id)} {...event} />
-					)}
-				/>
+			<div className='flex justify-between pt-10'>
+				<div className='flex flex-wrap gap-4'>
+					<List
+						items={filterEvents(events, filter)}
+						renderItem={(event: IEvent) => (
+							<EventCard key={event.id} variant='default' isLiked={isEventLiked(event.id)} {...event} />
+						)}
+					/>
+				</div>
 			</div>
 		</div>
 	);

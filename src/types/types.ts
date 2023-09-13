@@ -36,6 +36,7 @@ export interface IEvent {
 	freePlaces: number;
 	creatorId: string;
 	appliedUsers: string[];
+	imgId: string;
 }
 
 export interface IEventsFilter {
