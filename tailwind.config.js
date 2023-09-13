@@ -6,6 +6,12 @@ export default {
 			spacing: {
 				360: '360px',
 			},
+			maxWidth: {
+				1945: '1945px',
+			},
+			screens: {
+				'3xl': '1945px',
+			},
 		},
 	},
 	plugins: [],

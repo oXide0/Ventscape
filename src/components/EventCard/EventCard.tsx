@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { useAuth } from 'hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'hooks/redux-hooks';
+import { useEventImg } from 'hooks/useEventImg';
 import { HiStatusOnline } from 'react-icons/hi';
 import { FaLocationDot } from 'react-icons/fa6';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
@@ -14,12 +15,11 @@ import EventEditCard from './EventEditCard';
 import { addEeventToFavorites, removeEventFromFavorites } from 'services/userActions';
 import { addFavorite, removeFavorite } from 'features/eventSlice';
 
-const cardClasses = 'w-full h-56 bg-indigo-600 rounded-md flex';
-
 const EventCard = memo((props: CardProps) => {
 	const dispatch = useAppDispatch();
 	const [isLiked, setIsLiked] = useState<boolean | null>(null);
 	const { isAuth, userData } = useAuth();
+	const eventImg = useEventImg(props.imgId);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -51,52 +51,61 @@ const EventCard = memo((props: CardProps) => {
 	};
 
 	return (
-		<div className={props.freePlaces === 0 ? `${cardClasses} opacity-40` : cardClasses}>
-			<img src={getEventImg(props.category)} alt={props.category} className='rounded-l-md h-full' />
-			<div className='px-16 py-8 w-full flex flex-col justify-between'>
-				<div className='flex justify-between'>
-					<h1 className='text-4xl font-semibold'>{props.name}</h1>
-					<div className='flex gap-6'>
-						<button onClick={toggleLike} data-testid='like-button'>
-							{isLiked ? (
-								<AiFillHeart data-testid='active-like' className='text-white' size='1.5em' />
-							) : (
-								<AiOutlineHeart className='text-white' size='1.5em' />
-							)}
-						</button>
-						<Link
-							to={`/events/${props.id}`}
-							className='bg-white text-indigo-600 font-semibold px-10 py-3 rounded-md duration-100 active:scale-95 hover:bg-indigo-800 hover:text-white'
-						>
-							Show
-						</Link>
-					</div>
-				</div>
-				<div className='flex'>
+		<div className='w-360'>
+			<div className='relative'>
+				<img
+					src={eventImg ? eventImg : getEventImg(props.category)}
+					alt={props.category}
+					className='h-56 w-full object-cover rounded'
+				/>
+				<div className='absolute bg-black/60 px-4 py-2 bottom-0 flex justify-between w-full'>
 					{props.mode === 'Offline' ? (
-						<div className='flex gap-2 w-60'>
-							<FaLocationDot size='3em' />
-							<div className='flex flex-col justify-between'>
-								<p>Location</p>
-								<p className='text-xl font-semibold'>{`${props.city}, ${props.country}`}</p>
-							</div>
+						<div className='flex gap-2'>
+							<FaLocationDot className='text-indigo-600' size='1.5em' />
+							<p>{`${props.city}, ${props.country}`}</p>
 						</div>
 					) : (
-						<div className='flex gap-2 w-60'>
-							<HiStatusOnline size='3em' />
-							<div>
-								<p>Type</p>
-								<p className='text-xl font-semibold'>Online</p>
-							</div>
+						<div className='flex gap-2'>
+							<HiStatusOnline className='text-indigo-600' size='1.5em' />
+							<p>Online</p>
 						</div>
 					)}
-					<div className='flex gap-2'>
-						<BiTime size='3em' />
-						<div>
-							<p>Date</p>
-							<p className='text-xl font-semibold'>{formatDate(props.date)}</p>
-						</div>
+
+					<div className='px-2 bg-indigo-600 rounded-xl'>
+						<p>{!props.price ? 'Free' : props.price + ' ' + props.currency}</p>
 					</div>
+				</div>
+			</div>
+			<div className='bg-gray-100 py-2 px-4 rounded-b'>
+				<div className='flex justify-between'>
+					<div className='flex gap-2'>
+						<BiTime className='text-indigo-600' size='1.5em' />
+						<p className='text-gray-800 font-semibold'>{formatDate(props.date)}</p>
+					</div>
+					<div>
+						<button onClick={toggleLike} data-testid='like-button'>
+							{isLiked ? (
+								<AiFillHeart data-testid='active-like' className='text-indigo-600' size='1.5em' />
+							) : (
+								<AiOutlineHeart className='text-indigo-600' size='1.5em' />
+							)}
+						</button>
+					</div>
+				</div>
+				<div className='pt-1'>
+					<h2 className='text-gray-800 text-xl font-semibold'>{props.name}</h2>
+					<p className='text-gray-600 whitespace-nowrap text-ellipsis overflow-hidden'>{props.about}</p>
+				</div>
+				<div className='pt-3 flex justify-between'>
+					<span className='inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10'>
+						#{props.category}
+					</span>
+					<Link
+						to={`/events/${props.id}`}
+						className='bg-indigo-600 px-4 py-1 rounded-md duration-100 hover:bg-indigo-800 active:scale-95'
+					>
+						Learn More
+					</Link>
 				</div>
 			</div>
 		</div>

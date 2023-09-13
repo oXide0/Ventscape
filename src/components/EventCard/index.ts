@@ -3,6 +3,7 @@ interface CommonCardProps {
 	name: string;
 	about: string;
 	date: string;
+	imgId: string;
 }
 
 export interface DefaultCardProps extends CommonCardProps {

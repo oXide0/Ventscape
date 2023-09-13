@@ -156,7 +156,7 @@ const ProfilePage = () => {
 										id='avatar'
 										type='file'
 										className={`${inputClasses} sr-only`}
-										onChange={(e) => onAvatarChange(e)}
+										onChange={onAvatarChange}
 									/>
 								</label>
 								<Button className='h-8 flex items-center text-sm font-normal' onClick={onUpdateAvatar}>
