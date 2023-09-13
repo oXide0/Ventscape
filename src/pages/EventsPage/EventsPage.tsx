@@ -26,6 +26,11 @@ const EventsPage = () => {
 	const { fetching, isLoading, error } = useFetching(async () => {
 		const data = await getDocs(collection(db, 'events'));
 		const filteredData = data.docs.map((event) => ({ ...event.data(), id: event.id } as IEvent));
+		filteredData.sort((a, b) => {
+			const dateA = new Date(a.date).getTime();
+			const dateB = new Date(b.date).getTime();
+			return dateA - dateB;
+		});
 		setEvents(filteredData);
 	});
 

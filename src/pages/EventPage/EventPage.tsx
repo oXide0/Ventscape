@@ -88,7 +88,11 @@ const EventPage = () => {
 						content={event.price ? event.price + ' ' + event.currency : 'Free'}
 						icon={<RiMoneyEuroCircleLine />}
 					/>
-					<InfoSnippet title='Free places:' content={event.freePlaces} icon={<BsFillPersonFill />} />
+					<InfoSnippet
+						title='Free places:'
+						content={event.freePlaces ? event.freePlaces : 'No limit'}
+						icon={<BsFillPersonFill />}
+					/>
 					<InfoSnippet title='Type:' content={event.category} icon={<VscSymbolEvent />} />
 					<h2 className='text-xl font-bold pt-4'>About</h2>
 					<p>{event.about}</p>

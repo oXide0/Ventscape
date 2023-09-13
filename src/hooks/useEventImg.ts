@@ -3,10 +3,8 @@ import { getEventImg } from 'services/eventActions';
 
 export const useEventImg = (eventId: string) => {
 	const [eventImg, setEventImg] = useState<string | null>(null);
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		setLoading(true);
 		const getAvatar = async () => {
 			const url = await getEventImg(eventId);
 			if (url) {
@@ -14,7 +12,6 @@ export const useEventImg = (eventId: string) => {
 			}
 		};
 		getAvatar();
-		setLoading(false);
 	}, []);
 
 	return eventImg;

@@ -31,7 +31,7 @@ const CreateEventPage = () => {
 		if (userData.id) {
 			const eventId = nanoid();
 			await createEvent(event, userData.id, eventId);
-			await uploadEventImg(eventFile, eventId); // fix
+			await uploadEventImg(eventFile, eventId);
 			reset();
 		}
 	});
@@ -212,7 +212,7 @@ const CreateEventPage = () => {
 									placeholder='Maximum number of participants'
 									id='totalParticipants'
 									type='number'
-									register={register('totalParticipants', { required: true, valueAsNumber: true })}
+									register={register('totalParticipants', { required: false, valueAsNumber: true })}
 									errors={errors}
 									className='sm:col-span-3 h-10'
 								/>
