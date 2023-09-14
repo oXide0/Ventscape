@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from 'config/firebase';
 import { IUser } from 'types/types';
 
@@ -63,6 +63,11 @@ export const getUserAvatar = async (userId: string) => {
 	} catch (e) {
 		return null;
 	}
+};
+
+export const removeUserAvatar = async (userId: string) => {
+	const imageRef = ref(storage, `avatars/${userId}`);
+	await deleteObject(imageRef);
 };
 
 export const addEeventToFavorites = async (userId: string, eventId: string) => {

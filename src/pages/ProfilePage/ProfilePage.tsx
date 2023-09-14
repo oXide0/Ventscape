@@ -11,7 +11,7 @@ import Input from 'components/UI/Input/Input';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from 'config/firebase';
 import { inputClasses } from 'utils/styles';
-import { updateUser, uploadUserAvatar } from 'services/userActions';
+import { updateUser, uploadUserAvatar, removeUserAvatar } from 'services/userActions';
 import { setAvatarUploaded } from 'features/userSlice';
 import { IUser } from 'types/types';
 import Button from 'components/UI/Button/Button';
@@ -78,6 +78,13 @@ const ProfilePage = () => {
 		if (userData.id) {
 			await uploadUserAvatar(avatarFile, userData.id);
 			dispatch(setAvatarUploaded(true));
+		}
+	};
+
+	const onRemoveAvatar = async () => {
+		if (userData.id) {
+			await removeUserAvatar(userData.id);
+			dispatch(setAvatarUploaded(false));
 		}
 	};
 
@@ -161,6 +168,9 @@ const ProfilePage = () => {
 								</label>
 								<Button className='h-8 flex items-center text-sm font-normal' onClick={onUpdateAvatar}>
 									Update Avatar
+								</Button>
+								<Button className='h-8 flex items-center text-sm font-normal' onClick={onRemoveAvatar}>
+									Remove Avatar
 								</Button>
 							</div>
 						</div>

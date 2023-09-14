@@ -10,7 +10,7 @@ import Title from 'components/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import List from 'components/List/List';
 import FiltersBar from 'components/FilterBar/FiltersBar';
-
+import Container from 'components/UI/Container/Container';
 import { selectFavoriteEvents } from 'features/eventSlice';
 
 const EventsPage = () => {
@@ -59,7 +59,7 @@ const EventsPage = () => {
 	}
 
 	return (
-		<div className='px-10 py-4 max-w-1945 3xl:w-full 3xl:my-0 3xl:mx-auto'>
+		<Container styles='px-10 py-4'>
 			<FiltersBar setFilter={setFilter} />
 			<div className='flex justify-between pt-10'>
 				<div className='flex flex-wrap gap-4'>
@@ -71,7 +71,7 @@ const EventsPage = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</Container>
 	);
 };
 

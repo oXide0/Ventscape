@@ -25,7 +25,7 @@ const CreateEventPage = () => {
 
 	return (
 		<div>
-			<EventForm submit={submitting} error={error} title='Create new event' />
+			<EventForm submit={submitting} error={error} />
 		</div>
 	);
 };

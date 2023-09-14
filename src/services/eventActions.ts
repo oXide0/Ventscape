@@ -1,5 +1,5 @@
 import { doc, updateDoc, collection, addDoc, deleteDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from 'config/firebase';
 import { filterEventData } from 'utils/events';
 import { IEvent } from 'types/types';
@@ -60,4 +60,9 @@ export const getEventImg = async (eventId: string) => {
 	} catch (e) {
 		return null;
 	}
+};
+
+export const removeEventImg = async (eventId: string) => {
+	const imageRef = ref(storage, `events/${eventId}`);
+	await deleteObject(imageRef);
 };

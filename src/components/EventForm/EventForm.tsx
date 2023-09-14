@@ -15,17 +15,17 @@ import { PhotoIcon } from '@heroicons/react/24/solid';
 import { SpinnerCircular } from 'spinners-react';
 
 interface EventFormProps {
-	submit: (data: IEvent, eventFile: File | null) => void;
+	submit: (data: IEvent, eventFile: File | null, imgId: string) => void;
 	error: string;
-	title: string;
 	edit?: boolean;
 	id?: string;
 }
 
-const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
+const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 	const [activeValue, setActiveValue] = useState(1);
 	const [eventFile, setEventFile] = useState<File | null>(null);
 	const { countries, currencies } = useCountries();
+	const [imgId, setImgId] = useState<string>('');
 	const {
 		register,
 		handleSubmit,
@@ -46,6 +46,7 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 				setValue('category', docSnap.data().type);
 				setValue('date', docSnap.data().date);
 				setValue('freePlaces', docSnap.data().freePlaces);
+				setImgId(docSnap.data().imgId);
 				if (docSnap.data().kind === 'Offline') {
 					setValue('street', docSnap.data().street);
 					setValue('city', docSnap.data().city);
@@ -64,11 +65,12 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 	});
 
 	const onSubmit: SubmitHandler<IEvent> = async (data) => {
-		submit(data, eventFile);
+		submit(data, eventFile, imgId);
 		if (edit) {
 			fetchEvent();
+		} else {
+			reset();
 		}
-		reset();
 	};
 
 	const onEventFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +96,9 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='p-10 max-w-5xl my-0 mx-auto'>
-			<h1 className='text-4xl font-bold text-white text-center'>{title}</h1>
+			<h1 className='text-4xl font-bold text-white text-center'>
+				{edit ? 'Edit your event' : 'Create new event'}
+			</h1>
 			<div className='pb-12'>
 				<div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
 					<Input
@@ -130,7 +134,10 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 					<label htmlFor='cover-photo' className='block text-sm font-medium leading-6'>
 						Cover photo
 					</label>
-					<div className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'>
+					<div
+						className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'
+						onDrag={() => console.log(1)}
+					>
 						<div className='text-center'>
 							<PhotoIcon className='mx-auto h-12 w-12 text-gray-100' aria-hidden='true' />
 							<div className='mt-4 flex text-sm leading-6 text-gray-100'>
@@ -223,7 +230,7 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 								setActiveValue={setActiveValue}
 							/>
 						</div>
-						{activeValue === 2 && (
+						{activeValue === 2 ? (
 							<div className='flex gap-4 items-center w-52'>
 								<Input
 									type='number'
@@ -241,10 +248,12 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 									width='w-36'
 								/>
 							</div>
+						) : (
+							<div className='flex gap-4 items-center w-52'></div>
 						)}
 					</div>
 					<Input
-						label='Maximum number of participants'
+						label='Maximum number of participants(Optional)'
 						placeholder='Maximum number of participants'
 						id='totalParticipants'
 						type='number'
@@ -252,12 +261,24 @@ const EventForm = memo(({ submit, error, title, edit, id }: EventFormProps) => {
 						errors={errors}
 						className='sm:col-span-3 h-10'
 					/>
+					{edit && (
+						<Input
+							label='Free spots(Optional)'
+							placeholder='Free spots'
+							id='freePlaces'
+							autoComplete='off'
+							type='number'
+							register={register('freePlaces', { required: false, valueAsNumber: true })}
+							errors={errors}
+							className='sm:col-span-2 h-10'
+						/>
+					)}
 				</div>
 			</div>
 			<div className='pt-5 text-center sm:col-span-2'>
 				<p className='text-red-600'>{error}</p>
 				<Button className='w-full' type='submit'>
-					Add Event
+					{edit ? 'Update event' : 'Create event'}
 				</Button>
 			</div>
 		</form>

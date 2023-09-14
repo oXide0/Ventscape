@@ -1,16 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useSubmiting } from 'hooks/useSubmiting';
-
-import { updateEvent } from 'services/eventActions';
+import { updateEvent, uploadEventImg } from 'services/eventActions';
 import { SpinnerCircular } from 'spinners-react';
 import EventForm from 'components/EventForm/EventForm';
 
 const EditEventPage = () => {
 	const { id } = useParams();
-
-	const { submitting, isSubmitting, error } = useSubmiting(async (data) => {
+	const { submitting, isSubmitting, error } = useSubmiting(async (data, eventFile, imgId) => {
 		if (id) {
 			await updateEvent(data, id);
+			await uploadEventImg(eventFile, imgId);
 		}
 	});
 
@@ -22,7 +21,7 @@ const EditEventPage = () => {
 		);
 	}
 
-	return <EventForm submit={submitting} title='Edit your event' error={error} edit id={id} />;
+	return <EventForm submit={submitting} error={error} edit id={id} />;
 };
 
 export default EditEventPage;

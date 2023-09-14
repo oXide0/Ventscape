@@ -7,11 +7,19 @@ import { Link } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { Dialog } from '@headlessui/react';
 import Modal from '../Modal/Modal';
+import { removeEventImg } from 'services/eventActions';
 
 const EventEditCard = memo((props: CardProps) => {
 	const [modalActive, setModalActive] = useState<boolean>(false);
 
 	if (props.variant !== 'edit') return null;
+
+	const removeEvent = async () => {
+		await removeEventImg(props.imgId);
+		props.onRemoveEvent(props.id);
+		setModalActive(false);
+	};
+
 	return (
 		<div className='w-360'>
 			<Modal active={modalActive} setActive={setModalActive}>
@@ -36,7 +44,7 @@ const EventEditCard = memo((props: CardProps) => {
 					<button
 						type='button'
 						className='inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto'
-						onClick={() => props.onRemoveEvent(props.id)}
+						onClick={removeEvent}
 					>
 						Delete
 					</button>
