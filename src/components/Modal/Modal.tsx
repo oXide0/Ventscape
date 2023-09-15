@@ -3,10 +3,10 @@ import { Dialog, Transition } from '@headlessui/react';
 
 interface ModalProps {
 	active: boolean;
-	setActive: (active: boolean) => void;
-	children: ReactNode;
 	background?: string;
+	children: ReactNode;
 	handleClose?: () => void;
+	setActive: (active: boolean) => void;
 }
 
 const Modal = memo(({ active, setActive, children, background = 'bg-white', handleClose }: ModalProps) => {

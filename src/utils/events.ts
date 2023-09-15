@@ -140,3 +140,5 @@ export const filterEvents = (events: IEvent[], filters: IEventsFilter) => {
 
 	return filteredEvents;
 };
+
+export const currencies = ['USD', 'EUR', 'GBP', 'CZK', 'CAD', 'UAH', 'PLN'];

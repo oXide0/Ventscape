@@ -6,20 +6,17 @@ import { useAuth } from 'hooks/useAuth';
 import { useSubmiting } from 'hooks/useSubmiting';
 import { useCountries } from 'hooks/useCountries';
 import { useAvatar } from 'hooks/useAvatar';
-import { useAppDispatch } from 'hooks/redux-hooks';
 import Input from 'components/UI/Input/Input';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from 'config/firebase';
 import { inputClasses } from 'utils/styles';
 import { updateUser, uploadUserAvatar, removeUserAvatar } from 'services/userActions';
-import { setAvatarUploaded } from 'features/userSlice';
 import { IUser } from 'types/types';
 import Button from 'components/UI/Button/Button';
-import Title from 'components/Title/Title';
+import Title from 'components/UI/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 
 const ProfilePage = () => {
-	const dispatch = useAppDispatch();
 	const { userData } = useAuth();
 	const { countries } = useCountries();
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -58,7 +55,6 @@ const ProfilePage = () => {
 		if (userData.id) {
 			await updateUser(data, userData.id);
 			await uploadUserAvatar(avatarFile, userData.id);
-			dispatch(setAvatarUploaded(true));
 			fetchUser();
 		}
 	});
@@ -77,20 +73,18 @@ const ProfilePage = () => {
 	const onUpdateAvatar = async () => {
 		if (userData.id) {
 			await uploadUserAvatar(avatarFile, userData.id);
-			dispatch(setAvatarUploaded(true));
+			fetchUser();
 		}
 	};
 
 	const onRemoveAvatar = async () => {
 		if (userData.id) {
 			await removeUserAvatar(userData.id);
-			dispatch(setAvatarUploaded(false));
 		}
 	};
 
 	useEffect(() => {
 		fetchUser();
-		dispatch(setAvatarUploaded(false));
 	}, []);
 
 	if (error) {
@@ -143,7 +137,10 @@ const ProfilePage = () => {
 
 						<div className='col-span-full'>
 							<label htmlFor='photo' className='block text-sm font-medium leading-6 text-white'>
-								Avatar
+								Avatar{' '}
+								<span className='text-indigo-300'>
+									(If you do not see the changes, please reload the page)
+								</span>
 							</label>
 							<div className='mt-2 flex items-center gap-x-3'>
 								{avatarUrl ? (
