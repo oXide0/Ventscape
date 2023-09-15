@@ -6,9 +6,10 @@ import { db } from 'config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { IEvent } from 'types/types';
 import EventCard from 'components/EventCard/EventCard';
-import Title from 'components/Title/Title';
+import Title from 'components/UI/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import List from 'components/List/List';
+import Container from 'components/UI/Container/Container';
 
 const MyEventsPage = () => {
 	const { userData } = useAuth();
@@ -46,14 +47,14 @@ const MyEventsPage = () => {
 	}
 
 	return (
-		<div className='p-10 flex flex-wrap gap-4'>
+		<Container styles='p-10 flex flex-wrap gap-4'>
 			<List
 				items={events}
 				renderItem={(event: IEvent) => (
 					<EventCard key={event.id} variant='edit' {...event} onRemoveEvent={removeEvent} />
 				)}
 			/>
-		</div>
+		</Container>
 	);
 };
 

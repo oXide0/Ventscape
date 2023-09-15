@@ -7,9 +7,10 @@ import { db } from 'config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { IEvent } from 'types/types';
 import EventCard from 'components/EventCard/EventCard';
-import Title from 'components/Title/Title';
+import Title from 'components/UI/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import List from 'components/List/List';
+import Container from 'components/UI/Container/Container';
 
 const FavoriteEventsPage = () => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
@@ -45,7 +46,7 @@ const FavoriteEventsPage = () => {
 	}
 
 	return (
-		<div className='p-10'>
+		<Container styles='p-10'>
 			<Title pt='0'>Your favorites events💜</Title>
 			<div className='flex flex-wrap gap-4 pt-10'>
 				<List
@@ -55,7 +56,7 @@ const FavoriteEventsPage = () => {
 					)}
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 };
 

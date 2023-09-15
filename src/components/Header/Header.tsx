@@ -1,16 +1,28 @@
 import { memo } from 'react';
 import { useAuth } from 'hooks/useAuth';
-import { useAppSelector } from 'hooks/redux-hooks';
-import { selectFavoriteEvents } from 'features/eventSlice';
+import { useAvatar } from 'hooks/useAvatar';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from 'hooks/redux-hooks';
+import { removeAllFavorites, selectFavoriteEvents } from 'features/eventSlice';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Button from 'UI/Button/Button';
 import Avatar from 'UI/Avatar/Avatar';
 import SearchBar from 'UI/SearchBar/SearchBar';
+import { removeUser } from 'features/userSlice';
 
 const Header = memo(() => {
 	const favoriteEvents = useAppSelector(selectFavoriteEvents);
 	const { isAuth, userData } = useAuth();
+	const avatarUrl = useAvatar();
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	const signOut = () => {
+		dispatch(removeUser());
+		dispatch(removeAllFavorites());
+		navigate('/');
+	};
 
 	return (
 		<header className='flex justify-between relative z-50 px-10 py-5 max-lg:gap-10'>
@@ -27,7 +39,7 @@ const Header = memo(() => {
 					</Link>
 					<div className='flex items-center'>
 						<p className='font-bold'>{userData?.name}</p>
-						<Avatar />
+						<Avatar avatarUrl={avatarUrl} signOut={signOut} />
 					</div>
 				</div>
 			) : (

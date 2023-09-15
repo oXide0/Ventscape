@@ -69,7 +69,7 @@ const SignUpPage = () => {
 						label='Name'
 						errors={errors}
 						autoComplete='name'
-						placeholder='Your Name'
+						placeholder='Your Name or Company Name'
 						register={register('name', {
 							required: '*This field is required',
 							pattern: {
