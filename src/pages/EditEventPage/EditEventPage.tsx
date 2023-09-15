@@ -21,7 +21,7 @@ const EditEventPage = () => {
 		);
 	}
 
-	return <EventForm submit={submitting} error={error} edit id={id} />;
+	return <EventForm submit={submitting} error={error} edit eventId={id} />;
 };
 
 export default EditEventPage;

@@ -32,7 +32,7 @@ const NavBar = memo(() => {
 							<CustomLink to='/events/my' name='my-events'>
 								<span className='text-md max-lg:hidden'>My events</span>
 							</CustomLink>
-							<CustomLink to='/test' name='stats'>
+							<CustomLink to='/stats' name='stats'>
 								<span className='text-md max-lg:hidden'>Statistics</span>
 							</CustomLink>
 						</nav>

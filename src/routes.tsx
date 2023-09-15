@@ -2,7 +2,6 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 import Layout from 'hoc/Layout';
 import RequireAuth from 'hoc/RequireAuth';
 import CreatorAuth from 'hoc/CreatorAuth';
-import Test from 'pages/Test';
 import HomePage from 'pages/HomePage/HomePage';
 import SignUpPage from 'pages/SignUpPage/SignUpPage';
 import LoginPage from 'pages/LoginPage/LoginPage';
@@ -23,7 +22,6 @@ export const router = createBrowserRouter(
 			<Route index element={<HomePage />} />
 			<Route path='signup' element={<SignUpPage />} />
 			<Route path='login' element={<LoginPage />} />
-			<Route path='test' element={<Test />} />
 			<Route path='events' element={<EventsPage />} />
 			<Route element={<RequireAuth />}>
 				<Route path='profile' element={<ProfilePage />} />
@@ -32,6 +30,7 @@ export const router = createBrowserRouter(
 				<Route path='events/:id' element={<EventPage />} />
 				<Route path='events/edit/:id' element={<EditEventPage />} />
 				<Route path='settings' element={<ProgressPage />} />
+				<Route path='stats' element={<ProgressPage />} />
 				<Route element={<CreatorAuth />}>
 					<Route path='events/create' element={<CreateEventPage />} />
 					<Route path='events/my' element={<MyEventsPage />} />

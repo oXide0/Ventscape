@@ -7,6 +7,7 @@ import { sortedEventTypes } from 'utils/events';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from 'config/firebase';
 import { IEvent } from 'types/types';
+import { currencies } from 'utils/events';
 import Input from 'components/UI/Input/Input';
 import Button from 'components/UI/Button/Button';
 import ToggleButton from 'components/UI/ToogleButton/ToggleButton';
@@ -18,13 +19,13 @@ interface EventFormProps {
 	submit: (data: IEvent, eventFile: File | null, imgId: string) => void;
 	error: string;
 	edit?: boolean;
-	id?: string;
+	eventId?: string;
 }
 
-const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
+const EventForm = memo(({ submit, error, edit, eventId }: EventFormProps) => {
 	const [activeValue, setActiveValue] = useState(1);
 	const [eventFile, setEventFile] = useState<File | null>(null);
-	const { countries, currencies } = useCountries();
+	const { countries } = useCountries();
 	const [imgId, setImgId] = useState<string>('');
 	const {
 		register,
@@ -36,8 +37,8 @@ const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 	} = useForm<IEvent>();
 
 	const { fetching: fetchEvent, isLoading } = useFetching(async () => {
-		if (id) {
-			const docRef = doc(db, 'events', id);
+		if (eventId) {
+			const docRef = doc(db, 'events', eventId);
 			const docSnap = await getDoc(docRef);
 			if (docSnap.exists()) {
 				setValue('name', docSnap.data().name);
@@ -75,15 +76,11 @@ const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 
 	const onEventFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files && e.target.files[0];
-		if (file) {
-			setEventFile(file);
-		}
+		if (file) setEventFile(file);
 	};
 
 	useEffect(() => {
-		if (edit) {
-			fetchEvent();
-		}
+		if (edit) fetchEvent();
 	}, []);
 
 	if (isLoading) {
@@ -134,12 +131,10 @@ const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 					<label htmlFor='cover-photo' className='block text-sm font-medium leading-6'>
 						Cover photo
 					</label>
-					<div
-						className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'
-						onDrag={() => console.log(1)}
-					>
+					<div className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'>
 						<div className='text-center'>
 							<PhotoIcon className='mx-auto h-12 w-12 text-gray-100' aria-hidden='true' />
+							<img src='' alt='' />
 							<div className='mt-4 flex text-sm leading-6 text-gray-100'>
 								<label
 									htmlFor='file-upload'
@@ -151,6 +146,7 @@ const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 										name='file-upload'
 										type='file'
 										className='sr-only'
+										accept='image/*,.png,.jpg,.gif'
 										onChange={onEventFileChange}
 									/>
 								</label>
@@ -200,7 +196,6 @@ const EventForm = memo(({ submit, error, edit, id }: EventFormProps) => {
 								errors={errors}
 								className='sm:col-span-3 sm:col-start-1'
 							/>
-
 							<Input
 								label='Street address'
 								placeholder='Street address'

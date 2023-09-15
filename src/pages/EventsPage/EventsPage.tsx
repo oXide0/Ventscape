@@ -6,7 +6,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { filterEvents } from 'utils/events';
 import { IEvent, IEventsFilter } from 'types/types';
 import EventCard from 'components/EventCard/EventCard';
-import Title from 'components/Title/Title';
+import Title from 'components/UI/Title/Title';
 import { SpinnerCircular } from 'spinners-react';
 import List from 'components/List/List';
 import FiltersBar from 'components/FilterBar/FiltersBar';
