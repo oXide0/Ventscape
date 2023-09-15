@@ -3,11 +3,11 @@ import { memo, useEffect, useState } from 'react';
 import { useCountries } from 'hooks/useCountries';
 import { useFetching } from 'hooks/useFetching';
 import { inputClasses } from 'utils/styles';
-import { sortedEventTypes } from 'utils/events';
+import { sortedEventTypes, currencies } from 'utils/events';
+import { getEventImg } from 'services/eventActions';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from 'config/firebase';
 import { IEvent } from 'types/types';
-import { currencies } from 'utils/events';
 import Input from 'components/UI/Input/Input';
 import Button from 'components/UI/Button/Button';
 import ToggleButton from 'components/UI/ToogleButton/ToggleButton';
@@ -27,6 +27,7 @@ const EventForm = memo(({ submit, error, edit, eventId }: EventFormProps) => {
 	const [eventFile, setEventFile] = useState<File | null>(null);
 	const { countries } = useCountries();
 	const [imgId, setImgId] = useState<string>('');
+	const [imgUrl, setImgUrl] = useState<string>('');
 	const {
 		register,
 		handleSubmit,
@@ -74,14 +75,41 @@ const EventForm = memo(({ submit, error, edit, eventId }: EventFormProps) => {
 		}
 	};
 
+	const setFile = (file: File | null) => {
+		if (file) {
+			setEventFile(file);
+			setImgUrl(URL.createObjectURL(file));
+		}
+	};
+
 	const onEventFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files && e.target.files[0];
-		if (file) setEventFile(file);
+		setFile(file);
+	};
+
+	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+	};
+
+	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+		const file = e.dataTransfer.files[0];
+		setFile(file);
 	};
 
 	useEffect(() => {
 		if (edit) fetchEvent();
 	}, []);
+
+	useEffect(() => {
+		const getImgUrl = async () => {
+			if (imgId) {
+				const url = await getEventImg(imgId);
+				if (url) setImgUrl(url);
+			}
+		};
+		getImgUrl();
+	}, [imgId]);
 
 	if (isLoading) {
 		return (
@@ -131,11 +159,18 @@ const EventForm = memo(({ submit, error, edit, eventId }: EventFormProps) => {
 					<label htmlFor='cover-photo' className='block text-sm font-medium leading-6'>
 						Cover photo
 					</label>
-					<div className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'>
+					<div
+						className='mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10'
+						onDragOver={handleDragOver}
+						onDrop={handleDrop}
+					>
 						<div className='text-center'>
-							<PhotoIcon className='mx-auto h-12 w-12 text-gray-100' aria-hidden='true' />
-							<img src='' alt='' />
-							<div className='mt-4 flex text-sm leading-6 text-gray-100'>
+							{imgUrl ? (
+								<img src={imgUrl} alt='event-preview' className='max-h-80 rounded' />
+							) : (
+								<PhotoIcon className='mx-auto h-12 w-12 text-gray-100' aria-hidden='true' />
+							)}
+							<div className='mt-4 flex justify-center text-sm leading-6 text-gray-100'>
 								<label
 									htmlFor='file-upload'
 									className='relative cursor-pointer rounded-md font-semibold text-indigo-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'
