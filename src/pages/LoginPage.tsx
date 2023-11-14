@@ -8,6 +8,8 @@ import {
     Input,
     Stack,
     Text,
+    InputGroup,
+    InputRightElement,
 } from '@chakra-ui/react';
 import { setUserData } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
@@ -25,6 +27,7 @@ type FormData = {
 
 const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const {
@@ -50,6 +53,8 @@ const LoginPage = () => {
             setErrorMessage('Invalid credentials');
         }
     });
+
+    const toggleShow = () => setShowPassword(!showPassword);
 
     const onSubmit = async (data: FormData) => {
         await submit(data);
@@ -89,22 +94,31 @@ const LoginPage = () => {
                     </FormControl>
                     <FormControl isInvalid={!!errors.password}>
                         <FormLabel htmlFor='password'>Password</FormLabel>
-                        <Input
-                            id='password'
-                            placeholder='Your password'
-                            focusBorderColor='brand.100'
-                            {...register('password', {
-                                required: '*This field is required',
-                                pattern: {
-                                    value: /^\S*$/,
-                                    message: '*Password cannot contain spaces',
-                                },
-                                minLength: {
-                                    value: 6,
-                                    message: '*Password must be at least 6 characters long',
-                                },
-                            })}
-                        />
+                        <InputGroup>
+                            <Input
+                                id='password'
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder='Your password'
+                                focusBorderColor='brand.100'
+                                {...register('password', {
+                                    required: '*This field is required',
+                                    pattern: {
+                                        value: /^\S*$/,
+                                        message: '*Password cannot contain spaces',
+                                    },
+                                    minLength: {
+                                        value: 6,
+                                        message: '*Password must be at least 6 characters long',
+                                    },
+                                })}
+                            />
+                            <InputRightElement width='4.5rem'>
+                                <Button h='1.75rem' size='sm' onClick={toggleShow}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+
                         <FormErrorMessage>
                             {errors.password && errors.password.message}
                         </FormErrorMessage>

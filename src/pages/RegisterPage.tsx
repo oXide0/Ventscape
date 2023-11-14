@@ -29,7 +29,7 @@ type FormData = {
 };
 
 const RegisterPage = () => {
-    const [show, setShow] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -65,7 +65,7 @@ const RegisterPage = () => {
         await submit(data);
     };
 
-    const toggleShow = () => setShow(!show);
+    const toggleShow = () => setShowPassword(!showPassword);
 
     return (
         <Box>
@@ -114,7 +114,7 @@ const RegisterPage = () => {
                         <InputGroup>
                             <Input
                                 id='password'
-                                type={show ? 'text' : 'password'}
+                                type={showPassword ? 'text' : 'password'}
                                 placeholder='Your password'
                                 focusBorderColor='brand.100'
                                 {...register('password', {
@@ -131,7 +131,7 @@ const RegisterPage = () => {
                             />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={toggleShow}>
-                                    {show ? 'Hide' : 'Show'}
+                                    {showPassword ? 'Hide' : 'Show'}
                                 </Button>
                             </InputRightElement>
                         </InputGroup>

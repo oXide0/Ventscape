@@ -14,6 +14,8 @@ import {
     Image,
     Text,
 } from '@chakra-ui/react';
+import { selectUser } from 'features/userSlice';
+import { useAppSelector } from 'hooks/redux-hooks';
 import { useFetching } from 'hooks/useFetching';
 import { memo, useEffect, useState } from 'react';
 import { BiTime } from 'react-icons/bi';
@@ -28,34 +30,48 @@ import { Event, User } from 'types/types';
 import { convertDateFormat } from 'utils/events';
 
 const EventCard = memo((event: Event) => {
-    const [user, setUser] = useState<User>();
+    const [creator, setCreator] = useState<User>();
     const [imgUrl, setImgUrl] = useState<string>('');
+    const userData = useAppSelector(selectUser);
     const navigate = useNavigate();
 
     const { fetch } = useFetching(async () => {
-        const userData = await getUserById(event.creatorId);
+        const userServerData = await getUserById(event.creatorId);
         const img = await getEventImg(event.img);
         if (img) setImgUrl(img);
-        if (userData) setUser(userData);
+        if (userServerData) setCreator(userServerData);
     });
+
+    const onApply = () => {
+        if (userData.isAuth) {
+            navigate(event.link);
+        } else {
+            navigate('/login');
+        }
+    };
+
+    const onAvatarClick = () => {
+        navigate(`/user/${event.creatorId}`);
+    };
 
     useEffect(() => {
         fetch();
     }, []);
-
-    const onApply = () => {
-        navigate(event.link);
-    };
 
     return (
         <Card w='full' maxW='2xl' h='auto'>
             <CardHeader>
                 <Flex gap={4}>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar name={user?.name} src={user?.avatar} />
+                        <Avatar
+                            name={creator?.name}
+                            src={creator?.avatar}
+                            cursor='pointer'
+                            onClick={onAvatarClick}
+                        />
                         <Box>
-                            <Heading size='sm'>{user?.name}</Heading>
-                            <Text>Creator, {user?.name}</Text>
+                            <Heading size='sm'>{creator?.name}</Heading>
+                            <Text>Creator, {creator?.name}</Text>
                         </Box>
                     </Flex>
                     <IconButton
