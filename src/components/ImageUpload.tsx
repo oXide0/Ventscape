@@ -1,18 +1,18 @@
 import {
     Box,
-    Text,
-    VStack,
-    Image,
-    useColorModeValue,
-    Input,
-    Icon,
     Center,
     Highlight,
+    Icon,
     IconButton,
+    Image,
+    Input,
+    Text,
+    VStack,
+    useColorModeValue,
 } from '@chakra-ui/react';
-import { useRef, memo } from 'react';
-import { FiUpload } from 'react-icons/fi';
+import { memo, useRef } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FiUpload } from 'react-icons/fi';
 
 interface ImageUploadProps {
     handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;

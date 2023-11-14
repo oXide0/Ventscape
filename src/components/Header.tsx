@@ -37,7 +37,7 @@ const Header = memo(() => {
                         background='transparent'
                         variant='unstyled'
                     />
-                    <Divider orientation='vertical' bg='text.secondary' />э
+                    <Divider orientation='vertical' bg='text.secondary' />
                     <Popover>
                         <PopoverTrigger>
                             <Stack

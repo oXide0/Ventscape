@@ -1,8 +1,8 @@
-import { addDoc, collection, getDocs, getDoc, doc } from 'firebase/firestore';
-// import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { User } from 'types/types';
 import { setCookie } from 'utils/auth';
-import { db } from '../firebaseConfig';
+import { db, storage } from '../firebaseConfig';
 
 type FormData = {
     name: string;
@@ -33,6 +33,11 @@ export const createUser = async (data: FormData) => {
     });
 };
 
+export const updateUser = async (data: User, userId: string) => {
+    const docRef = doc(db, 'users', userId);
+    await updateDoc(docRef, { ...data });
+};
+
 export const getUserByEmailAndPassword = async (email: string, password: string) => {
     const users = await getDocs(collection(db, 'users'));
     const filteredUsers = users.docs.map(
@@ -55,4 +60,25 @@ export const getUserById = async (id: string): Promise<User | null> => {
 
 export const signOutUser = () => {
     setCookie('auth', '', -1, import.meta.env.VITE_AUTH_SECRET_KEY);
+};
+
+export const uploadUserAvatar = async (file: File | null, userId: string) => {
+    if (file === null) return;
+    const avatarRef = ref(storage, `avatars/${userId}`);
+    await uploadBytes(avatarRef, file);
+};
+
+export const getUserAvatar = async (userId: string) => {
+    try {
+        const imageRef = ref(storage, `avatars/${userId}`);
+        const url = await getDownloadURL(imageRef);
+        return url;
+    } catch (e) {
+        return null;
+    }
+};
+
+export const removeUserAvatar = async (userId: string) => {
+    const imageRef = ref(storage, `avatars/${userId}`);
+    await deleteObject(imageRef);
 };
