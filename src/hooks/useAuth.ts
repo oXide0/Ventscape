@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCookie } from 'utils/auth';
-import { getUserById } from 'services/userActions';
+import { getUserById, getUserAvatar } from 'services/userActions';
 import { useAppDispatch } from './redux-hooks';
 import { setUserData } from 'features/userSlice';
 
@@ -13,6 +13,7 @@ export const useAuth = () => {
             const userId = getCookie('auth', import.meta.env.VITE_AUTH_SECRET_KEY);
             if (userId) {
                 const user = await getUserById(userId);
+                const avatar = await getUserAvatar(userId);
                 if (user) {
                     dispatch(
                         setUserData({
@@ -21,6 +22,7 @@ export const useAuth = () => {
                             name: user.name,
                             isAuth: true,
                             accountType: user.accountType,
+                            avatar: avatar ? avatar : '',
                         })
                     );
                 }

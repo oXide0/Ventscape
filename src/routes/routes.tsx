@@ -6,12 +6,12 @@ import MyEventsPage from 'pages/MyEventsPage';
 import RegisterPage from 'pages/RegisterPage';
 import SettingsPage from 'pages/SettingsPage';
 import StartPage from 'pages/StartPage';
-// import UserPage from 'pages/UserPage';
+import UserPage from 'pages/UserPage';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import CreatorAuth from './CreatorAuth';
 import Layout from './Layout';
 import RequireAuth from './RequireAuth';
-import InProgressPage from 'pages/InProgressPage';
+// import InProgressPage from 'pages/InProgressPage';
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -21,7 +21,7 @@ export const router = createBrowserRouter(
             <Route path='login' element={<LoginPage />} />
             <Route path='register' element={<RegisterPage />} />
             <Route element={<RequireAuth />}>
-                <Route path='user/:userId' element={<InProgressPage />} />
+                <Route path='user/:userId' element={<UserPage />} />
                 <Route path='settings' element={<SettingsPage />} />
                 <Route element={<CreatorAuth />}>
                     <Route path='events/create' element={<CreateEventPage />} />

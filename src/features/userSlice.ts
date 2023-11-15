@@ -8,6 +8,7 @@ interface UserState {
     email: string;
     isAuth: boolean;
     accountType: 'customer' | 'creator' | '';
+    avatar: string;
 }
 
 const initialState: UserState = {
@@ -16,6 +17,7 @@ const initialState: UserState = {
     email: '',
     isAuth: false,
     accountType: '',
+    avatar: '',
 };
 
 export const userSlice = createSlice({
@@ -28,6 +30,7 @@ export const userSlice = createSlice({
             state.id = action.payload.id;
             state.email = action.payload.email;
             state.accountType = action.payload.accountType;
+            state.avatar = action.payload.avatar;
         },
         removeUserData: (state) => {
             state.name = '';
@@ -35,10 +38,11 @@ export const userSlice = createSlice({
             state.id = '';
             state.email = '';
             state.accountType = '';
+            state.avatar = '';
         },
     },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { setUserData, removeUserData } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export default userSlice.reducer;

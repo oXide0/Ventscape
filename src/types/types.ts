@@ -4,7 +4,6 @@ export interface User {
     about: string;
     email: string;
     accountType: 'customer' | 'creator';
-    avatar: string;
 }
 
 export interface Event {

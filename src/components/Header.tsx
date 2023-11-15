@@ -10,7 +10,7 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import { selectUser, setUserData } from 'features/userSlice';
+import { selectUser, removeUserData } from 'features/userSlice';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import { memo } from 'react';
 import { HiMiniChevronDown } from 'react-icons/hi2';
@@ -21,10 +21,9 @@ import { signOutUser } from 'services/userActions';
 const Header = memo(() => {
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
-
     const onSignOut = () => {
         signOutUser();
-        dispatch(setUserData({ name: '', email: '', id: '', isAuth: false, accountType: '' }));
+        dispatch(removeUserData());
     };
 
     return (
@@ -50,7 +49,7 @@ const Header = memo(() => {
                                 _hover={{ background: 'rgba(255, 255, 255, 0.1)' }}
                                 transition='.2s'
                             >
-                                <Avatar name={user.name} size='sm' />
+                                <Avatar src={user.avatar} name={user.name} size='sm' />
                                 <Text fontSize='md' fontWeight='bold'>
                                     {user.name}
                                 </Text>

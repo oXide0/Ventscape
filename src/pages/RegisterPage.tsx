@@ -53,6 +53,7 @@ const RegisterPage = () => {
                     id: user.id,
                     email: data.email,
                     accountType: data.accountType,
+                    avatar: '',
                 })
             );
             // SET USER ID to COOKIE

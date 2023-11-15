@@ -6,10 +6,10 @@ import {
     FormLabel,
     Heading,
     Input,
-    Stack,
-    Text,
     InputGroup,
     InputRightElement,
+    Stack,
+    Text,
 } from '@chakra-ui/react';
 import { setUserData } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
@@ -45,6 +45,7 @@ const LoginPage = () => {
                     id: user.id,
                     email: data.email,
                     accountType: user.accountType,
+                    avatar: '',
                 })
             );
             setCookie('auth', user.id, 7, import.meta.env.VITE_AUTH_SECRET_KEY);

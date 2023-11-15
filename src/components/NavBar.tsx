@@ -7,6 +7,7 @@ import { BiCalendarEvent } from 'react-icons/bi';
 import { GoHome } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { MdOutlineEventAvailable } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import TabLink from 'ui/TabLink';
 
 interface NavBarProps {
@@ -43,7 +44,7 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
         >
             <Stack direction='row' justifyContent={isCollapsed ? 'center' : 'space-between'}>
                 {shouldRenderHeading && (
-                    <Heading textTransform='uppercase' size='lg' pl={4}>
+                    <Heading textTransform='uppercase' size='lg' pl={4} as={Link} to='/'>
                         ventscape
                     </Heading>
                 )}
