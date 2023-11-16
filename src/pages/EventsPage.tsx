@@ -48,7 +48,7 @@ const EventsPage = () => {
                         <EventCard key={event.id} {...event} />
                     ))}
                 </Stack>
-                <Stack w='full' maxW='sm' h='96'>
+                <Stack w='full' minW='sm' h='96'>
                     <Card h='full' p={4}>
                         <Heading size='lg'>Liked events</Heading>
                     </Card>

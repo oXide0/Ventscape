@@ -153,7 +153,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                         <Select
                             focusBorderColor='brand.100'
                             {...register('mode')}
-                            defaultValue='offline'
+                            defaultValue='online'
                         >
                             <option value='online'>Online</option>
                             <option value='offline'>Offline</option>

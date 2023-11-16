@@ -23,9 +23,9 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaLocationDot } from 'react-icons/fa6';
 import { HiStatusOnline } from 'react-icons/hi';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getEventImg } from 'services/eventActions';
-import { getUserById, getUserAvatar } from 'services/userActions';
+import { getUserAvatar, getUserById } from 'services/userActions';
 import { Event, User } from 'types/types';
 import { convertDateFormat } from 'utils/events';
 
@@ -35,6 +35,7 @@ const EventCard = memo((event: Event) => {
     const [imgUrl, setImgUrl] = useState<string>('');
     const userData = useAppSelector(selectUser);
     const navigate = useNavigate();
+    const apllyPath = userData.isAuth ? event.link : '/login';
 
     const { fetch } = useFetching(async () => {
         const userServerData = await getUserById(event.creatorId);
@@ -45,14 +46,6 @@ const EventCard = memo((event: Event) => {
         if (userServerData) setCreator(userServerData);
     });
 
-    const onApply = () => {
-        if (userData.isAuth) {
-            navigate(event.link);
-        } else {
-            navigate('/login');
-        }
-    };
-
     const onAvatarClick = () => {
         navigate(`/user/${event.creatorId}`);
     };
@@ -62,7 +55,7 @@ const EventCard = memo((event: Event) => {
     }, []);
 
     return (
-        <Card w='full' maxW='2xl' h='auto'>
+        <Card w='full' h='auto'>
             <CardHeader>
                 <Flex gap={4}>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -133,7 +126,7 @@ const EventCard = memo((event: Event) => {
                             {`${event.country}, ${event.city}, ${event.street}`}
                         </Text>
                     )}
-                    <Button colorScheme='brand' color='text.white' px='14' onClick={onApply}>
+                    <Button colorScheme='brand' color='text.white' px='14' as={Link} to={apllyPath}>
                         Apply
                     </Button>
                 </Flex>

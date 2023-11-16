@@ -1,16 +1,20 @@
 import { Avatar, Button, Card, Heading, Stack, Text } from '@chakra-ui/react';
 import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
+import { selectUser } from 'features/userSlice';
+import { useAppSelector } from 'hooks/redux-hooks';
 import { useFetching } from 'hooks/useFetching';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getUserAvatar, getUserById } from 'services/userActions';
 import { User } from 'types/types';
 
 const UserPage = () => {
     const { userId } = useParams();
+    const navigate = useNavigate();
     const [user, setUser] = useState<User>();
     const [avatar, setAvatar] = useState<string>('');
+    const userData = useAppSelector(selectUser);
 
     const { fetch, isLoading } = useFetching(async () => {
         if (userId) {
@@ -20,6 +24,14 @@ const UserPage = () => {
             if (avatar) setAvatar(avatar);
         }
     });
+
+    const onFollowClick = () => {
+        if (userData.isAuth) {
+            console.log('Follow');
+        } else {
+            navigate('/login');
+        }
+    };
 
     useEffect(() => {
         fetch();
@@ -41,7 +53,7 @@ const UserPage = () => {
                 <Text fontSize='lg'>{user.about}</Text>
             </Card>
             <Stack pt={6}>
-                <Button colorScheme='brand' color='text.white'>
+                <Button colorScheme='brand' color='text.white' onClick={onFollowClick}>
                     Follow
                 </Button>
             </Stack>

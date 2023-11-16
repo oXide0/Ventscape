@@ -18,10 +18,10 @@ export const router = createBrowserRouter(
         <Route path='/' element={<Layout />}>
             <Route index element={<StartPage />} />
             <Route path='events' element={<EventsPage />} />
+            <Route path='user/:userId' element={<UserPage />} />
             <Route path='login' element={<LoginPage />} />
             <Route path='register' element={<RegisterPage />} />
             <Route element={<RequireAuth />}>
-                <Route path='user/:userId' element={<UserPage />} />
                 <Route path='settings' element={<SettingsPage />} />
                 <Route element={<CreatorAuth />}>
                     <Route path='events/create' element={<CreateEventPage />} />
