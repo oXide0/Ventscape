@@ -56,7 +56,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "service-worker.js"
   ],
   "references": [
     {
