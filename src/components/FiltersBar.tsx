@@ -17,7 +17,7 @@ const FiltersBar = memo(({ onFilter }: FiltersBarProps) => {
 
     return (
         <Box as='form' onSubmit={handleSubmit(onSubmit)}>
-            <Card direction='row' alignItems='flex-end' gap={3} p={6}>
+            <Card direction={{ base: 'column', lg: 'row' }} alignItems='flex-end' gap={3} p={6}>
                 <FormControl>
                     <FormLabel htmlFor='datePosted'>Date posted</FormLabel>
                     <Select
@@ -69,8 +69,13 @@ const FiltersBar = memo(({ onFilter }: FiltersBarProps) => {
                         <option value='paid'>Paid</option>
                     </Select>
                 </FormControl>
-                <Stack>
-                    <Button colorScheme='brand' color='text.white' type='submit' px={10}>
+                <Stack w={{ base: 'full', lg: 'auto' }}>
+                    <Button
+                        colorScheme='brand'
+                        color='text.white'
+                        type='submit'
+                        px={{ base: 5, xl: 10 }}
+                    >
                         Apply
                     </Button>
                 </Stack>

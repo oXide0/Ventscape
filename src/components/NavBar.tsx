@@ -35,14 +35,19 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
     return (
         <Box
             bg='bg.navbar'
-            h='full'
+            h={{ base: '65px', sm: 'full' }}
             zIndex={2}
             pos='fixed'
-            minW={isCollapsed ? '80px' : '300px'}
+            minW={{ base: '100%', sm: '80px', xl: isCollapsed ? '80px' : '300px' }}
             p={3}
             transition='.2s'
+            bottom={0}
         >
-            <Stack direction='row' justifyContent={isCollapsed ? 'center' : 'space-between'}>
+            <Stack
+                direction='row'
+                justifyContent={{ base: 'center', xl: isCollapsed ? 'center' : 'space-between' }}
+                display={{ base: 'none', xl: 'flex' }}
+            >
                 {shouldRenderHeading && (
                     <Heading textTransform='uppercase' size='lg' pl={4} as={Link} to='/'>
                         ventscape
@@ -57,8 +62,12 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
                 </IconButton>
             </Stack>
 
-            <Stack pt={8} direction='column' height='95%'>
-                <Stack flex='1 1 auto'>
+            <Stack
+                pt={{ base: 0, sm: 8 }}
+                direction={{ base: 'row', sm: 'column' }}
+                height={{ base: 'auto', sm: '95%' }}
+            >
+                <Stack flex='1 1 auto' direction={{ base: 'row', sm: 'column' }}>
                     <TabLink to='/' label='Home' icon={<GoHome />} isCollapsed={isCollapsed} />
                     <TabLink
                         to='/events'

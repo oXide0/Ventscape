@@ -4,7 +4,6 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading,
     Input,
     InputGroup,
     InputRightElement,
@@ -12,6 +11,7 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
+import PageLayout from 'components/ui/PageLayout';
 import { setUserData } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
 import { useSubmitting } from 'hooks/useSubmitting';
@@ -69,8 +69,7 @@ const RegisterPage = () => {
     const toggleShow = () => setShowPassword(!showPassword);
 
     return (
-        <Box>
-            <Heading textAlign='center'>Create new account</Heading>
+        <PageLayout heading='Create new account'>
             <Stack maxW='xl' m='0 auto' pt='20'>
                 <Box
                     as='form'
@@ -168,7 +167,7 @@ const RegisterPage = () => {
                     </Stack>
                 </Box>
             </Stack>
-        </Box>
+        </PageLayout>
     );
 };
 
