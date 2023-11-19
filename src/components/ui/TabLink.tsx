@@ -24,7 +24,7 @@ const TabLink = ({ to, icon, label, isCollapsed }: TabLinkProps) => {
                 <Stack
                     direction='row'
                     alignItems='center'
-                    justifyContent={isCollapsed ? 'center' : 'flex-start'}
+                    justifyContent={{ base: 'center', xl: isCollapsed ? 'center' : 'flex-start' }}
                     _hover={{ bg: 'bg.default' }}
                     _active={{ transform: 'scale(0.95)', transition: 'all 0.2s ease-in-out' }}
                     bg={match ? 'bg.default' : 'transparent'}
@@ -35,7 +35,12 @@ const TabLink = ({ to, icon, label, isCollapsed }: TabLinkProps) => {
                 >
                     {icon}
                     {isCollapsed ? null : (
-                        <Text color={match ? 'text.primary' : 'text.secondary'}>{label}</Text>
+                        <Text
+                            color={match ? 'text.primary' : 'text.secondary'}
+                            display={{ base: 'none', xl: 'block' }}
+                        >
+                            {label}
+                        </Text>
                     )}
                 </Stack>
             </ChakraLink>

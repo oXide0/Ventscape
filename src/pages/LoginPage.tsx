@@ -4,13 +4,13 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading,
     Input,
     InputGroup,
     InputRightElement,
     Stack,
     Text,
 } from '@chakra-ui/react';
+import PageLayout from 'components/ui/PageLayout';
 import { setUserData } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
 import { useSubmitting } from 'hooks/useSubmitting';
@@ -62,8 +62,7 @@ const LoginPage = () => {
     };
 
     return (
-        <Box>
-            <Heading textAlign='center'>Sign in to your account</Heading>
+        <PageLayout heading='Sign in to your account'>
             <Stack maxW='xl' m='0 auto' pt='20'>
                 <Box
                     as='form'
@@ -136,7 +135,7 @@ const LoginPage = () => {
                     </Stack>
                 </Box>
             </Stack>
-        </Box>
+        </PageLayout>
     );
 };
 

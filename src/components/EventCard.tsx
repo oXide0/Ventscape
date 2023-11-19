@@ -114,6 +114,9 @@ const EventCard = memo((event: Event) => {
                     justify={event.mode === 'offline' ? 'space-between' : 'flex-end'}
                     align='center'
                     pt={4}
+                    direction={{ base: 'column', md: 'row' }}
+                    w={{ base: 'full', md: 'auto' }}
+                    gap={4}
                 >
                     {event.mode === 'offline' && (
                         <Text fontSize='lg'>
@@ -126,7 +129,14 @@ const EventCard = memo((event: Event) => {
                             {`${event.country}, ${event.city}, ${event.street}`}
                         </Text>
                     )}
-                    <Button colorScheme='brand' color='text.white' px='14' as={Link} to={apllyPath}>
+                    <Button
+                        colorScheme='brand'
+                        color='text.white'
+                        px='14'
+                        as={Link}
+                        to={apllyPath}
+                        w={{ base: 'full', md: 'auto' }}
+                    >
                         Apply
                     </Button>
                 </Flex>

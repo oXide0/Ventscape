@@ -24,7 +24,12 @@ const StartPage = () => {
                 ) : (
                     <Heading>Have a great day!</Heading>
                 )}
-                <InputGroup maxW='400px' mt={2}>
+                <InputGroup
+                    w='100%'
+                    maxW={{ base: '250px', xl: '400px' }}
+                    mt={2}
+                    display={{ base: 'none', md: 'block' }}
+                >
                     <InputLeftElement pointerEvents='none'>
                         <AiOutlineSearch size='1.5em' />
                     </InputLeftElement>
