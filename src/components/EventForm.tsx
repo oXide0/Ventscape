@@ -12,6 +12,7 @@ import {
     Switch,
     Textarea,
 } from '@chakra-ui/react';
+import imageCompression from 'browser-image-compression';
 import { memo, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Event } from 'types/types';
@@ -51,10 +52,16 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
         setIsPaid(!isPaid);
     };
 
-    const setFile = (file: File | null) => {
+    const setFile = async (file: File | null) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
         if (file) {
-            setEventFile(file);
-            setImgUrl(URL.createObjectURL(file));
+            const compressedFile = await imageCompression(file, options);
+            setEventFile(compressedFile);
+            setImgUrl(URL.createObjectURL(compressedFile));
         }
     };
 
@@ -245,7 +252,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                                 <Input
                                     placeholder='Enter amount'
                                     focusBorderColor='brand.100'
-                                    {...register('name')}
+                                    {...register('price')}
                                 />
                             </InputGroup>
                         </FormControl>

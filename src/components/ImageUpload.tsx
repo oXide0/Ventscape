@@ -52,7 +52,7 @@ const ImageUpload = memo(
                     borderWidth='2px'
                     borderColor={borderColor}
                     borderRadius='lg'
-                    cursor={imgUrl === '' ? 'pointer' : 'default'}
+                    cursor={!imgUrl ? 'pointer' : 'default'}
                     onClick={handlePick}
                 >
                     <VStack spacing={4} pos='relative'>
