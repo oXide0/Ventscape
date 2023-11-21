@@ -1,9 +1,33 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        VitePWA({
+            registerType: 'autoUpdate',
+            devOptions: {
+                enabled: true,
+            },
+            includeAssets: ['index.html, logo.png'],
+            manifest: {
+                name: 'Ventscape',
+                short_name: 'VS',
+                description: 'Ventscape Event Platform',
+                theme_color: '#5056ed',
+                background_color: '#252b3c',
+                icons: [
+                    {
+                        src: '/logo.png',
+                        sizes: '220x220',
+                        type: 'image/png',
+                    },
+                ],
+            },
+        }),
+    ],
     resolve: {
         alias: {
             routes: '/src/routes',
