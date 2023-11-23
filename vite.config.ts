@@ -8,10 +8,6 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
-            devOptions: {
-                enabled: true,
-            },
-            includeAssets: ['index.html, logo.png'],
             manifest: {
                 name: 'Ventscape',
                 short_name: 'VS',
