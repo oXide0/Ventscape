@@ -21,11 +21,13 @@ const UserPage = () => {
     const { fetch, isLoading } = useFetching(async () => {
         if (userId) {
             const serverCreator = await getUserById(userId);
-            const user = await getUserById(userData.id);
             const creatorAvatar = await getUserAvatar(userId);
-            if (user) {
-                if (user.subscriptions.includes(userId)) setIsFollowed(true);
-                setUser(user);
+            if (userData.id) {
+                const user = await getUserById(userData.id);
+                if (user) {
+                    setUser(user);
+                    if (user.subscriptions.includes(userId)) setIsFollowed(true);
+                }
             }
             if (serverCreator) setCreator(serverCreator);
             if (creatorAvatar) setAvatar(creatorAvatar);
