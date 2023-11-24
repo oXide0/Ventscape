@@ -58,7 +58,12 @@ const SettingsForm = memo(
 
         return (
             <Box as='form' onSubmit={handleSubmit(onSubmit)}>
-                <Stack>
+                {userData?.accountType === 'creator' && (
+                    <Text fontWeight='bold' fontSize='2xl'>
+                        Your followers: {userData?.followers.length}
+                    </Text>
+                )}
+                <Stack pt={6}>
                     <Text fontWeight='semibold'>Avatar</Text>
                     <Avatar
                         src={avatarUrl ? avatarUrl : 'https://bit.ly/broken-link'}

@@ -17,13 +17,16 @@ import { HiMiniChevronDown } from 'react-icons/hi2';
 import { IoIosNotifications } from 'react-icons/io';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { signOutUser } from 'services/userActions';
+import { useNavigate } from 'react-router-dom';
 
 const Header = memo(() => {
+    const navigate = useNavigate();
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
     const onSignOut = () => {
         signOutUser();
         dispatch(removeUserData());
+        navigate('/');
     };
 
     return (
