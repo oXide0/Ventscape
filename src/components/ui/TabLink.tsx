@@ -7,9 +7,10 @@ interface TabLinkProps {
     icon: React.ReactNode;
     label: string;
     isCollapsed?: boolean;
+    isBold?: boolean;
 }
 
-const TabLink = ({ to, icon, label, isCollapsed }: TabLinkProps) => {
+const TabLink = ({ to, icon, label, isCollapsed, isBold }: TabLinkProps) => {
     const match = useMatch(to);
     const theme = useTheme();
 
@@ -38,6 +39,7 @@ const TabLink = ({ to, icon, label, isCollapsed }: TabLinkProps) => {
                         <Text
                             color={match ? 'text.primary' : 'text.secondary'}
                             display={{ base: 'none', xl: 'block' }}
+                            fontWeight={isBold ? 'bold' : 'normal'}
                         >
                             {label}
                         </Text>

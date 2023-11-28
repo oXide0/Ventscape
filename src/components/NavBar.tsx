@@ -1,14 +1,15 @@
-import { Box, Heading, IconButton, Stack } from '@chakra-ui/react';
+import { Avatar, Box, Heading, IconButton, Stack } from '@chakra-ui/react';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { memo, useEffect, useState } from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSetting } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { BiCalendarEvent } from 'react-icons/bi';
 import { GoHome } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { MdOutlineEventAvailable } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import TabLink from 'ui/TabLink';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 interface NavBarProps {
     isCollapsed: boolean;
@@ -93,10 +94,17 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
                     )}
                 </Stack>
                 <TabLink
-                    to='/settings'
-                    label='Settings'
-                    icon={<AiOutlineSetting />}
+                    to='/profile'
+                    label='My profile'
+                    icon={
+                        userData.avatar ? (
+                            <Avatar src={userData.avatar} name={userData.name} size='sm' />
+                        ) : (
+                            <FaRegUserCircle />
+                        )
+                    }
                     isCollapsed={isCollapsed}
+                    isBold
                 />
             </Stack>
         </Box>

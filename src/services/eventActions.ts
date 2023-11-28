@@ -25,6 +25,18 @@ export const getEvents = async () => {
     return filteredData;
 };
 
+export const getEventsByCreatorId = async (creatorId: string) => {
+    const data = await getDocs(collection(db, 'events'));
+    const filteredData = data.docs.map((event) => ({ ...event.data(), id: event.id } as Event));
+    const events = filteredData.filter((event) => event.creatorId === creatorId);
+    events.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateA - dateB;
+    });
+    return events;
+};
+
 export const getEvent = async (eventId: string) => {
     const docRef = doc(db, 'events', eventId);
     const docSnap = await getDoc(docRef);
