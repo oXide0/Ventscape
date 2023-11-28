@@ -1,29 +1,19 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Divider,
-    IconButton,
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
-import { selectUser, removeUserData } from 'features/userSlice';
+import { Box, Button, Divider, IconButton, Stack } from '@chakra-ui/react';
+import { removeUserData, selectUser } from 'features/userSlice';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import { memo } from 'react';
-import { HiMiniChevronDown } from 'react-icons/hi2';
 import { IoIosNotifications } from 'react-icons/io';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { signOutUser } from 'services/userActions';
 
 const Header = memo(() => {
+    const navigate = useNavigate();
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
     const onSignOut = () => {
         signOutUser();
         dispatch(removeUserData());
+        navigate('/');
     };
 
     return (
@@ -37,31 +27,9 @@ const Header = memo(() => {
                         variant='unstyled'
                     />
                     <Divider orientation='vertical' bg='text.secondary' />
-                    <Popover>
-                        <PopoverTrigger>
-                            <Stack
-                                direction='row'
-                                alignItems='center'
-                                pl={6}
-                                cursor='pointer'
-                                py={2}
-                                borderRadius={10}
-                                _hover={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                                transition='.2s'
-                            >
-                                <Avatar src={user.avatar} name={user.name} size='sm' />
-                                <Text fontSize='md' fontWeight='bold'>
-                                    {user.name}
-                                </Text>
-                                <IconButton aria-label='popup' variant='unstyled'>
-                                    <HiMiniChevronDown />
-                                </IconButton>
-                            </Stack>
-                        </PopoverTrigger>
-                        <PopoverContent maxW='150px' justifyContent='flex-end'>
-                            <Button onClick={onSignOut}>Sign out</Button>
-                        </PopoverContent>
-                    </Popover>
+                    <Stack pl={3}>
+                        <Button onClick={onSignOut}>Sign out</Button>
+                    </Stack>
                 </Stack>
             ) : (
                 <Stack direction='row' alignItems='center' gap={5}>

@@ -1,4 +1,4 @@
-import SettingsForm from 'components/SettingsForm';
+import ProfileForm from 'components/ProfileForm';
 import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
@@ -15,7 +15,7 @@ import {
 } from 'services/userActions';
 import { User } from 'types/types';
 
-const SettingsPage = () => {
+const EditProfilePage = () => {
     const userData = useAppSelector(selectUser);
     const [user, setUser] = useState<User>();
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -60,8 +60,8 @@ const SettingsPage = () => {
     if (isLoading) return <Loader />;
 
     return (
-        <PageLayout heading='Settings'>
-            <SettingsForm
+        <PageLayout heading='Profile settings'>
+            <ProfileForm
                 submit={submit}
                 userData={user}
                 avatarUrl={avatartUrl}
@@ -72,4 +72,4 @@ const SettingsPage = () => {
     );
 };
 
-export default SettingsPage;
+export default EditProfilePage;

@@ -1,64 +1,147 @@
-import { Avatar, Button, Card, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import EditEventCard from 'components/EditEventCard';
+import UserProfileCard from 'components/UserProfileCard';
+import InfoUserCard from 'components/ui/InfoUserCard';
 import Loader from 'components/ui/Loader';
-import PageLayout from 'components/ui/PageLayout';
+import ProfileCard from 'components/ui/ProfileCard';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { useFetching } from 'hooks/useFetching';
-import { useEffect, useState } from 'react';
+import { useUserData } from 'hooks/useUserData';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserAvatar, getUserById } from 'services/userActions';
+import { getUserById, updateUser } from 'services/userActions';
 import { User } from 'types/types';
 
 const UserPage = () => {
     const { userId } = useParams();
-    const navigate = useNavigate();
-    const [user, setUser] = useState<User>();
-    const [avatar, setAvatar] = useState<string>('');
     const userData = useAppSelector(selectUser);
+    const [authUser, setAuthUser] = useState<User>();
+    const { user: creator, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userId);
+    const navigate = useNavigate();
+    const [isFollowed, setIsFollowed] = useState<boolean>(false);
+    const { onFollowClick, onUnfollowClick } = useFollow(authUser, creator, userId, userData.id);
 
-    const { fetch, isLoading } = useFetching(async () => {
-        if (userId) {
-            const userServerData = await getUserById(userId);
-            const avatar = await getUserAvatar(userId);
-            if (userServerData) setUser(userServerData);
-            if (avatar) setAvatar(avatar);
-        }
-    });
+    const followersBlock = useRef<HTMLDivElement | null>(null);
+    const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
 
-    const onFollowClick = () => {
-        if (userData.isAuth) {
-            console.log('Follow');
+    const handleFollow = () => {
+        if (!userData.isAuth) navigate('/login');
+        if (isFollowed) {
+            onUnfollowClick();
+            setIsFollowed(false);
         } else {
-            navigate('/login');
+            onFollowClick();
+            setIsFollowed(true);
         }
     };
 
     useEffect(() => {
-        fetch();
+        const getUser = async () => {
+            const user = await getUserById(userData.id);
+            if (user) {
+                setAuthUser(user);
+                if (userId && user.subscriptions.includes(userId)) setIsFollowed(true);
+            }
+        };
+        getUser();
     }, []);
 
-    if (isLoading || !user) return <Loader />;
+    if (isLoading || !creator) return <Loader />;
 
     return (
-        <PageLayout>
-            <Card p={3}>
-                <Heading size='md'>Personal info</Heading>
-                <Stack direction='row' alignItems='center' gap={6} pt={3}>
-                    <Avatar size='xl' src={avatar} />
-                    <Heading size='xl'>{user.name}</Heading>
-                </Stack>
-            </Card>
-            <Card p={3} mt={4}>
-                <Heading size='md'>About</Heading>
-                <Text fontSize='lg'>{user.about}</Text>
-            </Card>
-            <Stack pt={6}>
-                <Button colorScheme='brand' color='text.white' onClick={onFollowClick}>
-                    Follow
-                </Button>
-            </Stack>
-        </PageLayout>
+        <Box py={6}>
+            <ProfileCard
+                {...creator}
+                avatarUrl={avatarUrl}
+                bgPhotoUrl={null}
+                paths={{ followersBlock, subscriptionsBlock }}
+                showFollowButton={userData.id !== userId}
+                onFollowClick={handleFollow}
+                isFollowed={isFollowed}
+            />
+            <InfoUserCard
+                title='About'
+                content={creator.about}
+                noItemsText='This user has no description'
+            />
+            {creator.accountType === 'creator' && (
+                <InfoUserCard
+                    title='Events'
+                    items={userEvents.map((event) => (
+                        <EditEventCard
+                            key={event.id}
+                            {...event}
+                            onRemoveEvent={removeEvent}
+                            bgColor='default'
+                            showActions={false}
+                        />
+                    ))}
+                    noItemsText='This user has no events'
+                />
+            )}
+            {creator.accountType === 'creator' && (
+                <InfoUserCard
+                    title='Followers'
+                    items={creator.followers.map((userId) => (
+                        <UserProfileCard key={userId} userId={userId} />
+                    ))}
+                    reference={followersBlock}
+                    noItemsText='This user has no followers'
+                />
+            )}
+            <InfoUserCard
+                title='Subscriptions'
+                items={creator.subscriptions.map((userId) => (
+                    <UserProfileCard key={userId} userId={userId} />
+                ))}
+                reference={subscriptionsBlock}
+                noItemsText='This user has no subscriptions'
+            />
+        </Box>
     );
 };
 
 export default UserPage;
+
+const useFollow = (
+    authUser: User | undefined,
+    creator: User | null,
+    creatorId: string | undefined,
+    authUserId: string
+) => {
+    const onFollowClick = async () => {
+        if (creator && creatorId && authUser) {
+            await updateUser(
+                {
+                    ...authUser,
+                    subscriptions: [...authUser.subscriptions, creatorId],
+                },
+                authUserId
+            );
+            await updateUser(
+                { ...creator, followers: [...creator.followers, authUserId] },
+                creatorId
+            );
+        }
+    };
+
+    const onUnfollowClick = async () => {
+        if (creator && creatorId && authUser) {
+            await updateUser(
+                {
+                    ...authUser,
+                    subscriptions: authUser.subscriptions.filter((id) => id !== creatorId),
+                },
+                authUserId
+            );
+            await updateUser(
+                {
+                    ...creator,
+                    followers: authUser.followers.filter((id) => id !== authUserId),
+                },
+                creatorId
+            );
+        }
+    };
+    return { onFollowClick, onUnfollowClick };
+};

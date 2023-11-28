@@ -41,10 +41,12 @@ const MyEventsPage = () => {
 
     return (
         <PageLayout heading='Your events'>
-            <Stack direction='row' gap={4} flexWrap='wrap'>
-                {events.map((event) => (
-                    <EditEventCard key={event.id} {...event} onRemoveEvent={removeEvent} />
-                ))}
+            <Stack spacing={4}>
+                <Stack direction='row' gap={4} flexWrap='wrap'>
+                    {events.map((event) => (
+                        <EditEventCard key={event.id} {...event} onRemoveEvent={removeEvent} />
+                    ))}
+                </Stack>
             </Stack>
         </PageLayout>
     );

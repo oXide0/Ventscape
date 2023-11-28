@@ -4,13 +4,14 @@ import EventsPage from 'pages/EventsPage';
 import LoginPage from 'pages/LoginPage';
 import MyEventsPage from 'pages/MyEventsPage';
 import RegisterPage from 'pages/RegisterPage';
-import SettingsPage from 'pages/SettingsPage';
+import ProfilePage from 'pages/ProfilePage';
 import StartPage from 'pages/StartPage';
 import UserPage from 'pages/UserPage';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import CreatorAuth from './CreatorAuth';
 import Layout from './Layout';
 import RequireAuth from './RequireAuth';
+import EditProfilePage from 'pages/EditProfilePage';
 // import InProgressPage from 'pages/InProgressPage';
 
 export const router = createBrowserRouter(
@@ -22,7 +23,8 @@ export const router = createBrowserRouter(
             <Route path='login' element={<LoginPage />} />
             <Route path='register' element={<RegisterPage />} />
             <Route element={<RequireAuth />}>
-                <Route path='settings' element={<SettingsPage />} />
+                <Route path='profile' element={<ProfilePage />} />
+                <Route path='profile/edit' element={<EditProfilePage />} />
                 <Route element={<CreatorAuth />}>
                     <Route path='events/create' element={<CreateEventPage />} />
                     <Route path='events/my' element={<MyEventsPage />} />

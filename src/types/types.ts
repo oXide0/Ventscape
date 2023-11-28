@@ -4,6 +4,8 @@ export interface User {
     about: string;
     email: string;
     accountType: 'customer' | 'creator';
+    subscriptions: string[];
+    followers: string[];
 }
 
 export interface Event {

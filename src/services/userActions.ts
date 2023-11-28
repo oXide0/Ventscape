@@ -8,7 +8,7 @@ type FormData = {
     name: string;
     email: string;
     password: string;
-    accountType: string;
+    accountType: 'customer' | 'creator';
 };
 
 interface UserFormData extends User {
@@ -30,6 +30,8 @@ export const createUser = async (data: FormData) => {
         password: data.password,
         accountType: data.accountType,
         about: '',
+        subscriptions: [],
+        followers: [],
     });
 };
 

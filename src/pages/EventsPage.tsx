@@ -43,11 +43,17 @@ const EventsPage = () => {
         <PageLayout heading='Events'>
             <FiltersBar onFilter={onFilterEvents} />
             <Stack direction='row' justifyContent='space-between' pt={10} gap={8}>
-                <Stack direction='column' gap={8}>
-                    {filteredEvents.map((event) => (
-                        <EventCard key={event.id} {...event} />
-                    ))}
-                </Stack>
+                {!filteredEvents.length ? (
+                    <Stack w='full'>
+                        <Heading textAlign='center'>Events not found!</Heading>
+                    </Stack>
+                ) : (
+                    <Stack direction='column' gap={8}>
+                        {filteredEvents.map((event) => (
+                            <EventCard key={event.id} {...event} />
+                        ))}
+                    </Stack>
+                )}
                 <Stack
                     w='full'
                     minW={{ base: '52', xl: 'sm' }}

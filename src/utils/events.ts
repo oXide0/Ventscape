@@ -132,3 +132,11 @@ function checkPrice(eventPrice: number, filterPrice: 'all' | 'free' | 'paid'): b
             return false;
     }
 }
+
+export const truncateDescription = (description: string): string => {
+    const maxLength = 100;
+    if (description.length > maxLength) {
+        return description.slice(0, maxLength) + '...';
+    }
+    return description;
+};

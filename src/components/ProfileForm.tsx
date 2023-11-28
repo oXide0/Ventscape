@@ -58,7 +58,7 @@ const SettingsForm = memo(
 
         return (
             <Box as='form' onSubmit={handleSubmit(onSubmit)}>
-                <Stack>
+                <Stack pt={6}>
                     <Text fontWeight='semibold'>Avatar</Text>
                     <Avatar
                         src={avatarUrl ? avatarUrl : 'https://bit.ly/broken-link'}
