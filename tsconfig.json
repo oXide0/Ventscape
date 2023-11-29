@@ -53,10 +53,16 @@
       "features/*": [
         "features/*"
       ],
-    }
+    },
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": [
-    "src"
+    "src",
+    "vite.config.ts"
   ],
   "references": [
     {

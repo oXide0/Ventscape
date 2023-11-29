@@ -19,7 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { User } from 'types/types';
 
-interface SettingsFormProps {
+interface ProfileFormProps {
     userData: User | undefined;
     submit: (data: User) => Promise<void>;
     onEventFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,8 +27,8 @@ interface SettingsFormProps {
     avatarUrl: string | null | undefined;
 }
 
-const SettingsForm = memo(
-    ({ userData, submit, onEventFileChange, removeFile, avatarUrl }: SettingsFormProps) => {
+const ProfileForm = memo(
+    ({ userData, submit, onEventFileChange, removeFile, avatarUrl }: ProfileFormProps) => {
         const filePicker = useRef<HTMLInputElement>(null);
         const {
             register,
@@ -85,6 +85,7 @@ const SettingsForm = memo(
                     </Avatar>
 
                     <Input
+                        data-testid='file-upload'
                         ref={filePicker}
                         id='file-upload'
                         name='file-upload'
@@ -174,4 +175,4 @@ const SettingsForm = memo(
     }
 );
 
-export default SettingsForm;
+export default ProfileForm;

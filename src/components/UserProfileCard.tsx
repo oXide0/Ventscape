@@ -1,6 +1,6 @@
 import { Avatar, Stack, Text } from '@chakra-ui/react';
 import { useFetching } from 'hooks/useFetching';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { getUserAvatar, getUserById } from 'services/userActions';
 import { User } from 'types/types';
 
@@ -8,7 +8,7 @@ interface UserProfileCardProps {
     userId: string;
 }
 
-const UserProfileCard = ({ userId }: UserProfileCardProps) => {
+const UserProfileCard = memo(({ userId }: UserProfileCardProps) => {
     const [user, setUser] = useState<User>();
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const { fetch } = useFetching(async () => {
@@ -35,6 +35,6 @@ const UserProfileCard = ({ userId }: UserProfileCardProps) => {
             </Stack>
         </Stack>
     );
-};
+});
 
 export default UserProfileCard;
