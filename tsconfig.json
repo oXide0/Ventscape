@@ -53,7 +53,12 @@
       "features/*": [
         "features/*"
       ],
-    }
+    },
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": [
     "src",

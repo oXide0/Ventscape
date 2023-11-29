@@ -1,21 +1,26 @@
-import { describe, expect, it } from 'vitest';
+import { render } from '@testing-library/react';
 import EventCard from 'components/EventCard';
-import { render, screen } from '@testing-library/react';
-import { Event } from 'types/types';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { store } from 'store/store';
-import { BrowserRouter } from 'react-router-dom';
+import { Event } from 'types/types';
 
 describe('EventCard', () => {
     it('should render', () => {
-        render(
+        const { getByText } = render(
             <Provider store={store}>
-                <BrowserRouter>
+                <MemoryRouter>
                     <EventCard {...mockEvent} />
-                </BrowserRouter>
+                </MemoryRouter>
             </Provider>
         );
-        expect(screen.getByText(mockEvent.name)).toBeTruthy();
+        expect(getByText('Tech Expo 2023')).toBeInTheDocument();
+        expect(
+            getByText(
+                'Explore the latest in technology and innovation at Tech Expo 2023. Engage with cutting-edge products, attend informative sessions, and network with industry leaders.'
+            )
+        ).toBeInTheDocument();
+        expect(getByText('Tech City')).toBeInTheDocument();
     });
 });
 
@@ -23,7 +28,7 @@ const mockEvent: Event = {
     id: '1',
     name: 'Tech Expo 2023',
     about: 'Explore the latest in technology and innovation at Tech Expo 2023. Engage with cutting-edge products, attend informative sessions, and network with industry leaders.',
-    mode: 'In-person',
+    mode: 'offline',
     category: 'Technology',
     date: '2023-12-15',
     street: '123 Innovation Avenue',
