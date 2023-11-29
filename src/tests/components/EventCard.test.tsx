@@ -1,18 +1,14 @@
 import { render } from '@testing-library/react';
 import EventCard from 'components/EventCard';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import { store } from 'store/store';
 import { Event } from 'types/types';
+import { TestWrapper } from 'utils/tests';
 
 describe('EventCard', () => {
     it('should render', () => {
         const { getByText } = render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <EventCard {...mockEvent} />
-                </MemoryRouter>
-            </Provider>
+            <TestWrapper>
+                <EventCard {...mockEvent} />
+            </TestWrapper>
         );
         expect(getByText('Tech Expo 2023')).toBeInTheDocument();
         expect(

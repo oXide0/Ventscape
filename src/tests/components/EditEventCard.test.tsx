@@ -1,19 +1,15 @@
 import { fireEvent, render } from '@testing-library/react';
 import EditEventCard from 'components/EditEventCard';
 import { Event } from 'types/types';
-import { Provider } from 'react-redux';
-import { store } from 'store/store';
-import { MemoryRouter } from 'react-router-dom';
 import { convertDateFormat } from 'utils/events';
+import { TestWrapper } from 'utils/tests';
 
 describe('EditEventCard', () => {
     it('should render', () => {
         const { getByText } = render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <EditEventCard onRemoveEvent={() => {}} {...mockEvent} />
-                </MemoryRouter>
-            </Provider>
+            <TestWrapper>
+                <EditEventCard onRemoveEvent={() => {}} {...mockEvent} />
+            </TestWrapper>
         );
         expect(getByText('Tech Expo 2023')).toBeInTheDocument();
         expect(getByText(convertDateFormat('2023-12-15'))).toBeInTheDocument();
@@ -21,11 +17,9 @@ describe('EditEventCard', () => {
 
     it('does not show actions when showActions is false', () => {
         const { queryByText } = render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <EditEventCard onRemoveEvent={() => {}} showActions={false} {...mockEvent} />
-                </MemoryRouter>
-            </Provider>
+            <TestWrapper>
+                <EditEventCard onRemoveEvent={() => {}} showActions={false} {...mockEvent} />
+            </TestWrapper>
         );
 
         expect(queryByText('Edit')).toBeNull();
@@ -34,11 +28,9 @@ describe('EditEventCard', () => {
 
     it('triggers remove event functionality', async () => {
         const { getByText } = render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <EditEventCard onRemoveEvent={() => {}} {...mockEvent} />
-                </MemoryRouter>
-            </Provider>
+            <TestWrapper>
+                <EditEventCard onRemoveEvent={() => {}} {...mockEvent} />
+            </TestWrapper>
         );
 
         expect(getByText('Remove')).toBeInTheDocument();

@@ -1,8 +1,6 @@
 import { render } from '@testing-library/react';
 import FiltersBar from 'components/FiltersBar';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import { store } from 'store/store';
+import { TestWrapper } from 'utils/tests';
 import { vi } from 'vitest';
 
 const mockOnFilter = vi.fn((filterData) => filterData);
@@ -10,11 +8,9 @@ const mockOnFilter = vi.fn((filterData) => filterData);
 describe('FiltersBar', () => {
     it('renders form and triggers onFilter function', () => {
         const { getByLabelText } = render(
-            <Provider store={store}>
-                <MemoryRouter>
-                    <FiltersBar onFilter={mockOnFilter} />
-                </MemoryRouter>
-            </Provider>
+            <TestWrapper>
+                <FiltersBar onFilter={mockOnFilter} />
+            </TestWrapper>
         );
 
         expect(getByLabelText('Date posted')).toBeInTheDocument();

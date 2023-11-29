@@ -8,9 +8,9 @@ import ProfilePage from 'pages/ProfilePage';
 import StartPage from 'pages/StartPage';
 import UserPage from 'pages/UserPage';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import CreatorAuth from './CreatorAuth';
-import Layout from './Layout';
-import RequireAuth from './RequireAuth';
+import CreatorAuth from 'routes/CreatorAuth';
+import Layout from 'routes/Layout';
+import RequireAuth from 'routes/RequireAuth';
 import EditProfilePage from 'pages/EditProfilePage';
 // import InProgressPage from 'pages/InProgressPage';
 

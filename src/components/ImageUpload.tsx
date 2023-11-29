@@ -87,6 +87,7 @@ const ImageUpload = memo(
                             _focusWithin={{ ring: 2, ringColor: 'indigo.600' }}
                         >
                             <Input
+                                data-testid='file-upload'
                                 ref={filePicker}
                                 id='file-upload'
                                 name='file-upload'
