@@ -1,16 +1,16 @@
 import {
+    Button,
     Heading,
     Input,
     InputGroup,
     InputLeftElement,
     Stack,
     Text,
-    Button,
 } from '@chakra-ui/react';
+import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { AiOutlineSearch } from 'react-icons/ai';
-import PageLayout from 'components/ui/PageLayout';
 import { Link } from 'react-router-dom';
 
 const StartPage = () => {

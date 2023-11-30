@@ -9,13 +9,13 @@ export const useUserData = (userId: string | null | undefined) => {
     const [user, setUser] = useState<User | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [userEvents, setUserEvents] = useState<Event[]>([]);
-    const { fetch, isLoading } = useFetching(async () => {
+    const { fetch, isLoading, error } = useFetching(async () => {
         if (!userId) return;
         const userServerData = await getUserById(userId);
-        if (userServerData) setUser(userServerData);
         const avatar = await getUserAvatar(userId);
-        if (avatar) setAvatarUrl(avatar);
         const events = await getEventsByCreatorId(userId);
+        if (userServerData) setUser(userServerData);
+        if (avatar) setAvatarUrl(avatar);
         if (events) setUserEvents(events);
     });
 
@@ -28,5 +28,5 @@ export const useUserData = (userId: string | null | undefined) => {
         fetch();
     }, [userId]);
 
-    return { user, avatarUrl, userEvents, isLoading, removeEvent };
+    return { user, avatarUrl, userEvents, isLoading, error, removeEvent };
 };

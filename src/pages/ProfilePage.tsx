@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import EditEventCard from 'components/EditEventCard';
 import UserProfileCard from 'components/UserProfileCard';
 import InfoUserCard from 'components/ui/InfoUserCard';
@@ -11,13 +11,18 @@ import { useRef } from 'react';
 
 const ProfilePage = () => {
     const userData = useAppSelector(selectUser);
-    const { user, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userData.id);
+    const { user, avatarUrl, userEvents, isLoading, error, removeEvent } = useUserData(userData.id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
     const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
 
     if (isLoading) return <Loader />;
-    if (!user) return null;
+    if (error || !user)
+        return (
+            <Heading textAlign='center' pt={6}>
+                Your profile is not found
+            </Heading>
+        );
 
     return (
         <Box py={6}>

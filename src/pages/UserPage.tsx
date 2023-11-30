@@ -6,20 +6,21 @@ import Loader from 'components/ui/Loader';
 import ProfileCard from 'components/ui/ProfileCard';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
+import { useFollow } from 'hooks/useFollow';
 import { useUserData } from 'hooks/useUserData';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserById, updateUser } from 'services/userActions';
+import { getUserById } from 'services/userActions';
 import { User } from 'types/types';
 
 const UserPage = () => {
     const { userId } = useParams();
-    const userData = useAppSelector(selectUser);
-    const [authUser, setAuthUser] = useState<User>();
-    const { user: creator, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userId);
     const navigate = useNavigate();
+    const userData = useAppSelector(selectUser);
     const [isFollowed, setIsFollowed] = useState<boolean>(false);
-    const { onFollowClick, onUnfollowClick } = useFollow(authUser, creator, userId, userData.id);
+    const [currentUser, setCurrentUser] = useState<User>();
+    const { user, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userId);
+    const { onFollowClick, onUnfollowClick } = useFollow(currentUser, user, userId, userData.id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
     const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
@@ -39,19 +40,19 @@ const UserPage = () => {
         const getUser = async () => {
             const user = await getUserById(userData.id);
             if (user) {
-                setAuthUser(user);
+                setCurrentUser(user);
                 if (userId && user.subscriptions.includes(userId)) setIsFollowed(true);
             }
         };
         getUser();
     }, []);
 
-    if (isLoading || !creator) return <Loader />;
+    if (isLoading || !user) return <Loader />;
 
     return (
         <Box py={6}>
             <ProfileCard
-                {...creator}
+                {...user}
                 avatarUrl={avatarUrl}
                 bgPhotoUrl={null}
                 paths={{ followersBlock, subscriptionsBlock }}
@@ -61,10 +62,10 @@ const UserPage = () => {
             />
             <InfoUserCard
                 title='About'
-                content={creator.about}
+                content={user.about}
                 noItemsText='This user has no description'
             />
-            {creator.accountType === 'creator' && (
+            {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
                     items={userEvents.map((event) => (
@@ -79,10 +80,10 @@ const UserPage = () => {
                     noItemsText='This user has no events'
                 />
             )}
-            {creator.accountType === 'creator' && (
+            {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Followers'
-                    items={creator.followers.map((userId) => (
+                    items={user.followers.map((userId) => (
                         <UserProfileCard key={userId} userId={userId} />
                     ))}
                     reference={followersBlock}
@@ -91,7 +92,7 @@ const UserPage = () => {
             )}
             <InfoUserCard
                 title='Subscriptions'
-                items={creator.subscriptions.map((userId) => (
+                items={user.subscriptions.map((userId) => (
                     <UserProfileCard key={userId} userId={userId} />
                 ))}
                 reference={subscriptionsBlock}
@@ -102,46 +103,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-
-const useFollow = (
-    authUser: User | undefined,
-    creator: User | null,
-    creatorId: string | undefined,
-    authUserId: string
-) => {
-    const onFollowClick = async () => {
-        if (creator && creatorId && authUser) {
-            await updateUser(
-                {
-                    ...authUser,
-                    subscriptions: [...authUser.subscriptions, creatorId],
-                },
-                authUserId
-            );
-            await updateUser(
-                { ...creator, followers: [...creator.followers, authUserId] },
-                creatorId
-            );
-        }
-    };
-
-    const onUnfollowClick = async () => {
-        if (creator && creatorId && authUser) {
-            await updateUser(
-                {
-                    ...authUser,
-                    subscriptions: authUser.subscriptions.filter((id) => id !== creatorId),
-                },
-                authUserId
-            );
-            await updateUser(
-                {
-                    ...creator,
-                    followers: authUser.followers.filter((id) => id !== authUserId),
-                },
-                creatorId
-            );
-        }
-    };
-    return { onFollowClick, onUnfollowClick };
-};
