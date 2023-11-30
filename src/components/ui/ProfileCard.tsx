@@ -17,6 +17,20 @@ interface ProfileCardProps extends User {
     paths: BlockPathProps;
 }
 
+interface ProfileAvatarProps {
+    avatarUrl: string | null;
+}
+
+interface UserInfoProps extends User {
+    paths: BlockPathProps;
+}
+
+interface BottomSectionProps {
+    showFollowButton: boolean;
+    isFollowed?: boolean;
+    onFollowClick?: () => void;
+}
+
 const ProfileCard = ({ showFollowButton = false, ...props }: ProfileCardProps) => {
     return (
         <Card rounded='md'>
@@ -39,10 +53,6 @@ const ProfileCard = ({ showFollowButton = false, ...props }: ProfileCardProps) =
 
 export default ProfileCard;
 
-interface ProfileAvatarProps {
-    avatarUrl: string | null;
-}
-
 const ProfileAvatar = ({ avatarUrl }: ProfileAvatarProps) => {
     return (
         <Avatar
@@ -63,10 +73,6 @@ const BackgroundImage = ({ bgPhotoUrl }: { bgPhotoUrl: string | null }) => (
         {bgPhotoUrl && <Image src={bgPhotoUrl} roundedTop='md' maxH='260px' objectFit='cover' />}
     </Stack>
 );
-
-interface UserInfoProps extends User {
-    paths: BlockPathProps;
-}
 
 const UserInfo = ({ name, email, accountType, followers, subscriptions, paths }: UserInfoProps) => {
     const scrollToSection = (elementRef: React.MutableRefObject<HTMLElement | null>) => {
@@ -104,15 +110,7 @@ const UserInfo = ({ name, email, accountType, followers, subscriptions, paths }:
     );
 };
 
-const BottomSection = ({
-    showFollowButton,
-    isFollowed,
-    onFollowClick,
-}: {
-    isFollowed?: boolean;
-    showFollowButton: boolean;
-    onFollowClick?: () => void;
-}) => (
+const BottomSection = ({ showFollowButton, isFollowed, onFollowClick }: BottomSectionProps) => (
     <Stack w='56'>
         {showFollowButton ? (
             isFollowed ? (
