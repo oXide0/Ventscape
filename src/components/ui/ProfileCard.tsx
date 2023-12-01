@@ -96,7 +96,7 @@ const UserInfo = ({ name, email, accountType, followers, subscriptions, paths }:
                     fontWeight='semibold'
                     onClick={() => scrollToSection(paths.followersBlock)}
                 >
-                    {followers.length} followers
+                    {followers && followers.length} followers
                 </Link>
             )}
             <Link

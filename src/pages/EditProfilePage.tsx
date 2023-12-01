@@ -16,23 +16,23 @@ import {
 import { User } from 'types/types';
 
 const EditProfilePage = () => {
-    const userData = useAppSelector(selectUser);
+    const { id } = useAppSelector(selectUser);
     const [user, setUser] = useState<User>();
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [avatartUrl, setAvatarUrl] = useState<string | null>(null);
     const { fetch, isLoading } = useFetching(async () => {
-        const userServerData = await getUserById(userData.id);
+        const userServerData = await getUserById(id);
         if (userServerData) setUser(userServerData);
-        const avatar = await getUserAvatar(userData.id);
+        const avatar = await getUserAvatar(id);
         if (avatar) setAvatarUrl(avatar);
     });
 
     const { submit } = useSubmitting(async (data: User) => {
-        await updateUser(data, userData.id);
+        await updateUser(data, id);
         if (avatarFile) {
-            await uploadUserAvatar(avatarFile, userData.id);
+            await uploadUserAvatar(avatarFile, id);
         } else {
-            await removeUserAvatar(userData.id);
+            await removeUserAvatar(id);
         }
     });
 

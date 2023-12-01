@@ -10,8 +10,8 @@ import { useUserData } from 'hooks/useUserData';
 import { useRef } from 'react';
 
 const ProfilePage = () => {
-    const userData = useAppSelector(selectUser);
-    const { user, avatarUrl, userEvents, isLoading, error, removeEvent } = useUserData(userData.id);
+    const { id } = useAppSelector(selectUser);
+    const { user, avatarUrl, userEvents, isLoading, error, removeEvent } = useUserData(id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
     const subscriptionsBlock = useRef<HTMLDivElement | null>(null);

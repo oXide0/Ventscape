@@ -8,11 +8,11 @@ import { createEvent, uploadEventImg } from 'services/eventActions';
 import { Event } from 'types/types';
 
 const CreateEventPage = () => {
-    const user = useAppSelector(selectUser);
+    const { id } = useAppSelector(selectUser);
     const { submit } = useSubmitting(async (event: Event, eventFile: File | null) => {
-        if (user.id) {
+        if (id) {
             const imgId = nanoid();
-            await createEvent(event, user.id, imgId);
+            await createEvent(event, id, imgId);
             await uploadEventImg(eventFile, imgId);
         }
     });

@@ -62,4 +62,6 @@ const mockUserData: User = {
     password: 'password',
     followers: [],
     subscriptions: [],
+    notifications: [],
+    isNotified: false,
 };

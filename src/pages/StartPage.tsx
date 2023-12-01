@@ -14,13 +14,13 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 const StartPage = () => {
-    const user = useAppSelector(selectUser);
+    const { name } = useAppSelector(selectUser);
 
     return (
         <PageLayout>
             <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                {user.name ? (
-                    <Heading>Have a great day, {user.name}!</Heading>
+                {name ? (
+                    <Heading>Have a great day, {name}!</Heading>
                 ) : (
                     <Heading>Have a great day!</Heading>
                 )}

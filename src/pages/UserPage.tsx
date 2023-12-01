@@ -16,17 +16,17 @@ import { User } from 'types/types';
 const UserPage = () => {
     const { userId } = useParams();
     const navigate = useNavigate();
-    const userData = useAppSelector(selectUser);
+    const { isAuth, id } = useAppSelector(selectUser);
     const [isFollowed, setIsFollowed] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<User>();
     const { user, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userId);
-    const { onFollowClick, onUnfollowClick } = useFollow(currentUser, user, userId, userData.id);
+    const { onFollowClick, onUnfollowClick } = useFollow(currentUser, user, userId, id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
     const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
 
     const handleFollow = () => {
-        if (!userData.isAuth) navigate('/login');
+        if (!isAuth) navigate('/login');
         if (isFollowed) {
             onUnfollowClick();
             setIsFollowed(false);
@@ -38,7 +38,7 @@ const UserPage = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const user = await getUserById(userData.id);
+            const user = await getUserById(id);
             if (user) {
                 setCurrentUser(user);
                 if (userId && user.subscriptions.includes(userId)) setIsFollowed(true);
@@ -56,7 +56,7 @@ const UserPage = () => {
                 avatarUrl={avatarUrl}
                 bgPhotoUrl={null}
                 paths={{ followersBlock, subscriptionsBlock }}
-                showFollowButton={userData.id !== userId}
+                showFollowButton={id !== userId}
                 onFollowClick={handleFollow}
                 isFollowed={isFollowed}
             />
@@ -83,9 +83,12 @@ const UserPage = () => {
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Followers'
-                    items={user.followers.map((userId) => (
-                        <UserProfileCard key={userId} userId={userId} />
-                    ))}
+                    items={
+                        user.followers &&
+                        user.followers.map((userId) => (
+                            <UserProfileCard key={userId} userId={userId} />
+                        ))
+                    }
                     reference={followersBlock}
                     noItemsText='This user has no followers'
                 />

@@ -18,7 +18,7 @@ interface NavBarProps {
 
 const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
     const [shouldRenderHeading, setShouldRenderHeading] = useState(!isCollapsed);
-    const userData = useAppSelector(selectUser);
+    const { accountType, avatar, name } = useAppSelector(selectUser);
 
     useEffect(() => {
         let timer: NodeJS.Timeout | number;
@@ -76,7 +76,7 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
                         icon={<BiCalendarEvent />}
                         isCollapsed={isCollapsed}
                     />
-                    {userData.accountType === 'creator' && (
+                    {accountType === 'creator' && (
                         <>
                             <TabLink
                                 to='/events/create'
@@ -97,11 +97,7 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
                     to='/profile'
                     label='My profile'
                     icon={
-                        userData.avatar ? (
-                            <Avatar src={userData.avatar} name={userData.name} size='sm' />
-                        ) : (
-                            <FaRegUserCircle />
-                        )
+                        avatar ? <Avatar src={avatar} name={name} size='sm' /> : <FaRegUserCircle />
                     }
                     isCollapsed={isCollapsed}
                     isBold

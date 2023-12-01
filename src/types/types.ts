@@ -5,7 +5,9 @@ export interface User {
     email: string;
     accountType: 'customer' | 'creator';
     subscriptions: string[];
-    followers: string[];
+    followers?: string[];
+    notifications: string[];
+    isNotified: boolean;
 }
 
 export interface Event {

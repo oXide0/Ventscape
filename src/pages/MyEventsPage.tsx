@@ -11,10 +11,10 @@ import { selectUser } from 'features/userSlice';
 
 const MyEventsPage = () => {
     const [events, setEvents] = useState<Event[]>([]);
-    const userData = useAppSelector(selectUser);
+    const { id } = useAppSelector(selectUser);
     const { fetch, isLoading, error } = useFetching(async () => {
         const eventsData = await getEvents();
-        const userEvents = eventsData.filter((event) => event.creatorId === userData.id);
+        const userEvents = eventsData.filter((event) => event.creatorId === id);
         setEvents(userEvents);
     });
 

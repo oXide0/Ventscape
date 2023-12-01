@@ -33,9 +33,9 @@ const EventCard = memo((event: Event) => {
     const [creator, setCreator] = useState<User>();
     const [avatar, setAvatar] = useState<string>('');
     const [imgUrl, setImgUrl] = useState<string>('');
-    const userData = useAppSelector(selectUser);
+    const { isAuth } = useAppSelector(selectUser);
     const navigate = useNavigate();
-    const apllyPath = userData.isAuth ? event.link : '/login';
+    const apllyPath = isAuth ? event.link : '/login';
 
     const { fetch } = useFetching(async () => {
         const userServerData = await getUserById(event.creatorId);

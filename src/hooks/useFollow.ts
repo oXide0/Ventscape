@@ -8,7 +8,7 @@ export const useFollow = (
     authUserId: string
 ) => {
     const onFollowClick = async () => {
-        if (creator && creatorId && authUser) {
+        if (creator && creatorId && authUser && creator.followers) {
             await updateUser(
                 {
                     ...authUser,
@@ -17,14 +17,19 @@ export const useFollow = (
                 authUserId
             );
             await updateUser(
-                { ...creator, followers: [...creator.followers, authUserId] },
+                {
+                    ...creator,
+                    followers: [...creator.followers, authUserId],
+                    notifications: [...creator.notifications, authUserId],
+                    isNotified: false,
+                },
                 creatorId
             );
         }
     };
 
     const onUnfollowClick = async () => {
-        if (creator && creatorId && authUser) {
+        if (creator && creatorId && authUser && authUser.followers) {
             await updateUser(
                 {
                     ...authUser,
@@ -36,6 +41,7 @@ export const useFollow = (
                 {
                     ...creator,
                     followers: authUser.followers.filter((id) => id !== authUserId),
+                    notifications: authUser.notifications.filter((id) => id !== authUserId),
                 },
                 creatorId
             );

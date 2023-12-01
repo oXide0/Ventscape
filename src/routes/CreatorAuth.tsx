@@ -4,9 +4,9 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const CreatorAuth = () => {
     const location = useLocation();
-    const userData = useAppSelector(selectUser);
+    const { accountType } = useAppSelector(selectUser);
 
-    return userData.accountType === 'creator' ? (
+    return accountType === 'creator' ? (
         <Outlet />
     ) : (
         <Navigate to='/' state={{ from: location }} replace />

@@ -1,30 +1,53 @@
-import { Box, Button, Divider, IconButton, Stack } from '@chakra-ui/react';
+import { Box, Button, Divider, Stack } from '@chakra-ui/react';
 import { removeUserData, selectUser } from 'features/userSlice';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
-import { memo } from 'react';
-import { IoIosNotifications } from 'react-icons/io';
+import { useFetching } from 'hooks/useFetching';
+import { memo, useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
-import { signOutUser } from 'services/userActions';
+import { getUserById, signOutUser, updateUser } from 'services/userActions';
+import { User } from 'types/types';
+import NotificationBadge from 'ui/NotificationBadge';
 
 const Header = memo(() => {
     const navigate = useNavigate();
-    const user = useAppSelector(selectUser);
+    const [notifications, setNotifications] = useState<string[] | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [isNotified, setIsNotified] = useState<boolean>(false);
+    const { isAuth, id } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const { fetch } = useFetching(async () => {
+        const user = await getUserById(id);
+        if (user) {
+            setCurrentUser(user);
+            setNotifications(user.notifications);
+            setIsNotified(user.isNotified);
+        }
+    });
+
     const onSignOut = () => {
         signOutUser();
         dispatch(removeUserData());
         navigate('/');
     };
 
+    const onClearNotifications = async () => {
+        if (!currentUser) return;
+        await updateUser({ ...currentUser, isNotified: true }, id);
+        setIsNotified(true);
+    };
+
+    useEffect(() => {
+        fetch();
+    }, []);
+
     return (
         <Box display='flex' flexDirection='row' justifyContent='flex-end'>
-            {user.isAuth ? (
+            {isAuth && currentUser ? (
                 <Stack direction='row' alignItems='center'>
-                    <IconButton
-                        aria-label='Notifications'
-                        icon={<IoIosNotifications size='1.7em' />}
-                        background='transparent'
-                        variant='unstyled'
+                    <NotificationBadge
+                        isNotified={isNotified}
+                        notifications={notifications}
+                        onClear={onClearNotifications}
                     />
                     <Divider orientation='vertical' bg='text.secondary' />
                     <Stack pl={3}>
