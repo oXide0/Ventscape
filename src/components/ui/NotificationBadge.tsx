@@ -10,21 +10,28 @@ import {
     PopoverTrigger,
     Stack,
     Text,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { IoIosNotifications } from 'react-icons/io';
 import UserProfileCard from 'components/UserProfileCard';
+import { IoIosNotifications } from 'react-icons/io';
 
 interface NotificationBadgeProps {
-    isNotified: boolean;
-    notifications: string[] | null;
+    notifications: string[];
     onClear: () => void;
 }
 
-const NotificationBadge = ({ isNotified, notifications, onClear }: NotificationBadgeProps) => {
+const NotificationBadge = ({ notifications, onClear }: NotificationBadgeProps) => {
+    const { onClose } = useDisclosure();
+
+    const handleClear = () => {
+        onClose();
+        onClear();
+    };
+
     return (
-        <Popover>
+        <Popover onClose={handleClear}>
             <PopoverTrigger>
-                <Stack pos='relative' cursor='pointer' onClick={onClear}>
+                <Stack pos='relative' cursor='pointer'>
                     <IconButton
                         aria-label='Notifications'
                         icon={<IoIosNotifications size='2em' />}
@@ -34,7 +41,7 @@ const NotificationBadge = ({ isNotified, notifications, onClear }: NotificationB
                         display='flex'
                         justifyContent='center'
                     />
-                    {!isNotified && notifications?.length && (
+                    {notifications.length && (
                         <Badge
                             pos='absolute'
                             bg='purple.600'
@@ -58,7 +65,7 @@ const NotificationBadge = ({ isNotified, notifications, onClear }: NotificationB
                 <PopoverCloseButton />
                 <PopoverHeader>Notifications</PopoverHeader>
                 <PopoverBody display='flex' flexDirection='column' gap={4}>
-                    {notifications?.length ? (
+                    {notifications.length ? (
                         notifications.map((n) => (
                             <Stack key={n} direction='row' alignItems='center'>
                                 <UserProfileCard userId={n} showEmail={false} />

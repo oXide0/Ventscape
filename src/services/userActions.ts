@@ -33,7 +33,6 @@ export const createUser = async (data: FormData) => {
         subscriptions: [],
         followers: [],
         notifications: [],
-        isNotified: false,
     });
 };
 

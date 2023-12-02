@@ -10,9 +10,8 @@ import NotificationBadge from 'ui/NotificationBadge';
 
 const Header = memo(() => {
     const navigate = useNavigate();
-    const [notifications, setNotifications] = useState<string[] | null>(null);
+    const [notifications, setNotifications] = useState<string[]>([]);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [isNotified, setIsNotified] = useState<boolean>(false);
     const { isAuth, id } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
     const { fetch } = useFetching(async () => {
@@ -20,7 +19,6 @@ const Header = memo(() => {
         if (user) {
             setCurrentUser(user);
             setNotifications(user.notifications);
-            setIsNotified(user.isNotified);
         }
     });
 
@@ -32,8 +30,8 @@ const Header = memo(() => {
 
     const onClearNotifications = async () => {
         if (!currentUser) return;
-        await updateUser({ ...currentUser, isNotified: true }, id);
-        setIsNotified(true);
+        await updateUser({ ...currentUser, notifications: [] }, id);
+        setNotifications([]);
     };
 
     useEffect(() => {
@@ -45,7 +43,6 @@ const Header = memo(() => {
             {isAuth && currentUser ? (
                 <Stack direction='row' alignItems='center'>
                     <NotificationBadge
-                        isNotified={isNotified}
                         notifications={notifications}
                         onClear={onClearNotifications}
                     />

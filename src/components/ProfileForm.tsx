@@ -120,6 +120,7 @@ const ProfileForm = memo(
                             <Textarea
                                 placeholder='Write a few sentences about you.'
                                 focusBorderColor='brand.100'
+                                height={32}
                                 {...register('about', { required: 'Description is required' })}
                             />
                             <FormErrorMessage>

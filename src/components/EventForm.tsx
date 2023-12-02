@@ -15,20 +15,19 @@ import {
 import imageCompression from 'browser-image-compression';
 import { memo, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Event } from 'types/types';
+import { Event, EventImageValues } from 'types/types';
 import { countries, eventCategories } from 'utils/events';
 import ImageUpload from './ImageUpload';
 
 interface EventFormProps {
     eventData?: Event | null;
     img?: string | null | undefined;
-    submit: (event: Event, eventFile: File | null) => Promise<void>;
+    submit: (event: Event, eventImage: EventImageValues) => Promise<void>;
 }
 
 const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     const [isPaid, setIsPaid] = useState(false);
-    const [eventFile, setEventFile] = useState<File | null>(null);
-    const [imgUrl, setImgUrl] = useState<string | undefined | null>(img);
+    const [eventImage, setEventImage] = useState<EventImageValues>({ file: null, url: img });
 
     const {
         register,
@@ -40,11 +39,10 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     } = useForm<Event>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<Event> = async (data: Event) => {
-        await submit(data, eventFile);
+        await submit(data, eventImage);
         if (!eventData) {
             reset();
-            setEventFile(null);
-            setImgUrl('');
+            setEventImage({ ...eventImage, file: null, url: null });
         }
     };
 
@@ -60,8 +58,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
         };
         if (file) {
             const compressedFile = await imageCompression(file, options);
-            setEventFile(compressedFile);
-            setImgUrl(URL.createObjectURL(compressedFile));
+            setEventImage({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
         }
     };
 
@@ -82,7 +79,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
 
     const removeFile = () => {
         setFile(null);
-        setImgUrl('');
+        setEventImage({ ...eventImage, file: null, url: null });
     };
 
     useEffect(() => {
@@ -122,7 +119,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                         handleDrop={handleDrop}
                         onEventFileChange={onEventFileChange}
                         removeFile={removeFile}
-                        imgUrl={imgUrl}
+                        imgUrl={eventImage.url}
                     />
                 </GridItem>
                 <GridItem colSpan={[6, 3]}>

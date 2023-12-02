@@ -54,9 +54,12 @@ const ProfilePage = () => {
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Followers'
-                    items={user.followers.map((userId) => (
-                        <UserProfileCard key={userId} userId={userId} />
-                    ))}
+                    items={
+                        user.followers &&
+                        user.followers.map((userId) => (
+                            <UserProfileCard key={userId} userId={userId} />
+                        ))
+                    }
                     reference={followersBlock}
                     noItemsText='You have no followers'
                 />

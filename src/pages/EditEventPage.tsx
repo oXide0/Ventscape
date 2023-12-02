@@ -11,19 +11,19 @@ import {
     getEventImg,
     removeEventImg,
 } from 'services/eventActions';
-import { Event } from 'types/types';
+import { Event, EventImageValues } from 'types/types';
 import Loader from 'components/ui/Loader';
 
 const EditEventPage = () => {
     const { eventId } = useParams();
     const [event, setEvent] = useState<Event | null>(null);
     const [imgUrl, setImgUrl] = useState<string | null>(null);
-    const { submit } = useSubmitting(async (event: Event, eventFile: File | null) => {
+    const { submit } = useSubmitting(async (event: Event, eventImage: EventImageValues) => {
         if (eventId) {
             await updateEvent(event, eventId);
-            if (eventFile) {
-                await uploadEventImg(eventFile, event.img);
-            } else {
+            if (eventImage.file) {
+                await uploadEventImg(eventImage.file, event.img);
+            } else if (!eventImage.url) {
                 await removeEventImg(event.img);
             }
         }

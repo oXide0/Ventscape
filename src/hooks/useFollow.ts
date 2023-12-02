@@ -21,7 +21,6 @@ export const useFollow = (
                     ...creator,
                     followers: [...creator.followers, authUserId],
                     notifications: [...creator.notifications, authUserId],
-                    isNotified: false,
                 },
                 creatorId
             );

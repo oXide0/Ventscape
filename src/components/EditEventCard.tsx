@@ -81,7 +81,7 @@ const EditEventCard = memo(
                 </AlertDialog>
 
                 <Card rounded='md' bg={bgColor === 'default' ? 'bg.default' : 'bg.navbar'}>
-                    <Image src={imgUrl} roundedTop='md' h='52' objectFit='cover' />
+                    {imgUrl && <Image src={imgUrl} roundedTop='md' h='52' objectFit='cover' />}
                     <Stack p={2}>
                         <Flex justify='between'>
                             <Flex gap='2'>

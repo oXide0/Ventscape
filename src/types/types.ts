@@ -7,7 +7,6 @@ export interface User {
     subscriptions: string[];
     followers?: string[];
     notifications: string[];
-    isNotified: boolean;
 }
 
 export interface Event {
@@ -32,4 +31,9 @@ export interface EventsFilter {
     mode: 'all' | 'online' | 'offline';
     category: string;
     price: 'all' | 'free' | 'paid';
+}
+
+export interface EventImageValues {
+    file: File | null;
+    url: string | null | undefined;
 }

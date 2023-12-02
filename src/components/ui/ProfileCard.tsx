@@ -5,7 +5,7 @@ import { User } from 'types/types';
 
 interface BlockPathProps {
     followersBlock: React.MutableRefObject<HTMLElement | null>;
-    subscriptionsBlock: React.MutableRefObject<HTMLElement | null>;
+    subscriptionsBlock?: React.MutableRefObject<HTMLElement | null>;
 }
 
 interface ProfileCardProps extends User {
@@ -17,20 +17,6 @@ interface ProfileCardProps extends User {
     paths: BlockPathProps;
 }
 
-interface ProfileAvatarProps {
-    avatarUrl: string | null;
-}
-
-interface UserInfoProps extends User {
-    paths: BlockPathProps;
-}
-
-interface BottomSectionProps {
-    showFollowButton: boolean;
-    isFollowed?: boolean;
-    onFollowClick?: () => void;
-}
-
 const ProfileCard = ({ showFollowButton = false, ...props }: ProfileCardProps) => {
     return (
         <Card rounded='md'>
@@ -40,7 +26,11 @@ const ProfileCard = ({ showFollowButton = false, ...props }: ProfileCardProps) =
             </Stack>
 
             <Stack direction='row' justify='space-between' alignItems='flex-end' p='12'>
-                <UserInfo {...props} />
+                <UserInfo
+                    followersBlock={props.paths.followersBlock}
+                    subscriptionsBlock={props.paths.subscriptionsBlock}
+                    {...props}
+                />
                 <BottomSection
                     showFollowButton={showFollowButton}
                     onFollowClick={props.onFollowClick}
@@ -52,6 +42,10 @@ const ProfileCard = ({ showFollowButton = false, ...props }: ProfileCardProps) =
 };
 
 export default ProfileCard;
+
+interface ProfileAvatarProps {
+    avatarUrl: string | null;
+}
 
 const ProfileAvatar = ({ avatarUrl }: ProfileAvatarProps) => {
     return (
@@ -74,7 +68,17 @@ const BackgroundImage = ({ bgPhotoUrl }: { bgPhotoUrl: string | null }) => (
     </Stack>
 );
 
-const UserInfo = ({ name, email, accountType, followers, subscriptions, paths }: UserInfoProps) => {
+interface UserInfoProps extends User, BlockPathProps {}
+
+const UserInfo = ({
+    name,
+    email,
+    accountType,
+    followers,
+    subscriptions,
+    followersBlock,
+    subscriptionsBlock,
+}: UserInfoProps) => {
     const scrollToSection = (elementRef: React.MutableRefObject<HTMLElement | null>) => {
         if (elementRef.current) {
             window.scrollTo({
@@ -94,21 +98,29 @@ const UserInfo = ({ name, email, accountType, followers, subscriptions, paths }:
                 <Link
                     color='#787bff'
                     fontWeight='semibold'
-                    onClick={() => scrollToSection(paths.followersBlock)}
+                    onClick={() => scrollToSection(followersBlock)}
                 >
                     {followers && followers.length} followers
                 </Link>
             )}
-            <Link
-                color='#787bff'
-                fontWeight='semibold'
-                onClick={() => scrollToSection(paths.subscriptionsBlock)}
-            >
-                {subscriptions.length} subscriptions
-            </Link>
+            {subscriptionsBlock && (
+                <Link
+                    color='#787bff'
+                    fontWeight='semibold'
+                    onClick={() => scrollToSection(subscriptionsBlock)}
+                >
+                    {subscriptions.length} subscriptions
+                </Link>
+            )}
         </Stack>
     );
 };
+
+interface BottomSectionProps {
+    showFollowButton: boolean;
+    isFollowed?: boolean;
+    onFollowClick?: () => void;
+}
 
 const BottomSection = ({ showFollowButton, isFollowed, onFollowClick }: BottomSectionProps) => (
     <Stack w='56'>

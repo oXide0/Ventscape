@@ -23,7 +23,6 @@ const UserPage = () => {
     const { onFollowClick, onUnfollowClick } = useFollow(currentUser, user, userId, id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
-    const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
 
     const handleFollow = () => {
         if (!isAuth) navigate('/login');
@@ -55,7 +54,7 @@ const UserPage = () => {
                 {...user}
                 avatarUrl={avatarUrl}
                 bgPhotoUrl={null}
-                paths={{ followersBlock, subscriptionsBlock }}
+                paths={{ followersBlock }}
                 showFollowButton={id !== userId}
                 onFollowClick={handleFollow}
                 isFollowed={isFollowed}
@@ -93,14 +92,14 @@ const UserPage = () => {
                     noItemsText='This user has no followers'
                 />
             )}
-            <InfoUserCard
+            {/* <InfoUserCard
                 title='Subscriptions'
                 items={user.subscriptions.map((userId) => (
                     <UserProfileCard key={userId} userId={userId} />
                 ))}
                 reference={subscriptionsBlock}
                 noItemsText='This user has no subscriptions'
-            />
+            /> */}
         </Box>
     );
 };
