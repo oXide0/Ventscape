@@ -6,8 +6,6 @@ import { TestWrapper } from 'utils/tests';
 import { vi } from 'vitest';
 
 const mockSubmit = vi.fn();
-const mockOnEventFileChange = vi.fn();
-const mockRemoveFile = vi.fn();
 
 describe('ProfileForm component', () => {
     it('renders correctly with user data', () => {
@@ -16,9 +14,7 @@ describe('ProfileForm component', () => {
                 <ProfileForm
                     userData={mockUserData}
                     submit={mockSubmit}
-                    onEventFileChange={mockOnEventFileChange}
-                    removeFile={mockRemoveFile}
-                    avatarUrl='mock-avatar-url'
+                    serverAvatarUrl='mock-avatar-url'
                 />
             </TestWrapper>
         );
@@ -35,11 +31,9 @@ describe('ProfileForm component', () => {
         render(
             <TestWrapper>
                 <ProfileForm
-                    userData={undefined}
+                    userData={mockUserData}
                     submit={mockSubmit}
-                    onEventFileChange={mockOnEventFileChange}
-                    removeFile={mockRemoveFile}
-                    avatarUrl={null}
+                    serverAvatarUrl='mock-avatar-url'
                 />
             </TestWrapper>
         );

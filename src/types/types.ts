@@ -37,3 +37,8 @@ export interface EventImageValues {
     file: File | null;
     url: string | null | undefined;
 }
+
+export interface Message {
+    author: string;
+    content: string;
+}

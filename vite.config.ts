@@ -38,6 +38,7 @@ export default defineConfig({
             types: '/src/types',
             store: '/src/store',
             features: '/src/features',
+            config: '/src/config',
         },
     },
     build: {

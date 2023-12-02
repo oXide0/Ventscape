@@ -1,6 +1,6 @@
 import { doc, updateDoc, collection, addDoc, deleteDoc, getDocs, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { db, storage } from '../firebaseConfig';
+import { db, storage } from '../config/firebase';
 import { filterEventData } from 'utils/events';
 import { Event } from 'types/types';
 

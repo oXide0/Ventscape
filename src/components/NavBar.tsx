@@ -4,12 +4,13 @@ import { useAppSelector } from 'hooks/redux-hooks';
 import { memo, useEffect, useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { BiCalendarEvent } from 'react-icons/bi';
+import { FaRegUserCircle } from 'react-icons/fa';
 import { GoHome } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { MdOutlineEventAvailable } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import TabLink from 'ui/TabLink';
-import { FaRegUserCircle } from 'react-icons/fa';
+import { AiIcon } from 'utils/icons';
 
 interface NavBarProps {
     isCollapsed: boolean;
@@ -92,7 +93,14 @@ const NavBar = memo(({ isCollapsed, toggleCollapse }: NavBarProps) => {
                             />
                         </>
                     )}
+                    <TabLink
+                        to='/ai-chat'
+                        label='AI Chat'
+                        icon={<AiIcon />}
+                        isCollapsed={isCollapsed}
+                    />
                 </Stack>
+
                 <TabLink
                     to='/profile'
                     label='My profile'

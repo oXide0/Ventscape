@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/fi
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { User } from 'types/types';
 import { setCookie } from 'utils/auth';
-import { db, storage } from '../firebaseConfig';
+import { db, storage } from '../config/firebase';
 
 type FormData = {
     name: string;

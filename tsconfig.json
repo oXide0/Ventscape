@@ -53,6 +53,9 @@
       "features/*": [
         "features/*"
       ],
+      "config/*": [
+        "config/*"
+      ],
     },
     "types": [
       "node",

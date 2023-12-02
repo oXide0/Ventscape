@@ -17,6 +17,7 @@ import {
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useFetching } from 'hooks/useFetching';
+import { useUserData } from 'hooks/useUserData';
 import { memo, useEffect, useState } from 'react';
 import { BiTime } from 'react-icons/bi';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -25,25 +26,19 @@ import { HiStatusOnline } from 'react-icons/hi';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { getEventImg } from 'services/eventActions';
-import { getUserAvatar, getUserById } from 'services/userActions';
-import { Event, User } from 'types/types';
+import { Event } from 'types/types';
 import { convertDateFormat } from 'utils/events';
 
 const EventCard = memo((event: Event) => {
-    const [creator, setCreator] = useState<User>();
-    const [avatar, setAvatar] = useState<string>('');
+    const { avatarUrl, user: creator } = useUserData(event.creatorId);
     const [imgUrl, setImgUrl] = useState<string>('');
     const { isAuth } = useAppSelector(selectUser);
     const navigate = useNavigate();
     const apllyPath = isAuth ? event.link : '/login';
 
     const { fetch } = useFetching(async () => {
-        const userServerData = await getUserById(event.creatorId);
         const img = await getEventImg(event.img);
-        const avatar = await getUserAvatar(event.creatorId);
-        if (avatar) setAvatar(avatar);
         if (img) setImgUrl(img);
-        if (userServerData) setCreator(userServerData);
     });
 
     const onAvatarClick = () => {
@@ -59,7 +54,7 @@ const EventCard = memo((event: Event) => {
             <CardHeader>
                 <Flex gap={4}>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar src={avatar} cursor='pointer' onClick={onAvatarClick} />
+                        <Avatar src={avatarUrl} cursor='pointer' onClick={onAvatarClick} />
                         <Box>
                             <Heading size='sm'>{creator?.name}</Heading>
                             <Text>Creator, {creator?.name}</Text>
