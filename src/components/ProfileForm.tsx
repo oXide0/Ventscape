@@ -20,7 +20,7 @@ import { IoMdCloseCircle } from 'react-icons/io';
 import { User } from 'types/types';
 
 interface ProfileFormProps {
-    userData: User | undefined;
+    userData: User | null;
     submit: (data: User, avatarFile: File | null) => Promise<void>;
     serverAvatarUrl: string | null | undefined;
 }

@@ -6,7 +6,7 @@ import { deleteEvent } from 'services/eventActions';
 import { User, Event } from 'types/types';
 
 export const useUserData = (userId: string | null | undefined) => {
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [userEvents, setUserEvents] = useState<Event[]>([]);
     const { fetch, isLoading, error } = useFetching(async () => {
