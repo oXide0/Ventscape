@@ -6,7 +6,7 @@ const RequireAuth = () => {
     return document.cookie.includes('auth') ? (
         <Outlet />
     ) : (
-        <Navigate to='/register' state={{ from: location }} replace />
+        <Navigate to='/login' state={{ from: location }} replace />
     );
 };
 

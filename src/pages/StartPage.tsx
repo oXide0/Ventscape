@@ -12,6 +12,7 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { TypeAnimation } from 'react-type-animation';
 
 const StartPage = () => {
     const { name } = useAppSelector(selectUser);
@@ -45,8 +46,15 @@ const StartPage = () => {
                 p={10}
                 mt={50}
             >
-                <Heading size='3xl'>Meet a new one</Heading>
-                <Heading size='3xl'>Event Platform - Ventscape</Heading>
+                <Heading size='3xl'>
+                    <TypeAnimation
+                        cursor={false}
+                        sequence={['Welcome to Ventscape', 2000, 'Find your event', 2000]}
+                    />
+                </Heading>
+                <Heading size='3xl'>
+                    <TypeAnimation cursor={false} sequence={['Event Platform - Ventscape', 2000]} />
+                </Heading>
                 <Text fontSize='lg' pt={6}>
                     Introducing my innovative event platform Ventscape – an immersive and seamless
                     online experience that connects you with a world of dynamic events, networking
