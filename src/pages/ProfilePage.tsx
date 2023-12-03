@@ -8,15 +8,17 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useUserData } from 'hooks/useUserData';
 import { useRef } from 'react';
+import { useUserEvents } from 'hooks/useUserEvents';
 
 const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
-    const { user, avatarUrl, userEvents, isLoading, error, removeEvent } = useUserData(id);
+    const { user, avatarUrl, isLoading: userLoading, error } = useUserData(id);
+    const { userEvents, removeEvent, isLoading: eventsLoading } = useUserEvents(id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
     const subscriptionsBlock = useRef<HTMLDivElement | null>(null);
 
-    if (isLoading) return <Loader />;
+    if (userLoading || eventsLoading) return <Loader />;
     if (error || !user)
         return (
             <Heading textAlign='center' pt={6}>

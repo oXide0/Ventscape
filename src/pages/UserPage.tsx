@@ -8,6 +8,7 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useFollow } from 'hooks/useFollow';
 import { useUserData } from 'hooks/useUserData';
+import { useUserEvents } from 'hooks/useUserEvents';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUserById } from 'services/userActions';
@@ -19,7 +20,8 @@ const UserPage = () => {
     const { isAuth, id } = useAppSelector(selectUser);
     const [isFollowed, setIsFollowed] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<User>();
-    const { user, avatarUrl, userEvents, isLoading, removeEvent } = useUserData(userId);
+    const { user, avatarUrl, isLoading: userLoading } = useUserData(userId);
+    const { userEvents, removeEvent, isLoading: eventsLoading } = useUserEvents(id);
     const { onFollowClick, onUnfollowClick } = useFollow(currentUser, user, userId, id);
 
     const followersBlock = useRef<HTMLDivElement | null>(null);
@@ -46,7 +48,7 @@ const UserPage = () => {
         getUser();
     }, []);
 
-    if (isLoading || !user) return <Loader />;
+    if (userLoading || eventsLoading || !user) return <Loader />;
 
     return (
         <Box py={6}>
