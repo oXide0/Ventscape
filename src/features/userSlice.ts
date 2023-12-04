@@ -40,9 +40,12 @@ export const userSlice = createSlice({
             state.accountType = '';
             state.avatar = '';
         },
+        setUserAvatar: (state, action: PayloadAction<string>) => {
+            state.avatar = action.payload;
+        },
     },
 });
 
-export const { setUserData, removeUserData } = userSlice.actions;
+export const { setUserData, removeUserData, setUserAvatar } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export default userSlice.reducer;

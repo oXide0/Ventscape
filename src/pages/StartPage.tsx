@@ -1,16 +1,7 @@
-import {
-    Button,
-    Heading,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
+import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 
@@ -19,26 +10,12 @@ const StartPage = () => {
 
     return (
         <PageLayout>
-            <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                {name ? (
-                    <Heading>Have a great day, {name}!</Heading>
-                ) : (
-                    <Heading>Have a great day!</Heading>
-                )}
-                <InputGroup
-                    w='100%'
-                    maxW={{ base: '250px', xl: '400px' }}
-                    mt={2}
-                    display={{ base: 'none', md: 'block' }}
-                >
-                    <InputLeftElement pointerEvents='none'>
-                        <AiOutlineSearch size='1.5em' />
-                    </InputLeftElement>
-                    <Input placeholder='Search ...' focusBorderColor='brand.100' />
-                </InputGroup>
-            </Stack>
+            {name ? (
+                <Heading>Have a great day, {name}!</Heading>
+            ) : (
+                <Heading>Have a great day!</Heading>
+            )}
             <Stack
-                pt={100}
                 textAlign='center'
                 alignItems='center'
                 bg='bg.navbar'

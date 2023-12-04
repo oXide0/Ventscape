@@ -15,19 +15,19 @@ import {
 import imageCompression from 'browser-image-compression';
 import { memo, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Event, EventImageValues } from 'types/types';
+import { Event, ImageValues } from 'types/types';
 import { countries, eventCategories } from 'utils/events';
 import ImageUpload from './ImageUpload';
 
 interface EventFormProps {
     eventData?: Event | null;
     img?: string | null | undefined;
-    submit: (event: Event, eventImage: EventImageValues) => Promise<void>;
+    submit: (event: Event, eventImage: ImageValues) => Promise<void>;
 }
 
 const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     const [isPaid, setIsPaid] = useState(false);
-    const [eventImage, setEventImage] = useState<EventImageValues>({ file: null, url: img });
+    const [eventImage, setEventImage] = useState<ImageValues>({ file: null, url: img });
 
     const {
         register,

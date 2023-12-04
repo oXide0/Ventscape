@@ -6,17 +6,17 @@ import { useAppSelector } from 'hooks/redux-hooks';
 import { useSubmitting } from 'hooks/useSubmitting';
 import { useUserData } from 'hooks/useUserData';
 import { removeUserAvatar, updateUser, uploadUserAvatar } from 'services/userActions';
-import { User } from 'types/types';
+import { ImageValues, User } from 'types/types';
 
 const EditProfilePage = () => {
     const { id } = useAppSelector(selectUser);
     const { user, avatarUrl: serverAvatarUrl, isLoading } = useUserData(id);
 
-    const { submit } = useSubmitting(async (data: User, avatarFile: File | null) => {
+    const { submit } = useSubmitting(async (data: User, avatar: ImageValues) => {
         await updateUser(data, id);
-        if (avatarFile) {
-            await uploadUserAvatar(avatarFile, id);
-        } else {
+        if (avatar.file) {
+            await uploadUserAvatar(avatar.file, id);
+        } else if (!avatar.url) {
             await removeUserAvatar(id);
         }
     });

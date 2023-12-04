@@ -15,20 +15,10 @@ const generateResponse = async (content: string) => {
     let response = '';
     for await (const chunk of stream) {
         if (chunk.choices && chunk.choices[0]?.delta?.content) {
-            let chunkContent = chunk.choices[0].delta.content;
-
-            if (chunkContent.startsWith('```') && chunkContent.endsWith('```')) {
-                chunkContent = formatCodeBlock(chunkContent);
-            }
-
-            response += chunkContent;
+            response += chunk.choices[0].delta.content;
         }
     }
     return response;
 };
 
 export { generateResponse };
-
-function formatCodeBlock(codeBlock: string) {
-    return codeBlock.slice(3, -3);
-}

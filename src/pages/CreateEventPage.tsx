@@ -5,11 +5,11 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useSubmitting } from 'hooks/useSubmitting';
 import { createEvent, uploadEventImg } from 'services/eventActions';
-import { Event, EventImageValues } from 'types/types';
+import { Event, ImageValues } from 'types/types';
 
 const CreateEventPage = () => {
     const { id } = useAppSelector(selectUser);
-    const { submit } = useSubmitting(async (event: Event, eventImage: EventImageValues) => {
+    const { submit } = useSubmitting(async (event: Event, eventImage: ImageValues) => {
         if (id) {
             const imgId = nanoid();
             await createEvent(event, id, imgId);

@@ -33,7 +33,7 @@ export interface EventsFilter {
     price: 'all' | 'free' | 'paid';
 }
 
-export interface EventImageValues {
+export interface ImageValues {
     file: File | null;
     url: string | null | undefined;
 }

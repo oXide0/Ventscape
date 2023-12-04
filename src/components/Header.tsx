@@ -32,6 +32,7 @@ const Header = memo(() => {
         if (!currentUser) return;
         await updateUser({ ...currentUser, notifications: [] }, id);
         setNotifications([]);
+        fetch();
     };
 
     useEffect(() => {

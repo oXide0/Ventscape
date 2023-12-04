@@ -18,32 +18,46 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { User } from 'types/types';
+import { useAppDispatch } from 'hooks/redux-hooks';
+import { setUserAvatar } from 'features/userSlice';
+import { ImageValues } from 'types/types';
+import imageCompression from 'browser-image-compression';
 
 interface ProfileFormProps {
     userData: User | null;
-    submit: (data: User, avatarFile: File | null) => Promise<void>;
+    submit: (data: User, avatar: ImageValues) => Promise<void>;
     serverAvatarUrl: string | null | undefined;
 }
 
 const ProfileForm = memo(({ userData, submit, serverAvatarUrl }: ProfileFormProps) => {
-    const [avatarFile, setAvatarFile] = useState<File | null>(null);
-    const [avatarUrl, setAvatarUrl] = useState<string | null | undefined>(serverAvatarUrl);
+    const [avatar, setAvatar] = useState<ImageValues>({ file: null, url: serverAvatarUrl });
     const filePicker = useRef<HTMLInputElement>(null);
+    const dispatch = useAppDispatch();
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors, isSubmitting },
-    } = useForm<User>();
+    } = useForm<User>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<User> = async (data) => {
-        await submit(data, avatarFile);
+        await submit(data, avatar);
+        if (avatar.url) {
+            dispatch(setUserAvatar(avatar.url));
+        } else if (!avatar.url && !avatar.file) {
+            dispatch(setUserAvatar(''));
+        }
     };
 
-    const setFile = (file: File | null) => {
+    const setFile = async (file: File | null) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
         if (file) {
-            setAvatarFile(file);
-            setAvatarUrl(URL.createObjectURL(file));
+            const compressedFile = await imageCompression(file, options);
+            setAvatar({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
         }
     };
 
@@ -53,8 +67,7 @@ const ProfileForm = memo(({ userData, submit, serverAvatarUrl }: ProfileFormProp
 
     const onRemoveFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
-        setFile(null);
-        setAvatarUrl(null);
+        setAvatar({ file: null, url: null });
     };
 
     const onEventFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +86,7 @@ const ProfileForm = memo(({ userData, submit, serverAvatarUrl }: ProfileFormProp
             <Stack pt={6}>
                 <Text fontWeight='semibold'>Avatar</Text>
                 <Avatar
-                    src={avatarUrl ? avatarUrl : 'https://bit.ly/broken-link'}
+                    src={avatar.url ? avatar.url : 'https://bit.ly/broken-link'}
                     cursor='pointer'
                     _hover={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     transition='.2s'
@@ -82,7 +95,7 @@ const ProfileForm = memo(({ userData, submit, serverAvatarUrl }: ProfileFormProp
                     mt={2}
                     onClick={handlePick}
                 >
-                    {avatarUrl && (
+                    {avatar.url && (
                         <IconButton
                             aria-label='remove'
                             onClick={(e) => onRemoveFile(e)}

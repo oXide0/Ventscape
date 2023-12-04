@@ -2,13 +2,13 @@ import { Stack } from '@chakra-ui/react';
 import AIChat from 'components/AIChat';
 import PageLayout from 'components/ui/PageLayout';
 import { generateResponse } from 'config/openai';
+import { selectUser } from 'features/userSlice';
+import { useAppSelector } from 'hooks/redux-hooks';
+import { useFetching } from 'hooks/useFetching';
 import { useSubmitting } from 'hooks/useSubmitting';
 import { useEffect, useState } from 'react';
-import { Message } from 'types/types';
-import { useFetching } from 'hooks/useFetching';
 import { getUserAvatar } from 'services/userActions';
-import { useAppSelector } from 'hooks/redux-hooks';
-import { selectUser } from 'features/userSlice';
+import { Message } from 'types/types';
 
 const AiPage = () => {
     const { id, name } = useAppSelector(selectUser);
@@ -28,7 +28,7 @@ const AiPage = () => {
 
     useEffect(() => {
         fetch();
-    });
+    }, []);
 
     return (
         <PageLayout heading='AI Chat'>
