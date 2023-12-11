@@ -41,7 +41,7 @@ const Header = memo(() => {
 
     return (
         <Box display='flex' flexDirection='row' justifyContent='flex-end'>
-            {isAuth && currentUser ? (
+            {isAuth ? (
                 <Stack direction='row' alignItems='center'>
                     <NotificationBadge
                         notifications={notifications}
