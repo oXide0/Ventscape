@@ -12,8 +12,8 @@ import CreatorAuth from 'routes/CreatorAuth';
 import Layout from 'routes/Layout';
 import RequireAuth from 'routes/RequireAuth';
 import EditProfilePage from 'pages/EditProfilePage';
-// import InProgressPage from 'pages/InProgressPage';
-import AiPage from 'pages/AIPage';
+import InProgressPage from 'pages/InProgressPage';
+// import AiPage from 'pages/AIPage';
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,7 +26,7 @@ export const router = createBrowserRouter(
             <Route element={<RequireAuth />}>
                 <Route path='profile' element={<ProfilePage />} />
                 <Route path='profile/edit' element={<EditProfilePage />} />
-                <Route path='ai-chat' element={<AiPage />} />
+                <Route path='ai-chat' element={<InProgressPage />} />
                 <Route element={<CreatorAuth />}>
                     <Route path='events/create' element={<CreateEventPage />} />
                     <Route path='events/my' element={<MyEventsPage />} />
