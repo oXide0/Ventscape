@@ -1,0 +1,36 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "useDefineForClassFields": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "jsx": "react-jsx",
+        /* Linting */
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": "src",
+        "paths": {
+            "routes/*": ["routes/*"],
+            "pages/*": ["pages/*"],
+            "components/*": ["components/*"],
+            "ui/*": ["components/ui/*"],
+            "services/*": ["services/*"],
+            "hooks/*": ["hooks/*"],
+            "utils/*": ["utils/*"],
+            "types/*": ["types/*"],
+            "store/*": ["store/*"],
+            "features/*": ["features/*"],
+            "config/*": ["config/*"]
+        },
+        "types": ["node", "jest", "@testing-library/jest-dom"]
+    },
+    "include": ["src", "vite.config.ts"],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}
