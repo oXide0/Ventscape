@@ -13,3 +13,14 @@ export interface Event {
     creatorId: string;
     img: string;
 }
+
+export interface User {
+    name: string;
+    password: string;
+    email: string;
+    description: string;
+    accountType: 'customer' | 'creator';
+    subscriptions: string[];
+    followers?: string[];
+    notifications: string[];
+}

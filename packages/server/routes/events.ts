@@ -5,7 +5,7 @@ import {
     getAllEvents,
     getEventById,
     updateEvent,
-} from '../controllers/events';
+} from '../controllers/eventsController';
 const router = express.Router();
 
 router.get('/', getAllEvents);
