@@ -1,9 +1,8 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { config } from 'dotenv';
 import express from 'express';
 import router from './routes/router';
-import cookieParser from 'cookie-parser';
-import { config } from 'dotenv';
-// import { Event } from 'shared';
 config();
 
 const app = express();

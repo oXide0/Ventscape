@@ -6,12 +6,14 @@ import {
     getEventById,
     updateEvent,
 } from '../controllers/eventsController';
+import { verifyJwt } from '../middlewares/verifyJwt';
 const router = express.Router();
 
-router.get('/', getAllEvents);
-router.get('/:id', getEventById);
-router.post('/', createEvent);
-router.put('/:id', updateEvent);
-router.delete('/:id', deleteEvent);
+router.route('/').get(verifyJwt, getAllEvents);
+router.route('/:id').get(getEventById);
+
+router.route('/').post(verifyJwt, createEvent);
+router.route('/:id').put(verifyJwt, updateEvent);
+router.route('/:id').delete(verifyJwt, deleteEvent);
 
 export default router;

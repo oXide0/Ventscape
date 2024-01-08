@@ -1,11 +1,13 @@
-import { v4 } from 'uuid';
-import { databaseQuery } from '../db';
+import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
+import { v4 } from 'uuid';
+
+const prisma = new PrismaClient();
 
 export const getAllEvents = async (_: Request, res: Response) => {
     try {
-        const result = await databaseQuery('SELECT * FROM events');
-        res.json(result.rows);
+        const events = prisma.events.findMany();
+        res.json(events);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -14,8 +16,12 @@ export const getAllEvents = async (_: Request, res: Response) => {
 
 export const getEventById = async (req: Request, res: Response) => {
     try {
-        const result = await databaseQuery('SELECT * FROM events WHERE id = $1', [req.params.id]);
-        res.json(result.rows[0]);
+        const event = prisma.events.findUnique({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -24,40 +30,14 @@ export const getEventById = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
     try {
-        const {
-            title,
-            description,
-            category,
-            date,
-            street,
-            city,
-            country,
-            link,
-            price,
-            creatorId,
-            img,
-        } = req.body;
-        const eventId = v4();
-
-        const result = await databaseQuery(
-            'INSERT INTO events (id, title, about, category, date, street, city, country, link, price, creatorId, img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-            [
-                eventId,
-                title,
-                description,
-                category,
-                date,
-                street,
-                city,
-                country,
-                link,
-                price,
-                creatorId,
-                img,
-            ]
-        );
-
-        res.json(result.rows[0]);
+        const event = await prisma.events.create({
+            data: {
+                id: v4(),
+                date: new Date(),
+                ...req.body,
+            },
+        });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot add event' });
@@ -66,40 +46,16 @@ export const createEvent = async (req: Request, res: Response) => {
 
 export const updateEvent = async (req: Request, res: Response) => {
     try {
-        const {
-            title,
-            description,
-            category,
-            date,
-            street,
-            city,
-            country,
-            link,
-            price,
-            creatorId,
-            img,
-        } = req.body;
-        const eventId = v4();
+        const event = await prisma.events.update({
+            where: {
+                id: req.params.id,
+            },
+            data: {
+                ...req.body,
+            },
+        });
 
-        const result = await databaseQuery(
-            'INSERT INTO events (id, title, about, category, date, street, city, country, link, price, creatorId, img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-            [
-                eventId,
-                title,
-                description,
-                category,
-                date,
-                street,
-                city,
-                country,
-                link,
-                price,
-                creatorId,
-                img,
-            ]
-        );
-
-        res.json(result.rows[0]);
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot update event' });
@@ -108,8 +64,12 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = async (req: Request, res: Response) => {
     try {
-        const result = await databaseQuery('DELETE FROM events WHERE id = $1', [req.params.id]);
-        res.json(result.rows[0]);
+        const event = await prisma.events.delete({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot delete event' });
