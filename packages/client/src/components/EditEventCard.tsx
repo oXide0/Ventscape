@@ -89,7 +89,7 @@ const EditEventCard = memo(
                                 <Text fontWeight='semibold'>{convertDateFormat(props.date)}</Text>
                             </Flex>
                         </Flex>
-                        <Heading size='lg'>{props.name}</Heading>
+                        <Heading size='lg'>{props.title}</Heading>
                         <Text>{truncateDescription(props.about)}</Text>
                         {showActions && (
                             <Flex justify='space-between' pt={2}>

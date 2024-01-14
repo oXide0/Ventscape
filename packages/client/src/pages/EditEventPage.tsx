@@ -1,49 +1,19 @@
 import EventForm from 'components/EventForm';
-import PageLayout from 'components/ui/PageLayout';
-import { useFetching } from 'hooks/useFetching';
-import { useSubmitting } from 'hooks/useSubmitting';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import {
-    getEvent,
-    updateEvent,
-    uploadEventImg,
-    getEventImg,
-    removeEventImg,
-} from 'services/eventActions';
-import { Event, ImageValues } from 'types/types';
 import Loader from 'components/ui/Loader';
+import PageLayout from 'components/ui/PageLayout';
+import { useParams } from 'react-router-dom';
+import { useCreateEventMutation, useGetEventByIdQuery } from 'services/eventApi';
+import { Event } from 'types/types';
 
 const EditEventPage = () => {
     const { eventId } = useParams();
-    const [event, setEvent] = useState<Event | null>(null);
-    const [imgUrl, setImgUrl] = useState<string | null>(null);
+    const { data: event, isLoading } = useGetEventByIdQuery(eventId);
+    const [createEvent] = useCreateEventMutation();
+    // const [imgUrl, setImgUrl] = useState<string | null>(null);
 
-    const { submit } = useSubmitting(async (event: Event, eventImage: ImageValues) => {
-        if (eventId) {
-            await updateEvent(event, eventId);
-            if (eventImage.file) {
-                await uploadEventImg(eventImage.file, event.img);
-            } else if (!eventImage.url) {
-                await removeEventImg(event.img);
-            }
-        }
-    });
-
-    const { fetch, isLoading } = useFetching(async () => {
-        if (eventId) {
-            const eventData = await getEvent(eventId);
-            setEvent(eventData);
-            if (eventData) {
-                const eventImg = await getEventImg(eventData.img);
-                setImgUrl(eventImg);
-            }
-        }
-    });
-
-    useEffect(() => {
-        fetch();
-    }, []);
+    const handleSubmit = async (event: Event) => {
+        createEvent(event);
+    };
 
     if (isLoading) {
         return <Loader />;
@@ -51,7 +21,7 @@ const EditEventPage = () => {
 
     return (
         <PageLayout heading='Edit your event'>
-            <EventForm submit={submit} eventData={event} img={imgUrl} />
+            <EventForm submit={handleSubmit} eventData={event} img={null} />
         </PageLayout>
     );
 };

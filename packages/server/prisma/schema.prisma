@@ -8,20 +8,20 @@ datasource db {
 }
 
 model events {
-  id        String    @id @db.Uuid
-  name      String    @db.VarChar(255)
-  about     String?
-  mode      String?   @db.VarChar(255)
-  category  String?   @db.VarChar(255)
-  street    String?   @db.VarChar(255)
-  city      String?   @db.VarChar(255)
-  country   String?   @db.VarChar(255)
-  link      String?   @db.VarChar(255)
-  price     Decimal?  @db.Decimal(10, 2)
-  creatorid String?   @db.Uuid
-  img       String?   @db.VarChar(255)
-  date      DateTime? @db.Date
-  users     users?    @relation(fields: [creatorid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         String   @id @db.Uuid
+  name       String   @db.VarChar(255)
+  about      String?
+  mode       String?  @db.VarChar(255)
+  category   String?  @db.VarChar(255)
+  street     String?  @db.VarChar(255)
+  city       String?  @db.VarChar(255)
+  country    String?  @db.VarChar(255)
+  link       String?  @db.VarChar(255)
+  price      Decimal? @db.Decimal(10, 2)
+  creator_id String?  @db.Uuid
+  img        String?  @db.VarChar(255)
+  date       String?  @db.VarChar(255)
+  users      users?   @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

@@ -7,6 +7,7 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { getUserById, signOutUser, updateUser } from 'services/userActions';
 import { User } from 'types/types';
 import NotificationBadge from 'ui/NotificationBadge';
+import { useLogoutMutation } from 'services/authApi';
 
 const Header = memo(() => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Header = memo(() => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const { isAuth, id } = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const [logout] = useLogoutMutation();
     const { fetch } = useFetching(async () => {
         const user = await getUserById(id);
         if (user) {
@@ -23,7 +25,7 @@ const Header = memo(() => {
     });
 
     const onSignOut = () => {
-        signOutUser();
+        logout();
         dispatch(removeUserData());
         navigate('/');
     };

@@ -70,7 +70,7 @@ const EventCard = memo((event: Event) => {
             </CardHeader>
             {imgUrl && <Image objectFit='cover' src={imgUrl} alt='event-image' />}
             <CardBody>
-                <Heading size='lg'>{event.name}</Heading>
+                <Heading size='lg'>{event.title}</Heading>
                 <Text pt={1}>{event.about}</Text>
             </CardBody>
             <CardFooter flexDir='column'>

@@ -3,47 +3,30 @@ import EventCard from 'components/EventCard';
 import FiltersBar from 'components/FiltersBar';
 import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
-import { useFetching } from 'hooks/useFetching';
-import { useEffect, useState } from 'react';
-import { getEvents } from 'services/eventActions';
-import { Event, EventsFilter } from 'types/types';
+import { useState } from 'react';
+import { useGetAllEventsQuery } from 'services/eventApi';
+import { Event, EventsFilter } from 'shared/types';
 import { filterEvents } from 'utils/events';
 
 const EventsPage = () => {
-    const [events, setEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
-    const { fetch, isLoading, error } = useFetching(async () => {
-        const eventsData = await getEvents();
-        setEvents(eventsData);
-        setFilteredEvents(eventsData);
-    });
+    const { data: events, isLoading, error } = useGetAllEventsQuery();
 
     const onFilterEvents = (filterData: EventsFilter) => {
+        if (!events) return;
         const filteredEvents = filterEvents(events, filterData);
         setFilteredEvents(filteredEvents);
     };
 
-    useEffect(() => {
-        fetch();
-    }, []);
-
     if (isLoading) {
         return <Loader />;
-    }
-
-    if (error) {
-        return (
-            <Heading textAlign='center' pt={15}>
-                Events not found
-            </Heading>
-        );
     }
 
     return (
         <PageLayout heading='Events'>
             <FiltersBar onFilter={onFilterEvents} />
             <Stack direction='row' justifyContent='space-between' pt={10} gap={8}>
-                {!filteredEvents.length ? (
+                {!filteredEvents.length || error ? (
                     <Stack w='full'>
                         <Heading textAlign='center'>Events not found!</Heading>
                     </Stack>

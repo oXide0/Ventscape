@@ -3,6 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "start": "npm run client && npm run server",
         "client": "cd packages/client && npm run dev",
         "server": "cd packages/server && npm start",
         "prepare": "husky install",

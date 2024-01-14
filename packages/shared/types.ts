@@ -1,6 +1,6 @@
 export interface Event {
     id: string;
-    name: string;
+    title: string;
     about: string;
     mode: string;
     category: string;
@@ -24,4 +24,12 @@ export interface User {
     subscriptions: string[];
     followers?: string[];
     notifications: string[];
+}
+
+export interface EventsFilter {
+    datePosted: 'any' | 'this-week' | 'this-month' | 'this-year';
+    country: string;
+    mode: 'all' | 'online' | 'offline';
+    category: string;
+    price: 'all' | 'free' | 'paid';
 }

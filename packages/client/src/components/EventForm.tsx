@@ -22,7 +22,7 @@ import ImageUpload from './ImageUpload';
 interface EventFormProps {
     eventData?: Event | null;
     img?: string | null | undefined;
-    submit: (event: Event, eventImage: ImageValues) => Promise<void>;
+    submit: (event: Event) => Promise<void>;
 }
 
 const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
@@ -39,7 +39,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     } = useForm<Event>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<Event> = async (data: Event) => {
-        await submit(data, eventImage);
+        await submit(data);
         if (!eventData) {
             reset();
             setEventImage({ ...eventImage, file: null, url: null });
@@ -99,7 +99,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                         <Input
                             placeholder='Your event'
                             focusBorderColor='brand.100'
-                            {...register('name', { required: 'Event name is required' })}
+                            {...register('title', { required: 'Event name is required' })}
                         />
                     </FormControl>
                 </GridItem>

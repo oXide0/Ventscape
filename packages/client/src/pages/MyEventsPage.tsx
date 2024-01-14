@@ -1,33 +1,20 @@
 import { Heading, Stack } from '@chakra-ui/react';
 import EditEventCard from 'components/EditEventCard';
-import { getEvents, deleteEvent } from 'services/eventActions';
-import { useFetching } from 'hooks/useFetching';
 import Loader from 'components/ui/Loader';
-import { useEffect, useState } from 'react';
-import { Event } from 'types/types';
+import { useGetAllEventsQuery } from 'services/eventApi';
 import PageLayout from 'ui/PageLayout';
-import { useAppSelector } from 'hooks/redux-hooks';
-import { selectUser } from 'features/userSlice';
+import { useDeleteEventMutation } from 'services/eventApi';
 
 const MyEventsPage = () => {
-    const [events, setEvents] = useState<Event[]>([]);
-    const { id } = useAppSelector(selectUser);
-    const { fetch, isLoading, error } = useFetching(async () => {
-        const eventsData = await getEvents();
-        const userEvents = eventsData.filter((event) => event.creatorId === id);
-        setEvents(userEvents);
-    });
+    const { data: events, isSuccess, error, refetch } = useGetAllEventsQuery();
+    const [deleteEvent] = useDeleteEventMutation();
 
     const removeEvent = async (eventId: string) => {
-        await deleteEvent(eventId);
-        fetch();
+        deleteEvent(eventId);
+        refetch();
     };
 
-    useEffect(() => {
-        fetch();
-    }, []);
-
-    if (isLoading) {
+    if (!isSuccess) {
         return <Loader />;
     }
 

@@ -58,7 +58,7 @@ export const registerUser = async (req: Request, res: Response) => {
             maxAge: 60 * 60 * 1000,
         });
 
-        res.status(201).json({ accessToken });
+        res.status(201).json({ accessToken, userId });
     } catch (err) {
         console.log(err);
         res.status(500).send('Server error');
@@ -105,7 +105,7 @@ export const loginUser = async (req: Request, res: Response) => {
             secure: true,
             maxAge: 60 * 60 * 1000,
         });
-        res.json({ accessToken });
+        res.json({ accessToken, userId: user.id });
     } else {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -171,5 +171,5 @@ export const logoutUser = async (req: Request, res: Response) => {
     });
 
     res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });
-    res.status(204).json({ message: 'User logged out' });
+    res.status(201).json({ message: 'User logged out' });
 };

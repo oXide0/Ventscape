@@ -14,12 +14,10 @@ import {
 import PageLayout from 'components/ui/PageLayout';
 import { setUserData } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
-import { useSubmitting } from 'hooks/useSubmitting';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { createUser, getUserByEmailAndPassword } from 'services/userActions';
-import { setCookie } from 'utils/auth';
+import { useRegisterMutation } from 'services/authApi';
 
 type FormData = {
     name: string;
@@ -38,32 +36,49 @@ const RegisterPage = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormData>({ mode: 'onChange' });
-    const { submit } = useSubmitting(async (data: FormData) => {
-        if ((await createUser(data)) === 'User already exists') {
-            setErrorMessage('User already exists');
-            return;
-        }
-        // GET USER DATA
-        const user = await getUserByEmailAndPassword(data.email, data.password);
-        if (user) {
+    // const { submit } = useSubmitting(async (data: FormData) => {
+    //     if ((await createUser(data)) === 'User already exists') {
+    //         setErrorMessage('User already exists');
+    //         return;
+    //     }
+    //     // GET USER DATA
+    //     const user = await getUserByEmailAndPassword(data.email, data.password);
+    //     if (user) {
+    //         dispatch(
+    //             setUserData({
+    //                 name: data.name,
+    //                 isAuth: true,
+    //                 id: user.id,
+    //                 email: data.email,
+    //                 accountType: data.accountType,
+    //                 avatar: '',
+    //             })
+    //         );
+    //         // SET USER ID to COOKIE
+    //         setCookie('auth', user.id, 7, import.meta.env.VITE_AUTH_SECRET_KEY);
+    //     }
+    //     navigate('/');
+    // });
+    const [submit, { error }] = useRegisterMutation();
+
+    const onSubmit = async (data: FormData) => {
+        try {
+            const response = await submit(data).unwrap();
+            localStorage.setItem('accessToken', response.accessToken);
             dispatch(
                 setUserData({
                     name: data.name,
                     isAuth: true,
-                    id: user.id,
+                    id: response.userId,
                     email: data.email,
                     accountType: data.accountType,
                     avatar: '',
                 })
             );
-            // SET USER ID to COOKIE
-            setCookie('auth', user.id, 7, import.meta.env.VITE_AUTH_SECRET_KEY);
+            navigate('/');
+        } catch (error) {
+            console.log(error);
         }
-        navigate('/');
-    });
-
-    const onSubmit = async (data: FormData) => {
-        await submit(data);
     };
 
     const toggleShow = () => setShowPassword(!showPassword);

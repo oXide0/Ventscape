@@ -24,6 +24,7 @@
         "react-icons": "^4.11.0",
         "react-redux": "^9.0.4",
         "react-router-dom": "^6.17.0",
+        "shared": "*",
         "vite-plugin-pwa": "^0.17.0"
     },
     "devDependencies": {

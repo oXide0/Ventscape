@@ -28,12 +28,25 @@ export const getEventById = async (req: Request, res: Response) => {
     }
 };
 
+export const getEventsByCreatorId = async (req: Request, res: Response) => {
+    try {
+        const events = prisma.events.findMany({
+            where: {
+                creator_id: req.params.creatorId,
+            },
+        });
+        res.json(events);
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: 'Not events found' });
+    }
+};
+
 export const createEvent = async (req: Request, res: Response) => {
     try {
         const event = await prisma.events.create({
             data: {
                 id: v4(),
-                date: new Date(),
                 ...req.body,
             },
         });

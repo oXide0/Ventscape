@@ -1,4 +1,4 @@
-import { Event, EventsFilter } from 'types/types';
+import { Event, EventsFilter } from 'shared/types';
 
 export const eventCategories = [
     'Arts and Culture',
@@ -47,7 +47,7 @@ export const countries = [
 export const filterEventData = (event: Event) => {
     if (event.mode === 'online') {
         return {
-            name: event.name,
+            name: event.title,
             about: event.about,
             mode: event.mode,
             category: event.category,
@@ -57,7 +57,7 @@ export const filterEventData = (event: Event) => {
         };
     }
     return {
-        name: event.name,
+        name: event.title,
         about: event.about,
         mode: event.mode,
         category: event.category,
