@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export const getAllEvents = async (_: Request, res: Response) => {
     try {
-        const events = prisma.events.findMany();
+        const events = await prisma.events.findMany();
         res.json(events);
     } catch (err) {
         console.error(err);
@@ -16,7 +16,7 @@ export const getAllEvents = async (_: Request, res: Response) => {
 
 export const getEventById = async (req: Request, res: Response) => {
     try {
-        const event = prisma.events.findUnique({
+        const event = await prisma.events.findUnique({
             where: {
                 id: req.params.id,
             },
@@ -30,7 +30,7 @@ export const getEventById = async (req: Request, res: Response) => {
 
 export const getEventsByCreatorId = async (req: Request, res: Response) => {
     try {
-        const events = prisma.events.findMany({
+        const events = await prisma.events.findMany({
             where: {
                 creator_id: req.params.creatorId,
             },
@@ -47,6 +47,7 @@ export const createEvent = async (req: Request, res: Response) => {
         const event = await prisma.events.create({
             data: {
                 id: v4(),
+                creator_id: req.body.creatorId,
                 ...req.body,
             },
         });

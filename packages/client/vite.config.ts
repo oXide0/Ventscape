@@ -13,7 +13,6 @@ export default defineConfig({
             manifest: {
                 name: 'Ventscape',
                 short_name: 'VS',
-                description: 'Ventscape Event Platform',
                 theme_color: '#5056ed',
                 background_color: '#252b3c',
                 icons: [

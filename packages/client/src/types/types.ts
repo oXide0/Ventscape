@@ -7,6 +7,7 @@ export interface User {
     subscriptions: string[];
     followers?: string[];
     notifications: string[];
+    avatarUrl: string;
 }
 
 export interface Event {

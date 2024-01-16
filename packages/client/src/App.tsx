@@ -1,10 +1,23 @@
-import { useAuth } from 'hooks/useAuth';
+import Loader from 'components/ui/Loader';
+import { setUserData } from 'features/userSlice';
+import { useAppDispatch } from 'hooks/redux-hooks';
+import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from 'routes/routes';
-import Loader from 'components/ui/Loader';
+import { useGetUserByIdQuery } from 'services/userApi';
 
 const App = () => {
-    const { isLoading } = useAuth();
+    const id = localStorage.getItem('userId');
+    const dispatch = useAppDispatch();
+    const { data: user, isLoading } = useGetUserByIdQuery(id!);
+
+    useEffect(() => {
+        if (user && id) {
+            dispatch(setUserData({ id, isAuth: true, ...user }));
+        }
+    }, [user]);
+
+    if (isLoading) return <Loader />;
 
     return isLoading ? <Loader /> : <RouterProvider router={router} />;
 };

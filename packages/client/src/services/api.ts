@@ -4,6 +4,13 @@ import { FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/rea
 const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
     credentials: 'include',
+    prepareHeaders: (headers) => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            headers.set('authorization', `Bearer ${accessToken}`);
+        }
+        return headers;
+    },
 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
