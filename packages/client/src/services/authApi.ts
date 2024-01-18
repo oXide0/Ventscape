@@ -1,14 +1,25 @@
 import { api } from './api';
-import { User } from 'types/types';
 
 interface AuthAnswer {
     accessToken: string;
     userId: string;
 }
 
+interface RegisterBody {
+    name: string;
+    email: string;
+    password: string;
+    accountType: 'customer' | 'creator';
+}
+
+interface LoginBody {
+    email: string;
+    password: string;
+}
+
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<AuthAnswer, Partial<User>>({
+        register: builder.mutation<AuthAnswer, RegisterBody>({
             query: (body) => ({
                 url: '/register',
                 method: 'POST',
@@ -16,7 +27,7 @@ export const userApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Users'],
         }),
-        login: builder.mutation<AuthAnswer, Partial<User>>({
+        login: builder.mutation<AuthAnswer, LoginBody>({
             query: (body) => ({
                 url: '/login',
                 method: 'POST',

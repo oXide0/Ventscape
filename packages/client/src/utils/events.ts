@@ -1,54 +1,54 @@
-import { Event, EventsFilter } from 'shared/types';
+import { IEvent, EventsFilter } from 'types/types';
 
 export const eventCategories = [
-    'Arts and Culture',
-    'Business and Professional',
-    'Educational',
-    'Entertainment and Media',
-    'Food and Drink',
-    'Health and Wellness',
-    'Hobbies and Special Interest',
-    'Science and Technology',
-    'Social and Lifestyle',
-    'Sports and Adventure',
-    'Charity and Causes',
-    'Government and Politics',
-    'Religious and Spiritual',
-    'Family and Kids',
-    'Holiday and Seasonal',
-].sort();
+    { label: 'Arts and Culture', value: 'Arts and Culture' },
+    { label: 'Business and Professional', value: 'Business and Professional' },
+    { label: 'Educational', value: 'Educational' },
+    { label: 'Entertainment and Media', value: 'Entertainment and Media' },
+    { label: 'Food and Drink', value: 'Food and Drink' },
+    { label: 'Health and Wellness', value: 'Health and Wellness' },
+    { label: 'Hobbies and Special Interest', value: 'Hobbies and Special Interest' },
+    { label: 'Science and Technology', value: 'Science and Technology' },
+    { label: 'Social and Lifestyle', value: 'Social and Lifestyle' },
+    { label: 'Sports and Adventure', value: 'Sports and Adventure' },
+    { label: 'Charity and Causes', value: 'Charity and Causes' },
+    { label: 'Government and Politics', value: 'Government and Politics' },
+    { label: 'Religious and Spiritual', value: 'Religious and Spiritual' },
+    { label: 'Family and Kids', value: 'Family and Kids' },
+    { label: 'Holiday and Seasonal', value: 'Holiday and Seasonal' },
+].sort((a, b) => a.label.localeCompare(b.label));
 
 export const countries = [
-    'United States',
-    'Canada',
-    'United Kingdom',
-    'Australia',
-    'New Zealand',
-    'Ireland',
-    'Ukraine',
-    'Slovakia',
-    'Czech Republic',
-    'Poland',
-    'Germany',
-    'France',
-    'Spain',
-    'Italy',
-    'Portugal',
-    'Netherlands',
-    'Belgium',
-    'Switzerland',
-    'Austria',
-    'Denmark',
-    'Sweden',
-    'Norway',
-    'Finland',
-].sort();
+    { label: 'United States', value: 'United States' },
+    { label: 'Canada', value: 'Canada' },
+    { label: 'United Kingdom', value: 'United Kingdom' },
+    { label: 'Australia', value: 'Australia' },
+    { label: 'New Zealand', value: 'New Zealand' },
+    { label: 'Ireland', value: 'Ireland' },
+    { label: 'Ukraine', value: 'Ukraine' },
+    { label: 'Slovakia', value: 'Slovakia' },
+    { label: 'Czech Republic', value: 'Czech Republic' },
+    { label: 'Poland', value: 'Poland' },
+    { label: 'Germany', value: 'Germany' },
+    { label: 'France', value: 'France' },
+    { label: 'Spain', value: 'Spain' },
+    { label: 'Italy', value: 'Italy' },
+    { label: 'Portugal', value: 'Portugal' },
+    { label: 'Netherlands', value: 'Netherlands' },
+    { label: 'Belgium', value: 'Belgium' },
+    { label: 'Switzerland', value: 'Switzerland' },
+    { label: 'Austria', value: 'Austria' },
+    { label: 'Denmark', value: 'Denmark' },
+    { label: 'Sweden', value: 'Sweden' },
+    { label: 'Norway', value: 'Norway' },
+    { label: 'Finland', value: 'Finland' },
+].sort((a, b) => a.label.localeCompare(b.label));
 
-export const filterEventData = (event: Event) => {
+export const filterEventData = (event: IEvent) => {
     if (event.mode === 'online') {
         return {
             name: event.title,
-            about: event.about,
+            about: event.description,
             mode: event.mode,
             category: event.category,
             date: event.date,
@@ -58,7 +58,7 @@ export const filterEventData = (event: Event) => {
     }
     return {
         name: event.title,
-        about: event.about,
+        about: event.description,
         mode: event.mode,
         category: event.category,
         date: event.date,
@@ -82,7 +82,7 @@ export const convertDateFormat = (dateStr: string): string => {
     return `${year}.${month}.${day} ${hours}:${minutes}`;
 };
 
-export const filterEvents = (events: Event[], filter: EventsFilter): Event[] => {
+export const filterEvents = (events: IEvent[], filter: EventsFilter): IEvent[] => {
     return events.filter((event) => {
         const dateMatch = checkDate(event.date, filter.datePosted);
         const countryMatch = filter.country === 'all' || event.country === filter.country;

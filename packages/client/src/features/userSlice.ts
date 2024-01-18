@@ -2,21 +2,21 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UserState {
-    id: string;
-    name: string;
-    email: string;
+    id: string | null;
+    name: string | null;
+    email: string | null;
     isAuth: boolean;
-    accountType: 'customer' | 'creator' | '';
-    avatarUrl: string;
+    accountType: 'customer' | 'creator' | null;
+    avatarUrl: string | null;
 }
 
 const initialState: UserState = {
-    id: '',
-    name: '',
-    email: '',
+    id: null,
+    name: null,
+    email: null,
     isAuth: false,
-    accountType: '',
-    avatarUrl: '',
+    accountType: null,
+    avatarUrl: null,
 };
 
 export const userSlice = createSlice({
@@ -32,15 +32,12 @@ export const userSlice = createSlice({
             state.avatarUrl = action.payload.avatarUrl;
         },
         removeUserData: (state) => {
-            state.name = '';
+            state.name = null;
             state.isAuth = false;
-            state.id = '';
-            state.email = '';
-            state.accountType = '';
-            state.avatarUrl = '';
-        },
-        setUserAvatar: (state, action: PayloadAction<string>) => {
-            state.avatarUrl = action.payload;
+            state.id = null;
+            state.email = null;
+            state.accountType = null;
+            state.avatarUrl = null;
         },
         setUserId: (state, action: PayloadAction<string>) => {
             state.id = action.payload;
@@ -52,6 +49,6 @@ export const userSlice = createSlice({
     },
 });
 
-export const { setUserData, removeUserData, setUserAvatar, setUserId } = userSlice.actions;
+export const { setUserData, removeUserData, setUserId } = userSlice.actions;
 export const { selectUser } = userSlice.selectors;
 export default userSlice.reducer;

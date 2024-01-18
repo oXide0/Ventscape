@@ -1,19 +1,16 @@
-export interface User {
+export interface IUser {
+    id: string | null;
     name: string;
-    password: string;
-    about: string;
+    description: string;
     email: string;
     accountType: 'customer' | 'creator';
-    subscriptions: string[];
-    followers?: string[];
-    notifications: string[];
     avatarUrl: string;
 }
 
-export interface Event {
+export interface IEvent {
     id: string;
     title: string;
-    about: string;
+    description: string;
     mode: string;
     category: string;
     date: string;

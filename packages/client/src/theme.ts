@@ -1,4 +1,14 @@
-import { extendTheme, ThemeConfig } from '@chakra-ui/react';
+import {
+    extendTheme,
+    ThemeConfig,
+    defineStyleConfig,
+    createMultiStyleConfigHelpers,
+} from '@chakra-ui/react';
+import { cardAnatomy } from '@chakra-ui/anatomy';
+
+const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(
+    cardAnatomy.keys
+);
 
 const config: ThemeConfig = {
     initialColorMode: 'dark',
@@ -43,6 +53,74 @@ const styles = {
     },
 };
 
-const theme = extendTheme({ config, styles, colors });
+const Spinner = defineStyleConfig({
+    baseStyle: {
+        color: 'purple.400',
+        position: 'absolute',
+        top: '45%',
+        left: '48%',
+    },
+    defaultProps: {
+        size: 'xl',
+    },
+});
+const Divider = defineStyleConfig({
+    baseStyle: {
+        bg: 'text.secondary',
+    },
+});
+const Text = defineStyleConfig({
+    baseStyle: {
+        color: 'text.primary',
+    },
+});
+
+const Input = defineStyleConfig({
+    defaultProps: {
+        // @ts-expect-error This is intentional to set a default focusBorderColor.
+        focusBorderColor: 'brand.100',
+    },
+});
+const Select = defineStyleConfig({
+    defaultProps: {
+        // @ts-expect-error This is intentional to set a default focusBorderColor.
+        focusBorderColor: 'brand.100',
+    },
+});
+
+const Stack = defineStyleConfig({
+    defaultProps: {
+        // @ts-expect-error This is intentional to set a default spacing.
+        spacing: 0,
+    },
+});
+
+const baseStyle = definePartsStyle({
+    container: {
+        backgroundColor: 'bg.navbar',
+        borderRadius: '5px',
+    },
+    header: {
+        backgroundColor: 'bg.navbar',
+        borderRadius: '5px',
+    },
+    body: {
+        backgroundColor: 'bg.navbar',
+        borderRadius: '5px',
+    },
+    footer: {
+        backgroundColor: 'bg.navbar',
+        borderRadius: '5px',
+    },
+});
+
+export const cardTheme = defineMultiStyleConfig({ baseStyle });
+
+const theme = extendTheme({
+    config,
+    styles,
+    colors,
+    components: { Spinner, Divider, Text, Input, Select, Card: cardTheme, Stack },
+});
 
 export default theme;

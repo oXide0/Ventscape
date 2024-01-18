@@ -1,21 +1,37 @@
 import { api } from './api';
-import { Event } from 'types/types';
+import { IEvent } from 'types/types';
+
+interface PostEventBody {
+    id: string | undefined;
+    title: string;
+    description: string;
+    date: string;
+    category: string;
+    mode: string;
+    country?: string;
+    city?: string;
+    street?: string;
+    link: string;
+    price?: number;
+    creatorId: string | null;
+    img: string;
+}
 
 export const eventApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getAllEvents: builder.query<Event[], void>({
+        getAllEvents: builder.query<IEvent[], void>({
             query: () => '/events',
             providesTags: ['Events'],
         }),
-        getEventById: builder.query<Event, string | undefined>({
+        getEventById: builder.query<IEvent, string | undefined>({
             query: (id) => `/events/${id}`,
             providesTags: ['Events'],
         }),
-        getEventByCreatorId: builder.query<Event[], string>({
+        getEventsByCreatorId: builder.query<IEvent[], string | null>({
             query: (creatorId) => `/events/creator/${creatorId}`,
             providesTags: ['Events'],
         }),
-        createEvent: builder.mutation<Event, Partial<Event>>({
+        createEvent: builder.mutation<IEvent, Omit<PostEventBody, 'id'>>({
             query: (body) => ({
                 url: '/events',
                 method: 'POST',
@@ -23,7 +39,7 @@ export const eventApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Events'],
         }),
-        updateEvent: builder.mutation<Event, Partial<Event>>({
+        updateEvent: builder.mutation<IEvent, PostEventBody>({
             query: (body) => ({
                 url: `/events/${body.id}`,
                 method: 'PUT',
@@ -46,6 +62,6 @@ export const {
     useCreateEventMutation,
     useUpdateEventMutation,
     useDeleteEventMutation,
-    useGetEventByCreatorIdQuery,
+    useGetEventsByCreatorIdQuery,
     useGetEventByIdQuery,
 } = eventApi;
