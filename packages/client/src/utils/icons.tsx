@@ -1,0 +1,14 @@
+export { BiCalendarEvent as CalendarIcon } from 'react-icons/bi';
+export { FaRegUserCircle as UserIcon } from 'react-icons/fa';
+export { GoHome as HomeIcon } from 'react-icons/go';
+export { IoIosAddCircleOutline as CircleIcon } from 'react-icons/io';
+export { MdOutlineEventAvailable as EventIcon } from 'react-icons/md';
+export { BsThreeDotsVertical as DotsIcon } from 'react-icons/bs';
+export { FaLocationDot as LocationIcon } from 'react-icons/fa6';
+export { HiStatusOnline as OnlineIcon } from 'react-icons/hi';
+export { RiMoneyEuroCircleLine as MoneyIcon } from 'react-icons/ri';
+export { BiTime as TimeIcon } from 'react-icons/bi';
+export { MdEdit as EditIcon } from 'react-icons/md';
+export { MdDelete as DeleteIcon } from 'react-icons/md';
+export { AiOutlineCloseCircle as CloseIcon } from 'react-icons/ai';
+export { FiUpload as UploadIcon } from 'react-icons/fi';
