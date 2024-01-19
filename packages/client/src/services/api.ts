@@ -23,6 +23,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     if (result.error?.status === 403) {
         const refreshResult = await baseQuery('/refresh', api, extraOptions);
         console.log(refreshResult);
+        if (refreshResult.data) {
+            console.log(refreshResult.data);
+        }
     }
     return result;
 };

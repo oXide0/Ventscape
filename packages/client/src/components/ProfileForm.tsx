@@ -20,7 +20,7 @@ import { CloseIcon } from 'utils/icons';
 import SelectField from './SelectField';
 import TextField from './TextField';
 
-interface ProfileFormValues {
+export interface ProfileFormValues {
     name: string;
     description: string;
     email: string;
@@ -135,7 +135,7 @@ const ProfileForm = memo(({ serverAvatarUrl, submit, userData }: ProfileFormProp
                             placeholder='Write a few sentences description you.'
                             focusBorderColor='brand.100'
                             height={32}
-                            {...register('description', { required: 'Description is required' })}
+                            {...register('description')}
                         />
                         <FormErrorMessage>
                             {errors.description && errors.description.message}

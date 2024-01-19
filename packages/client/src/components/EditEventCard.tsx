@@ -39,7 +39,7 @@ const EditEventCard = memo(
         };
 
         return (
-            <Box minW='360px'>
+            <Box maxW='360px' width='100%'>
                 <Dialog
                     isOpen={isOpen}
                     onClose={onClose}

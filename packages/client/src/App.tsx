@@ -17,8 +17,6 @@ const App = () => {
         }
     }, [user]);
 
-    if (isLoading) return <Loader />;
-
     return isLoading ? <Loader /> : <RouterProvider router={router} />;
 };
 

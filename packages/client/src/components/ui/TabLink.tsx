@@ -10,14 +10,16 @@ interface TabLinkProps {
 }
 
 const TabLink = ({ to, icon, label, isBold }: TabLinkProps) => {
+    const isEditProfileActive = useMatch('/profile/edit');
     const match = useMatch(to);
     const theme = useTheme();
+    const isActive = (to === '/profile' && isEditProfileActive) || match;
 
     return (
         <IconContext.Provider
             value={{
                 size: '1.7em',
-                color: match ? theme.colors.text.primary : theme.colors.text.secondary,
+                color: isActive ? theme.colors.text.primary : theme.colors.text.secondary,
             }}
         >
             <ChakraLink as={ReactRouterLink} to={to} style={{ textDecoration: 'none' }}>
@@ -27,7 +29,7 @@ const TabLink = ({ to, icon, label, isBold }: TabLinkProps) => {
                     justifyContent={{ base: 'center', xl: 'flex-start' }}
                     _hover={{ bg: 'bg.default' }}
                     _active={{ transform: 'scale(0.95)', transition: 'all 0.2s ease-in-out' }}
-                    bg={match ? 'bg.default' : 'transparent'}
+                    bg={isActive ? 'bg.default' : 'transparent'}
                     px={3}
                     py={2}
                     rounded='md'
@@ -35,7 +37,7 @@ const TabLink = ({ to, icon, label, isBold }: TabLinkProps) => {
                 >
                     {icon}
                     <Text
-                        color={match ? 'text.primary' : 'text.secondary'}
+                        color={isActive ? 'text.primary' : 'text.secondary'}
                         display={{ base: 'none', xl: 'block' }}
                         fontWeight={isBold ? 'bold' : 'normal'}
                     >

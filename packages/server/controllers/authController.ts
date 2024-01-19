@@ -39,7 +39,7 @@ export const registerUser = async (req: Request, res: Response) => {
         });
 
         const refreshToken = jwt.sign({ name }, process.env.REFRESH_TOKEN_SECRET!, {
-            expiresIn: '30d',
+            expiresIn: '14d',
         });
 
         await prisma.users.update({
@@ -55,7 +55,7 @@ export const registerUser = async (req: Request, res: Response) => {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-            maxAge: 60 * 60 * 1000,
+            maxAge: 14 * 24 * 60 * 60 * 1000,
         });
 
         res.status(201).json({ accessToken, userId });
@@ -87,7 +87,7 @@ export const loginUser = async (req: Request, res: Response) => {
         });
 
         const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET!, {
-            expiresIn: '30d',
+            expiresIn: '14d',
         });
 
         await prisma.users.update({
@@ -103,7 +103,7 @@ export const loginUser = async (req: Request, res: Response) => {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-            maxAge: 60 * 60 * 1000,
+            maxAge: 14 * 24 * 60 * 60 * 1000,
         });
         res.json({ accessToken, userId: user.id });
     } else {

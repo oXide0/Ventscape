@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     Grid,
     GridItem,
@@ -9,6 +10,7 @@ import {
     InputGroup,
     InputLeftElement,
     Switch,
+    Textarea,
 } from '@chakra-ui/react';
 import imageCompression from 'browser-image-compression';
 import ImageUpload from 'components/ImageUpload';
@@ -19,7 +21,7 @@ import { countries, eventCategories } from 'utils/events';
 import SelectField from './SelectField';
 import TextField from './TextField';
 
-interface EventFormValues {
+export interface EventFormValues {
     title: string;
     description: string;
     date: string;
@@ -39,7 +41,7 @@ interface EventFormProps {
 }
 
 const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
-    const [isPaid, setIsPaid] = useState(false);
+    const [isPaid, setIsPaid] = useState(eventData?.price ? true : false);
     const [eventImage, setEventImage] = useState<ImageValues>({ file: null, url: img });
 
     const {
@@ -56,6 +58,9 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
         if (!eventData) {
             reset();
             setEventImage({ ...eventImage, file: null, url: null });
+        }
+        if (!eventData) {
+            setIsPaid(false);
         }
     };
 
@@ -96,13 +101,18 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                     />
                 </GridItem>
                 <GridItem colSpan={6}>
-                    <TextField
-                        name='description'
-                        label='Description'
-                        placeholder='Write a few sentences about your event.'
-                        errors={errors}
-                        register={register('description', { required: 'Description is required' })}
-                    />
+                    <FormControl id='description' isRequired>
+                        <FormLabel>Description</FormLabel>
+                        <Textarea
+                            rows={5}
+                            placeholder='Write a few sentences about your event.'
+                            focusBorderColor='brand.100'
+                            {...register('description', { required: 'Description is required' })}
+                        />
+                        {errors.description && (
+                            <FormErrorMessage>{errors.description.message}</FormErrorMessage>
+                        )}
+                    </FormControl>
                 </GridItem>
                 <GridItem colSpan={6}>
                     <ImageUpload setFile={setFile} imgUrl={eventImage.url} />
