@@ -6,12 +6,17 @@ EventHub is a web application that serves as a platform for users to create and 
 
 ## Technologies Used
 
+-   Monorepo
+-   Node.js
+-   Express
+-   Prisma
+-   PostgreSQL
 -   React
--   Firebase
 -   Redux Toolkit
 -   Chakra UI
+-   JWT
 -   PWA
 
 ## Links
 
-Deployment - [https://ventscape-ad39d.web.app/](https://ventscape-ad39d.web.app/)
+Deployment Firebase - [https://ventscape-ad39d.web.app/](https://ventscape-ad39d.web.app/)
