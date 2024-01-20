@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
+import { CreateEventRequest, UpdateEventRequest } from 'shared/types';
 import { v4 } from 'uuid';
 
 const prisma = new PrismaClient();
@@ -58,7 +59,7 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, ...restBody } = req.body;
+        const { creatorId, ...restBody }: CreateEventRequest = req.body;
         const event = await prisma.events.create({
             data: {
                 id: v4(),
@@ -77,7 +78,7 @@ export const createEvent = async (req: Request, res: Response) => {
 
 export const updateEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, ...restBody } = req.body;
+        const { creatorId, ...restBody }: UpdateEventRequest = req.body;
         const event = await prisma.events.update({
             where: {
                 id: req.params.id,

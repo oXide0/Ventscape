@@ -2,12 +2,13 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { LoginRequest, RegisterRequest } from 'shared/types';
 import { v4 } from 'uuid';
 
 const prisma = new PrismaClient();
 
 export const registerUser = async (req: Request, res: Response) => {
-    const { name, email, password, accountType } = req.body;
+    const { name, email, password, accountType }: RegisterRequest = req.body;
     if (!name || !email || !password || !accountType) {
         return res.status(400).json({ message: 'Please enter all fields' });
     }
@@ -66,7 +67,7 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const loginUser = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { email, password }: LoginRequest = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: 'Please enter all fields' });
     }

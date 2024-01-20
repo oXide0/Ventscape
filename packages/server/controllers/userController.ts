@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { Request, Response } from 'express';
+import { UpdateUserRequest } from 'shared/types';
 
 const prisma = new PrismaClient();
 
@@ -28,16 +29,18 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
+    const { name, email, avatarUrl, description }: UpdateUserRequest = req.body;
+
     try {
         const user = await prisma.users.update({
             where: {
                 id: req.params.id,
             },
             data: {
-                name: req.body.name,
-                email: req.body.email,
-                avatar_url: req.body.avatarUrl,
-                description: req.body.description,
+                name: name,
+                email: email,
+                avatar_url: avatarUrl,
+                description: description,
             },
         });
         res.status(200).json({
