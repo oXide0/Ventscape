@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+    cacheDir: '../../node_modules/.vite',
     plugins: [
         react(),
         VitePWA({
