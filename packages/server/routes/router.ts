@@ -1,12 +1,13 @@
 import express from 'express';
-import eventsRouter from './events';
+import { EVENTS_ENDPOINT, USERS_ENDPOINT } from 'shared/types';
 import authRouter from './auth';
+import eventsRouter from './events';
 import userRouter from './user';
 
 const router = express.Router();
 
 router.use(authRouter);
-router.use('/events', eventsRouter);
-router.use('/users', userRouter);
+router.use(EVENTS_ENDPOINT, eventsRouter);
+router.use(USERS_ENDPOINT, userRouter);
 
 export default router;

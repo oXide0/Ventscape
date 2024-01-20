@@ -1,24 +1,23 @@
-import { CreateEventRequest, UpdateEventRequest } from 'shared/types';
-import { IEvent } from 'shared/types';
+import { CreateEventRequest, EVENTS_ENDPOINT, IEvent, UpdateEventRequest } from 'shared/types';
 import { api } from './api';
 
 export const eventApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAllEvents: builder.query<IEvent[], void>({
-            query: () => '/events',
+            query: () => EVENTS_ENDPOINT,
             providesTags: ['Events'],
         }),
         getEventById: builder.query<IEvent, string | undefined>({
-            query: (id) => `/events/${id}`,
+            query: (id) => `${EVENTS_ENDPOINT}/${id}`,
             providesTags: ['Events'],
         }),
         getEventsByCreatorId: builder.query<IEvent[], string | null | undefined>({
-            query: (creatorId) => `/events/creator/${creatorId}`,
+            query: (creatorId) => `${EVENTS_ENDPOINT}/creator/${creatorId}`,
             providesTags: ['Events'],
         }),
         createEvent: builder.mutation<IEvent, CreateEventRequest>({
             query: (body) => ({
-                url: '/events',
+                url: EVENTS_ENDPOINT,
                 method: 'POST',
                 body,
             }),
@@ -26,7 +25,7 @@ export const eventApi = api.injectEndpoints({
         }),
         updateEvent: builder.mutation<IEvent, UpdateEventRequest>({
             query: (body) => ({
-                url: `/events/${body.id}`,
+                url: `${EVENTS_ENDPOINT}/${body.id}`,
                 method: 'PUT',
                 body,
             }),
@@ -34,7 +33,7 @@ export const eventApi = api.injectEndpoints({
         }),
         deleteEvent: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/events/${id}`,
+                url: `${EVENTS_ENDPOINT}/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Events'],

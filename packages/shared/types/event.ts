@@ -44,3 +44,5 @@ export interface UpdateEventRequest {
     creatorId: string;
     img: string;
 }
+
+export const EVENTS_ENDPOINT = '/events';

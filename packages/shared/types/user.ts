@@ -36,3 +36,9 @@ export interface UpdateUserRequest {
     accountType: UserRoles.CREATOR | UserRoles.CUSTOMER;
     avatarUrl: string;
 }
+
+export const USERS_ENDPOINT = '/users';
+export const LOGIN_ENDPOINT = '/login';
+export const REGISTER_ENDPOINT = '/register';
+export const LOGOUT_ENDPOINT = '/logout';
+export const REFRESH_TOKEN_ENDPOINT = '/refresh';

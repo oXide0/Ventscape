@@ -1,11 +1,18 @@
-import { AuthResponse, LoginRequest, RegisterRequest } from 'shared/types';
+import {
+    AuthResponse,
+    LOGIN_ENDPOINT,
+    LOGOUT_ENDPOINT,
+    LoginRequest,
+    REGISTER_ENDPOINT,
+    RegisterRequest,
+} from 'shared/types';
 import { api } from './api';
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
         register: builder.mutation<AuthResponse, RegisterRequest>({
             query: (body) => ({
-                url: '/register',
+                url: REGISTER_ENDPOINT,
                 method: 'POST',
                 body,
             }),
@@ -13,7 +20,7 @@ export const userApi = api.injectEndpoints({
         }),
         login: builder.mutation<AuthResponse, LoginRequest>({
             query: (body) => ({
-                url: '/login',
+                url: LOGIN_ENDPOINT,
                 method: 'POST',
                 body,
             }),
@@ -21,7 +28,7 @@ export const userApi = api.injectEndpoints({
         }),
         logout: builder.mutation<void, void>({
             query: () => ({
-                url: '/logout',
+                url: LOGOUT_ENDPOINT,
                 method: 'POST',
             }),
             invalidatesTags: ['Users'],
