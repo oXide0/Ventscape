@@ -18,7 +18,7 @@ import { useAppSelector } from 'hooks/redux-hooks';
 import { memo } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { useGetUserByIdQuery } from 'services/userApi';
-import { IEvent } from 'types/types';
+import { IEvent } from 'shared/types';
 import { convertDateFormat } from 'utils/events';
 import { DotsIcon, LocationIcon, OnlineIcon, MoneyIcon, TimeIcon } from 'utils/icons';
 

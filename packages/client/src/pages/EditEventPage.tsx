@@ -15,15 +15,28 @@ const EditEventPage = () => {
     const [updateEvent] = useUpdateEventMutation();
 
     const handleSubmit = async (event: EventFormValues) => {
-        await updateEvent({ id: eventId, creatorId: id, img: '', ...event });
-        toast({
-            title: 'Event updated.',
-            description: "We've updated your event for you.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-        });
+        try {
+            if (!id) throw new Error('User not logged in.');
+            if (!eventId) throw new Error('Event not found.');
+            await updateEvent({ id: eventId, creatorId: id, img: '', ...event }).unwrap();
+            toast({
+                title: 'Event updated.',
+                description: "We've updated your event for you.",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        } catch (err) {
+            toast({
+                title: 'An error occurred.',
+                description: "We couldn't update your event, please try again later.",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        }
     };
 
     if (!isSuccess) {

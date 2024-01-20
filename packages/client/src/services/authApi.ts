@@ -1,25 +1,9 @@
+import { AuthResponse, LoginRequest, RegisterRequest } from 'shared/types';
 import { api } from './api';
-
-interface AuthAnswer {
-    accessToken: string;
-    userId: string;
-}
-
-interface RegisterBody {
-    name: string;
-    email: string;
-    password: string;
-    accountType: 'customer' | 'creator';
-}
-
-interface LoginBody {
-    email: string;
-    password: string;
-}
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<AuthAnswer, RegisterBody>({
+        register: builder.mutation<AuthResponse, RegisterRequest>({
             query: (body) => ({
                 url: '/register',
                 method: 'POST',
@@ -27,7 +11,7 @@ export const userApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Users'],
         }),
-        login: builder.mutation<AuthAnswer, LoginBody>({
+        login: builder.mutation<AuthResponse, LoginRequest>({
             query: (body) => ({
                 url: '/login',
                 method: 'POST',

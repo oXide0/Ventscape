@@ -7,7 +7,12 @@ const prisma = new PrismaClient();
 export const getAllEvents = async (_: Request, res: Response) => {
     try {
         const events = await prisma.events.findMany();
-        res.json(events.map((event) => ({ ...event, creatorId: event.creator_id })));
+        res.json(
+            events.map((event) => {
+                const { creator_id, ...restEvent } = event;
+                return { ...restEvent, creatorId: creator_id };
+            })
+        );
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -23,7 +28,8 @@ export const getEventById = async (req: Request, res: Response) => {
         });
 
         if (!event) return res.status(401).json({ message: 'Not events found' });
-        res.json({ ...event, creatorId: event.creator_id });
+        const { creator_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -38,7 +44,12 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
             },
         });
 
-        res.json(events.map((event) => ({ ...event, creatorId: event.creator_id })));
+        res.json(
+            events.map((event) => {
+                const { creator_id, ...restEvent } = event;
+                return { ...restEvent, creatorId: creator_id };
+            })
+        );
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -56,7 +67,8 @@ export const createEvent = async (req: Request, res: Response) => {
             },
         });
 
-        res.json({ ...event, creatorId: event.creator_id });
+        const { creator_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot add event' });
@@ -76,7 +88,8 @@ export const updateEvent = async (req: Request, res: Response) => {
             },
         });
 
-        res.json({ ...event, creatorId: event.creator_id });
+        const { creator_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot update event' });

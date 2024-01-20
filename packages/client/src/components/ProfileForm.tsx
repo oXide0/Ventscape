@@ -48,6 +48,7 @@ const ProfileForm = memo(({ serverAvatarUrl, submit, userData }: ProfileFormProp
     };
 
     const setFile = async (file: File | null) => {
+        if (!file) return;
         // const options = {
         //     maxSizeMB: 1,
         //     maxWidthOrHeight: 1920,

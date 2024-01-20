@@ -1,4 +1,5 @@
-import { IEvent, EventsFilter } from 'types/types';
+import { IEvent } from 'shared/types';
+import { EventsFilter } from 'types/types';
 
 export const eventCategories = [
     { label: 'Arts and Culture', value: 'Arts and Culture' },

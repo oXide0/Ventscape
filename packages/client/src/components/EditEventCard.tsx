@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { memo, useRef, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { IEvent } from 'types/types';
+import { IEvent } from 'shared/types';
 import { convertDateFormat, truncateDescription } from 'utils/events';
 import { DeleteIcon, EditIcon, TimeIcon } from 'utils/icons';
 
@@ -31,10 +31,10 @@ const EditEventCard = memo(
     ({ bgColor = 'navbar', showActions = true, ...props }: EditEventCardProps) => {
         const { isOpen, onOpen, onClose } = useDisclosure();
         const cancelRef = useRef<HTMLButtonElement>(null);
-        const [imgUrl, setImgUrl] = useState<string>('');
+        const [imgUrl] = useState<string>('');
 
         const removeEvent = () => {
-            props.onRemoveEvent(props.id);
+            if (props.onRemoveEvent) props.onRemoveEvent(props.id);
             onClose();
         };
 

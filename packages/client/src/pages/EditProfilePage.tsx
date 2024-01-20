@@ -13,15 +13,26 @@ const EditProfilePage = () => {
     const [updateUser] = useUpdateUserMutation();
 
     const handleSubmit = async (data: ProfileFormValues) => {
-        await updateUser({ id, avatarUrl: '', ...data });
-        toast({
-            title: 'Profile updated.',
-            description: "We've updated your profile for you.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-        });
+        try {
+            await updateUser({ id, avatarUrl: '', ...data }).unwrap();
+            toast({
+                title: 'Profile updated.',
+                description: "We've updated your profile for you.",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        } catch (err) {
+            toast({
+                title: 'An error occurred.',
+                description: "We couldn't update your profile, please try again later.",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        }
     };
 
     if (!isSuccess) return <Loader />;

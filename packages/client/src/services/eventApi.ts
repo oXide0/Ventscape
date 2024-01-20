@@ -1,21 +1,6 @@
+import { CreateEventRequest, UpdateEventRequest } from 'shared/types';
+import { IEvent } from 'shared/types';
 import { api } from './api';
-import { IEvent } from 'types/types';
-
-interface PostEventBody {
-    id: string | undefined;
-    title: string;
-    description: string;
-    date: string;
-    category: string;
-    mode: string;
-    country?: string;
-    city?: string;
-    street?: string;
-    link: string;
-    price?: number;
-    creatorId: string | null;
-    img: string;
-}
 
 export const eventApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -31,7 +16,7 @@ export const eventApi = api.injectEndpoints({
             query: (creatorId) => `/events/creator/${creatorId}`,
             providesTags: ['Events'],
         }),
-        createEvent: builder.mutation<IEvent, Omit<PostEventBody, 'id'>>({
+        createEvent: builder.mutation<IEvent, CreateEventRequest>({
             query: (body) => ({
                 url: '/events',
                 method: 'POST',
@@ -39,7 +24,7 @@ export const eventApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Events'],
         }),
-        updateEvent: builder.mutation<IEvent, PostEventBody>({
+        updateEvent: builder.mutation<IEvent, UpdateEventRequest>({
             query: (body) => ({
                 url: `/events/${body.id}`,
                 method: 'PUT',

@@ -11,15 +11,27 @@ const CreateEventPage = () => {
     const [createEvent] = useCreateEventMutation();
 
     const handleSubmit = async (event: EventFormValues) => {
-        await createEvent({ creatorId: id, img: '', ...event });
-        toast({
-            title: 'Event created.',
-            description: "We've created your event for you.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-        });
+        try {
+            if (!id) throw new Error('User not logged in.');
+            await createEvent({ creatorId: id, img: '', ...event }).unwrap();
+            toast({
+                title: 'Event created.',
+                description: "We've created your event for you.",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        } catch (err) {
+            toast({
+                title: 'An error occurred.',
+                description: "We couldn't create your event, please try again later.",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        }
     };
 
     return (
