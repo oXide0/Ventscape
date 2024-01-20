@@ -11,7 +11,7 @@ interface UserByIdResponse {
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getUserById: builder.query<UserByIdResponse, string | null>({
+        getUserById: builder.query<UserByIdResponse, string | null | undefined>({
             query: (id) => `/users/${id}`,
             providesTags: ['Users'],
         }),

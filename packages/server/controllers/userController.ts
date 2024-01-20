@@ -17,8 +17,6 @@ export const getUserById = async (req: Request, res: Response) => {
                 accountType: user.account_type,
                 avatarUrl: user.avatar_url,
                 description: user.description,
-                followers: user.followers,
-                subscriptions: user.subscriptions,
             });
         } else {
             throw new Error('User not found');
@@ -48,8 +46,6 @@ export const updateUser = async (req: Request, res: Response) => {
             accountType: user.account_type,
             avatarUrl: user.avatar_url,
             description: user.description,
-            followers: user.followers,
-            subscriptions: user.subscriptions,
         });
     } catch (err) {
         console.error(err);

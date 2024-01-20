@@ -88,13 +88,6 @@ const Select = defineStyleConfig({
     },
 });
 
-const Stack = defineStyleConfig({
-    defaultProps: {
-        // @ts-expect-error This is intentional to set a default spacing.
-        spacing: 0,
-    },
-});
-
 const baseStyle = definePartsStyle({
     container: {
         backgroundColor: 'bg.navbar',
@@ -120,7 +113,7 @@ const theme = extendTheme({
     config,
     styles,
     colors,
-    components: { Spinner, Divider, Text, Input, Select, Card: cardTheme, Stack },
+    components: { Spinner, Divider, Text, Input, Select, Card: cardTheme },
 });
 
 export default theme;

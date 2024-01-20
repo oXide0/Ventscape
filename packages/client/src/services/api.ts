@@ -1,6 +1,10 @@
 import type { BaseQueryFn, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+interface RefreshData {
+    accessToken: string;
+}
+
 const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
     credentials: 'include',
@@ -21,10 +25,11 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const result = await baseQuery(args, api, extraOptions);
 
     if (result.error?.status === 403) {
-        const refreshResult = await baseQuery('/refresh', api, extraOptions);
-        console.log(refreshResult);
+        const refreshResult = (await baseQuery('/refresh', api, extraOptions)) as {
+            data: RefreshData;
+        };
         if (refreshResult.data) {
-            console.log(refreshResult.data);
+            localStorage.setItem('accessToken', refreshResult.data.accessToken);
         }
     }
     return result;

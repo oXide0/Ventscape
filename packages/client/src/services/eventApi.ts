@@ -27,7 +27,7 @@ export const eventApi = api.injectEndpoints({
             query: (id) => `/events/${id}`,
             providesTags: ['Events'],
         }),
-        getEventsByCreatorId: builder.query<IEvent[], string | null>({
+        getEventsByCreatorId: builder.query<IEvent[], string | null | undefined>({
             query: (creatorId) => `/events/creator/${creatorId}`,
             providesTags: ['Events'],
         }),

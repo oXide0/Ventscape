@@ -24,7 +24,7 @@ import { DeleteIcon, EditIcon, TimeIcon } from 'utils/icons';
 interface EditEventCardProps extends IEvent {
     bgColor?: 'default' | 'navbar';
     showActions?: boolean;
-    onRemoveEvent: (id: string) => void;
+    onRemoveEvent?: (id: string) => void;
 }
 
 const EditEventCard = memo(

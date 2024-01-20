@@ -31,9 +31,6 @@ model users {
   password      String   @db.VarChar(255)
   email         String   @unique @db.VarChar(255)
   description   String?
-  subscriptions String[] @db.Uuid
-  followers     String[] @db.Uuid
-  notifications String[] @db.Uuid
   account_type  String?  @db.VarChar(255)
   refresh_token String?  @unique @db.VarChar(255)
   avatar_url    String?  @db.VarChar(255)
