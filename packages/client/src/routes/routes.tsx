@@ -2,17 +2,17 @@ import AllEventsPage from 'pages/AllEventsPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import EditEventPage from 'pages/EditEventPage';
 import EditProfilePage from 'pages/EditProfilePage';
+import InProgressPage from 'pages/InProgressPage';
 import LoginPage from 'pages/LoginPage';
 import MyEventsPage from 'pages/MyEventsPage';
 import ProfilePage from 'pages/ProfilePage';
 import RegisterPage from 'pages/RegisterPage';
 import StartPage from 'pages/StartPage';
+import UserEventsPage from 'pages/UserEventsPage';
 import UserPage from 'pages/UserPage';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import { AuthenticatedRoutes, CreatorRoutes, UnauthenticatedRoutes } from 'routes/AuthProviders';
 import Layout from 'routes/Layout';
-import InProgressPage from 'pages/InProgressPage';
-import UserEventsPage from 'pages/UserEventsPage';
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
