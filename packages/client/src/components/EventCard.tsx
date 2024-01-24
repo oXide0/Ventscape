@@ -1,28 +1,43 @@
 import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     Avatar,
     Box,
+    Button,
     Card,
     CardBody,
-    CardFooter as ChakraCardFooter,
     CardHeader,
+    CardFooter as ChakraCardFooter,
+    Divider,
     Flex,
     Heading,
-    IconButton,
-    Text,
-    Button,
-    Divider,
     Highlight,
+    IconButton,
+    Popover,
+    PopoverBody,
+    PopoverContent,
+    PopoverTrigger,
+    Text,
+    useDisclosure,
 } from '@chakra-ui/react';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { IEvent } from 'shared/types';
 import { convertDateFormat } from 'utils/events';
-import { DotsIcon, LocationIcon, OnlineIcon, MoneyIcon, TimeIcon } from 'utils/icons';
+import { DotsIcon, LocationIcon, MoneyIcon, OnlineIcon, TimeIcon } from 'utils/icons';
 
-const EventCard = memo((event: IEvent) => {
+interface EventCardProps extends IEvent {
+    onRemoveEvent?: (eventId: string) => void;
+}
+
+const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
     const navigate = useNavigate();
 
@@ -41,12 +56,19 @@ const EventCard = memo((event: IEvent) => {
                             <Text>Creator, {creator?.name}</Text>
                         </Box>
                     </Flex>
-                    <IconButton
-                        variant='ghost'
-                        colorScheme='gray'
-                        aria-label='See menu'
-                        icon={<DotsIcon />}
-                    />
+                    {onRemoveEvent && (
+                        <Popover>
+                            <PopoverTrigger>
+                                <IconButton
+                                    variant='ghost'
+                                    colorScheme='gray'
+                                    aria-label='See menu'
+                                    icon={<DotsIcon />}
+                                />
+                            </PopoverTrigger>
+                            <CardPopover eventId={event.id} removeEvent={onRemoveEvent} />
+                        </Popover>
+                    )}
                 </Flex>
             </CardHeader>
             <CardBody>
@@ -135,5 +157,77 @@ const CardFooter = ({ mode, city, date, price, country, street, link }: CardFoot
                 </Button>
             </Flex>
         </ChakraCardFooter>
+    );
+};
+
+const CardPopover = ({
+    eventId,
+    removeEvent,
+}: {
+    eventId: string;
+    removeEvent: (eventId: string) => void;
+}) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef<HTMLButtonElement>(null);
+    if (!removeEvent) return null;
+
+    return (
+        <>
+            <PopoverContent maxW='200px' right={70} bg='bg.default'>
+                <PopoverBody display='flex' flexDirection='column' gap={3}>
+                    <Button
+                        w='100%'
+                        to={`/events/edit/${eventId}`}
+                        as={ReactRouterLink}
+                        _hover={{ bg: 'brand.200' }}
+                    >
+                        Edit event
+                    </Button>
+                    <Button w='100%' _hover={{ bg: 'red.400' }} onClick={onOpen}>
+                        Delete event
+                    </Button>
+                </PopoverBody>
+            </PopoverContent>
+            <Dialog
+                isOpen={isOpen}
+                onClose={onClose}
+                cancelRef={cancelRef}
+                removeEvent={() => removeEvent(eventId)}
+            />
+        </>
+    );
+};
+
+interface DialogProps {
+    isOpen: boolean;
+    onClose: () => void;
+    cancelRef: React.RefObject<HTMLButtonElement>;
+    removeEvent: () => void;
+}
+
+const Dialog = ({ isOpen, onClose, cancelRef, removeEvent }: DialogProps) => {
+    return (
+        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered>
+            <AlertDialogOverlay>
+                <AlertDialogContent>
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        Delete Event
+                    </AlertDialogHeader>
+
+                    <AlertDialogBody>
+                        Are you sure you want to delete your event? This action cannot be undone.
+                    </AlertDialogBody>
+
+                    <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button colorScheme='red' onClick={removeEvent} ml={3}>
+                            Remove
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialogOverlay>
+        </AlertDialog>
     );
 };

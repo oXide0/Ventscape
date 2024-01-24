@@ -1,5 +1,5 @@
 import { Heading } from '@chakra-ui/react';
-import EditEventCard from 'components/EditEventCard';
+import EventCard from 'components/EventCard';
 import InfoUserCard from 'components/InfoUserCard';
 import ProfileCard from 'components/ProfileCard';
 import Loader from 'components/ui/Loader';
@@ -31,14 +31,7 @@ const UserPage = () => {
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
-                    items={events.map((event) => (
-                        <EditEventCard
-                            key={event.id}
-                            {...event}
-                            showActions={false}
-                            bgColor='default'
-                        />
-                    ))}
+                    items={[<EventCard key={1} {...events[0]} />]}
                     noItemsText='You have no events'
                 />
             )}

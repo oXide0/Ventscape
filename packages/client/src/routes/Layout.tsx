@@ -5,7 +5,7 @@ import { Outlet } from 'react-router';
 
 const Layout = () => {
     return (
-        <Box maxW='full' h='full'>
+        <Box maxW='full' minH='full' display='flex' flexDirection='column'>
             <NavBar />
             <Stack
                 width={{ base: 'auto', sm: '96%', xl: '80%' }}
