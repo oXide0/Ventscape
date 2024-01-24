@@ -1,5 +1,4 @@
 import { Button, Heading } from '@chakra-ui/react';
-import EventCard from 'components/EventCard';
 import InfoUserCard from 'components/InfoUserCard';
 import ProfileCard from 'components/ProfileCard';
 import Loader from 'components/ui/Loader';
@@ -7,21 +6,14 @@ import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { Link as RouterLink } from 'react-router-dom';
-import { useDeleteEventMutation, useGetEventsByCreatorIdQuery } from 'services/eventApi';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { EditIcon } from 'utils/icons';
 
 const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
-    const [deleteEvent] = useDeleteEventMutation();
     const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id);
-    const { data: events, isSuccess: isEventsSuccess } = useGetEventsByCreatorIdQuery(id);
 
-    const removeEvent = (eventId: string) => {
-        deleteEvent(eventId);
-    };
-
-    if (!isUserSuccess || !isEventsSuccess) return <Loader />;
+    if (!isUserSuccess) return <Loader />;
     if (error) {
         <Heading textAlign='center' pt={6}>
             Your profile is not found
@@ -58,7 +50,16 @@ const ProfilePage = () => {
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
-                    items={[<EventCard key={1} onRemoveEvent={removeEvent} {...events[0]} />]}
+                    items={[
+                        <Button
+                            colorScheme='brand'
+                            color='white'
+                            as={RouterLink}
+                            to={`/user/${id}/events`}
+                        >
+                            Show events
+                        </Button>,
+                    ]}
                     noItemsText='You have no events'
                 />
             )}

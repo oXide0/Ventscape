@@ -12,6 +12,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 import { AuthenticatedRoutes, CreatorRoutes, UnauthenticatedRoutes } from 'routes/AuthProviders';
 import Layout from 'routes/Layout';
 import InProgressPage from 'pages/InProgressPage';
+import UserEventsPage from 'pages/UserEventsPage';
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +28,7 @@ export const router = createBrowserRouter(
                 <Route path='profile' element={<ProfilePage />} />
                 <Route path='profile/edit' element={<EditProfilePage />} />
                 <Route path='progress' element={<InProgressPage />} />
+                <Route path='user/:userId/events' element={<UserEventsPage />} />
                 <Route element={<CreatorRoutes />}>
                     <Route path='events/create' element={<CreateEventPage />} />
                     <Route path='events/my' element={<MyEventsPage />} />
