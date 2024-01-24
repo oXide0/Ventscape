@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { UserRoles } from 'shared/types';
 import { ImageValues } from 'types/types';
 import { CloseIcon } from 'utils/icons';
 import SelectField from './SelectField';
@@ -24,7 +25,7 @@ export interface ProfileFormValues {
     name: string;
     description: string;
     email: string;
-    accountType: 'customer' | 'creator';
+    accountType: UserRoles;
 }
 
 interface ProfileFormProps {

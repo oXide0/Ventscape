@@ -1,4 +1,4 @@
-enum UserRoles {
+export enum UserRoles {
     CREATOR = 'creator',
     CUSTOMER = 'customer',
 }

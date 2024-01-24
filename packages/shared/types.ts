@@ -16,4 +16,5 @@ export {
     REFRESH_TOKEN_ENDPOINT,
     REGISTER_ENDPOINT,
     USERS_ENDPOINT,
+    UserRoles,
 } from './types/user';

@@ -2,16 +2,17 @@ import AllEventsPage from 'pages/AllEventsPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import EditEventPage from 'pages/EditEventPage';
 import EditProfilePage from 'pages/EditProfilePage';
+import InProgressPage from 'pages/InProgressPage';
 import LoginPage from 'pages/LoginPage';
 import MyEventsPage from 'pages/MyEventsPage';
 import ProfilePage from 'pages/ProfilePage';
 import RegisterPage from 'pages/RegisterPage';
 import StartPage from 'pages/StartPage';
+import UserEventsPage from 'pages/UserEventsPage';
 import UserPage from 'pages/UserPage';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import { AuthenticatedRoutes, CreatorRoutes, UnauthenticatedRoutes } from 'routes/AuthProviders';
 import Layout from 'routes/Layout';
-import InProgressPage from 'pages/InProgressPage';
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +28,7 @@ export const router = createBrowserRouter(
                 <Route path='profile' element={<ProfilePage />} />
                 <Route path='profile/edit' element={<EditProfilePage />} />
                 <Route path='progress' element={<InProgressPage />} />
+                <Route path='user/:userId/events' element={<UserEventsPage />} />
                 <Route element={<CreatorRoutes />}>
                     <Route path='events/create' element={<CreateEventPage />} />
                     <Route path='events/my' element={<MyEventsPage />} />
