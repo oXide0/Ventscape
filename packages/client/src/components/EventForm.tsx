@@ -54,13 +54,14 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     } = useForm<EventFormValues>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<EventFormValues> = async (data) => {
-        await submit(data);
-        if (!eventData) {
-            reset();
-            setEventImage({ ...eventImage, file: null, url: null });
-        }
-        if (!eventData) {
-            setIsPaid(false);
+        try {
+            await submit(data);
+            if (!eventData) {
+                reset();
+                setIsPaid(false);
+            }
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -86,7 +87,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
                 setValue(value as keyof EventFormValues, eventData[value as keyof EventFormValues]);
             }
         }
-    }, []);
+    }, [eventData]);
 
     return (
         <Box as='form' onSubmit={handleSubmit(onSubmit)}>
