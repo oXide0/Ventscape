@@ -34,6 +34,7 @@ import { convertDateFormat } from 'utils/events';
 import { DotsIcon, LocationIcon, MoneyIcon, OnlineIcon, TimeIcon } from 'utils/icons';
 
 interface EventCardProps extends IEvent {
+    showActions?: boolean;
     onRemoveEvent?: (eventId: string) => void;
 }
 
@@ -90,9 +91,19 @@ interface CardFooterProps {
     country: string;
     street: string;
     link: string;
+    showActions?: boolean;
 }
 
-const CardFooter = ({ mode, city, date, price, country, street, link }: CardFooterProps) => {
+const CardFooter = ({
+    mode,
+    city,
+    date,
+    price,
+    country,
+    street,
+    link,
+    showActions = true,
+}: CardFooterProps) => {
     const { isAuth } = useAppSelector(selectUser);
     const apllyPath = isAuth ? link : '/login';
 
@@ -145,16 +156,18 @@ const CardFooter = ({ mode, city, date, price, country, street, link }: CardFoot
                         {`${country}, ${city}, ${street}`}
                     </Text>
                 )}
-                <Button
-                    colorScheme='brand'
-                    color='text.white'
-                    px='14'
-                    as={ReactRouterLink}
-                    to={apllyPath}
-                    w={{ base: 'full', md: 'auto' }}
-                >
-                    Apply
-                </Button>
+                {showActions && (
+                    <Button
+                        colorScheme='brand'
+                        color='text.white'
+                        px='14'
+                        as={ReactRouterLink}
+                        to={apllyPath}
+                        w={{ base: 'full', md: 'auto' }}
+                    >
+                        Apply
+                    </Button>
+                )}
             </Flex>
         </ChakraCardFooter>
     );

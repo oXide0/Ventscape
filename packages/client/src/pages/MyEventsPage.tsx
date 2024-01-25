@@ -32,7 +32,12 @@ const MyEventsPage = () => {
         <PageLayout heading='Your events'>
             <Stack pt={4} gap={8}>
                 {events.map((event) => (
-                    <EventCard key={event.id} onRemoveEvent={removeEvent} {...event} />
+                    <EventCard
+                        key={event.id}
+                        onRemoveEvent={removeEvent}
+                        showActions={false}
+                        {...event}
+                    />
                 ))}
             </Stack>
         </PageLayout>

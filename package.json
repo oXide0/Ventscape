@@ -7,8 +7,8 @@
         "client": "cd packages/client && npm run dev",
         "server": "cd packages/server && npm start",
         "prepare": "husky install",
-        "schema": "npx prisma db pull --schema=packages/server/prisma/schema.prisma",
-        "generate": "npx prisma generate --schema=packages/server/prisma/schema.prisma"
+        "prisma schema": "npx prisma db pull --schema=packages/server/prisma/schema.prisma",
+        "prisma generate": "npx prisma generate --schema=packages/server/prisma/schema.prisma"
     },
     "devDependencies": {
         "husky": "^8.0.3"
