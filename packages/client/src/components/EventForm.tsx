@@ -36,13 +36,13 @@ export interface EventFormValues {
 
 interface EventFormProps {
     eventData?: EventFormValues | null;
-    img?: string | null | undefined;
-    submit: (event: EventFormValues) => Promise<void>;
+    imgUrl?: string | null | undefined;
+    submit: (event: EventFormValues, img: File | null) => Promise<void>;
 }
 
-const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
+const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
     const [isPaid, setIsPaid] = useState(eventData?.price ? true : false);
-    const [eventImage, setEventImage] = useState<ImageValues>({ file: null, url: img });
+    const [eventImage, setEventImage] = useState<ImageValues>({ file: null, url: imgUrl });
 
     const {
         register,
@@ -55,7 +55,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
 
     const onSubmit: SubmitHandler<EventFormValues> = async (data) => {
         try {
-            await submit(data);
+            await submit(data, eventImage.file);
             if (!eventData) {
                 reset();
                 setIsPaid(false);
@@ -70,6 +70,7 @@ const EventForm = memo(({ eventData, img, submit }: EventFormProps) => {
     };
 
     const setFile = async (file: File | null) => {
+        if (!file) return setEventImage({ file: null, url: null });
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,

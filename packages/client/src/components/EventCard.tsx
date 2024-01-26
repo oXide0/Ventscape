@@ -17,6 +17,7 @@ import {
     Heading,
     Highlight,
     IconButton,
+    Image,
     Popover,
     PopoverBody,
     PopoverContent,
@@ -28,6 +29,7 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { memo, useRef } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import { useGetEventImageQuery } from 'services/fileApi';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { IEvent } from 'shared/types';
 import { convertDateFormat } from 'utils/events';
@@ -39,6 +41,7 @@ interface EventCardProps extends IEvent {
 
 const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
+    const { data: img } = useGetEventImageQuery(event.imgId);
     const navigate = useNavigate();
 
     const onAvatarClick = () => {
@@ -71,6 +74,7 @@ const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
                     )}
                 </Flex>
             </CardHeader>
+            {img && <Image objectFit='cover' src={img.imageUrl} alt='event-image' />}
             <CardBody>
                 <Heading size='lg'>{event.title}</Heading>
                 <Text pt={1}>{event.description}</Text>

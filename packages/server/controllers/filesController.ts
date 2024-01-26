@@ -1,7 +1,12 @@
-import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+    DeleteObjectCommand,
+    GetObjectCommand,
+    PutObjectCommand,
+    S3Client,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Request, Response } from 'express';
 import { v4 } from 'uuid';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const s3Client = new S3Client({
     region: process.env.AWS_REGION,
@@ -9,7 +14,7 @@ const s3Client = new S3Client({
 
 export const uploadFile = async (req: Request, res: Response) => {
     if (!req.file) {
-        res.status(400).send('No file uploaded.');
+        res.json({ imageUrl: null });
         return;
     }
 
@@ -43,4 +48,20 @@ export const getFile = async (req: Request, res: Response) => {
     );
 
     res.json({ imageUrl });
+};
+
+export const deleteFile = async (req: Request, res: Response) => {
+    try {
+        await s3Client.send(
+            new DeleteObjectCommand({
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: req.params.fileId,
+            })
+        );
+
+        res.sendStatus(200);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to delete file');
+    }
 };

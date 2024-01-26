@@ -6,19 +6,35 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useParams } from 'react-router-dom';
 import { useGetEventByIdQuery, useUpdateEventMutation } from 'services/eventApi';
+import { useUploadEventImageMutation, useRemoveEventImageMutation } from 'services/fileApi';
 
 const EditEventPage = () => {
     const toast = useToast();
     const { eventId } = useParams();
     const { id } = useAppSelector(selectUser);
     const { data: event, isSuccess } = useGetEventByIdQuery(eventId);
+    const [uploadEventImage] = useUploadEventImageMutation();
+    const [removeEventImage] = useRemoveEventImageMutation();
     const [updateEvent] = useUpdateEventMutation();
 
-    const handleSubmit = async (event: EventFormValues) => {
+    const handleSubmit = async (event: EventFormValues, img: File | null) => {
         try {
             if (!id) throw new Error('User not logged in.');
             if (!eventId) throw new Error('Event not found.');
-            await updateEvent({ id: eventId, creatorId: id, img: '', ...event }).unwrap();
+
+            let imgData = null;
+
+            if (img === null) {
+                await removeEventImage(eventId).unwrap();
+            } else {
+                imgData = await uploadEventImage({ file: img }).unwrap();
+            }
+            await updateEvent({
+                id: eventId,
+                creatorId: id,
+                imgId: imgData ? imgData.fileId : '',
+                ...event,
+            }).unwrap();
             toast({
                 title: 'Event updated.',
                 description: "We've updated your event for you.",
@@ -45,7 +61,7 @@ const EditEventPage = () => {
 
     return (
         <PageLayout heading='Edit your event'>
-            <EventForm submit={handleSubmit} eventData={event} img={null} />
+            <EventForm submit={handleSubmit} eventData={event} imgUrl={null} />
         </PageLayout>
     );
 };

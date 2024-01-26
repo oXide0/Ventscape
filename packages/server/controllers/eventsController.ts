@@ -10,8 +10,8 @@ export const getAllEvents = async (_: Request, res: Response) => {
         const events = await prisma.events.findMany();
         res.json(
             events.map((event) => {
-                const { creator_id, ...restEvent } = event;
-                return { ...restEvent, creatorId: creator_id };
+                const { creator_id, img_id, ...restEvent } = event;
+                return { ...restEvent, creatorId: creator_id, imgId: img_id };
             })
         );
     } catch (err) {
@@ -29,8 +29,8 @@ export const getEventById = async (req: Request, res: Response) => {
         });
 
         if (!event) return res.status(401).json({ message: 'Not events found' });
-        const { creator_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id });
+        const { creator_id, img_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -47,8 +47,8 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
 
         res.json(
             events.map((event) => {
-                const { creator_id, ...restEvent } = event;
-                return { ...restEvent, creatorId: creator_id };
+                const { creator_id, img_id, ...restEvent } = event;
+                return { ...restEvent, creatorId: creator_id, imgId: img_id };
             })
         );
     } catch (err) {
@@ -59,17 +59,18 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, ...restBody }: CreateEventRequest = req.body;
+        const { creatorId, imgId, ...restBody }: CreateEventRequest = req.body;
         const event = await prisma.events.create({
             data: {
                 id: v4(),
                 creator_id: creatorId,
+                img_id: imgId,
                 ...restBody,
             },
         });
 
-        const { creator_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id });
+        const { creator_id, img_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot add event' });
@@ -78,19 +79,20 @@ export const createEvent = async (req: Request, res: Response) => {
 
 export const updateEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, ...restBody }: UpdateEventRequest = req.body;
+        const { creatorId, imgId, ...restBody }: UpdateEventRequest = req.body;
         const event = await prisma.events.update({
             where: {
                 id: req.params.id,
             },
             data: {
                 creator_id: creatorId,
+                img_id: imgId,
                 ...restBody,
             },
         });
 
-        const { creator_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id });
+        const { creator_id, img_id, ...restEvent } = event;
+        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot update event' });
