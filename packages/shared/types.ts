@@ -19,4 +19,4 @@ export {
     UserRoles,
 } from './types/user';
 
-export { FILES_ENDPOINT, UPLOAD_ENDPOINT } from './types/files';
+export { IMAGES_ENDPOINT, UPLOAD_ENDPOINT } from './types/images';

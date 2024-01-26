@@ -12,25 +12,24 @@ const s3Client = new S3Client({
     region: process.env.AWS_REGION,
 });
 
-export const uploadFile = async (req: Request, res: Response) => {
+export const uploadImage = async (req: Request, res: Response) => {
     if (!req.file) {
         res.json({ imageUrl: null });
         return;
     }
 
-    const fileId = `${v4()}-${req.file.originalname}`;
+    const imageId = `${v4()}-${req.file.originalname}`;
 
     try {
         const uploadParams = {
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: fileId,
+            Key: imageId,
             Body: req.file.buffer,
             ContentType: req.file.mimetype,
         };
 
         await s3Client.send(new PutObjectCommand(uploadParams));
-
-        res.json({ fileId });
+        res.json({ imageId });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to upload file');
@@ -38,27 +37,24 @@ export const uploadFile = async (req: Request, res: Response) => {
 };
 
 export const getFile = async (req: Request, res: Response) => {
-    const imageUrl = await getSignedUrl(
-        s3Client,
-        new GetObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: req.params.fileId,
-        }),
-        { expiresIn: 60 }
-    );
+    const objectCommand = new GetObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.params.fileId,
+    });
+
+    const imageUrl = await getSignedUrl(s3Client, objectCommand, { expiresIn: 60 });
 
     res.json({ imageUrl });
 };
 
 export const deleteFile = async (req: Request, res: Response) => {
-    try {
-        await s3Client.send(
-            new DeleteObjectCommand({
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: req.params.fileId,
-            })
-        );
+    const objectCommand = new DeleteObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.params.fileId,
+    });
 
+    try {
+        await s3Client.send(objectCommand);
         res.sendStatus(200);
     } catch (err) {
         console.error(err);

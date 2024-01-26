@@ -1,2 +1,2 @@
-export const FILES_ENDPOINT = '/files';
+export const IMAGES_ENDPOINT = '/images';
 export const UPLOAD_ENDPOINT = '/upload';
