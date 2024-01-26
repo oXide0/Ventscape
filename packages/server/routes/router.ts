@@ -1,5 +1,5 @@
 import express from 'express';
-import { EVENTS_ENDPOINT, USERS_ENDPOINT } from 'shared/types';
+import { EVENTS_ENDPOINT, USERS_ENDPOINT, FILES_ENDPOINT } from 'shared/types';
 import authRouter from './auth';
 import eventsRouter from './events';
 import userRouter from './user';
@@ -10,6 +10,6 @@ const router = express.Router();
 router.use(authRouter);
 router.use(EVENTS_ENDPOINT, eventsRouter);
 router.use(USERS_ENDPOINT, userRouter);
-router.use(s3Router);
+router.use(FILES_ENDPOINT, s3Router);
 
 export default router;

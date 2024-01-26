@@ -18,3 +18,5 @@ export {
     USERS_ENDPOINT,
     UserRoles,
 } from './types/user';
+
+export { FILES_ENDPOINT, UPLOAD_ENDPOINT } from './types/files';
