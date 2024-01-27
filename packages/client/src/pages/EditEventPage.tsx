@@ -15,7 +15,9 @@ const EditEventPage = () => {
     const toast = useToast();
     const { eventId } = useParams();
     const { data, isSuccess } = useGetEventByIdQuery(eventId);
-    const { data: imgUrl } = useGetEventImageUrlQuery(data ? data.imgId : null);
+    const { data: imgUrl } = useGetEventImageUrlQuery(data?.imgId, {
+        skip: !data?.imgId,
+    });
     const [uploadEventImage] = useUploadEventImageMutation();
     const [removeEventImage] = useRemoveEventImageMutation();
     const [updateEvent] = useUpdateEventMutation();

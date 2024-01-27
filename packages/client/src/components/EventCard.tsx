@@ -41,7 +41,7 @@ interface EventCardProps extends IEvent {
 
 const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
-    const { data: img } = useGetEventImageUrlQuery(event.imgId);
+    const { data: img } = useGetEventImageUrlQuery(event.imgId, { skip: !event.imgId });
     const navigate = useNavigate();
 
     const onAvatarClick = () => {

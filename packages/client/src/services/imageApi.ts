@@ -3,13 +3,11 @@ import { UPLOAD_ENDPOINT, IMAGES_ENDPOINT } from 'shared/types';
 
 export const imageApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getEventImageUrl: builder.query<{ imageUrl: string }, string | null>({
-            query: (imageId) => {
-                if (!imageId) return '';
-                return {
-                    url: `${IMAGES_ENDPOINT}/${imageId}`,
-                };
-            },
+        getEventImageUrl: builder.query<{ imageUrl: string }, string | null | undefined>({
+            query: (imageId) => ({
+                url: `${IMAGES_ENDPOINT}/${imageId}`,
+            }),
+            providesTags: ['Images'],
         }),
         uploadEventImage: builder.mutation<{ imageId: string }, { image: File | null }>({
             query: ({ image }) => {
@@ -22,12 +20,14 @@ export const imageApi = api.injectEndpoints({
                     body: formData,
                 };
             },
+            invalidatesTags: ['Images'],
         }),
         removeEventImage: builder.mutation<void, string>({
             query: (imageId) => ({
                 url: `${IMAGES_ENDPOINT}/${imageId}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Images'],
         }),
     }),
 });
