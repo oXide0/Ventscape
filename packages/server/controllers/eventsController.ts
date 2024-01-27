@@ -80,6 +80,7 @@ export const createEvent = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
     try {
         const { creatorId, imgId, ...restBody }: UpdateEventRequest = req.body;
+        console.log(imgId);
         const event = await prisma.events.update({
             where: {
                 id: req.params.id,

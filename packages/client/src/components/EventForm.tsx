@@ -37,7 +37,7 @@ export interface EventFormValues {
 interface EventFormProps {
     eventData?: EventFormValues | null;
     imgUrl?: string | null | undefined;
-    submit: (event: EventFormValues, img: File | null) => Promise<void>;
+    submit: (event: EventFormValues, image: File | null) => Promise<void>;
 }
 
 const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
@@ -55,18 +55,20 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
 
     const onSubmit: SubmitHandler<EventFormValues> = async (data) => {
         try {
-            await submit(data, eventImage.file);
+            if (!eventImage.url) {
+                await submit(data, null);
+            } else {
+                await submit(data, eventImage.file);
+            }
+
             if (!eventData) {
                 reset();
                 setIsPaid(false);
+                setEventImage({ file: null, url: null });
             }
         } catch (err) {
             console.log(err);
         }
-    };
-
-    const handleToggle = () => {
-        setIsPaid(!isPaid);
     };
 
     const setFile = async (file: File | null) => {
@@ -204,7 +206,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                             size='lg'
                             colorScheme='brand'
                             isChecked={isPaid}
-                            onChange={handleToggle}
+                            onChange={() => setIsPaid(!isPaid)}
                         />
                     </FormControl>
                 </GridItem>

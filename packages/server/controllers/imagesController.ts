@@ -36,26 +36,30 @@ export const uploadImage = async (req: Request, res: Response) => {
     }
 };
 
-export const getFile = async (req: Request, res: Response) => {
+export const getImage = async (req: Request, res: Response) => {
     const objectCommand = new GetObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.params.fileId,
+        Key: req.params.imageId,
     });
 
-    const imageUrl = await getSignedUrl(s3Client, objectCommand, { expiresIn: 60 });
-
-    res.json({ imageUrl });
+    try {
+        const imageUrl = await getSignedUrl(s3Client, objectCommand, { expiresIn: 60 });
+        res.json({ imageUrl });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to get file');
+    }
 };
 
-export const deleteFile = async (req: Request, res: Response) => {
+export const removeImage = async (req: Request, res: Response) => {
     const objectCommand = new DeleteObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.params.fileId,
+        Key: req.params.imageId,
     });
 
     try {
         await s3Client.send(objectCommand);
-        res.sendStatus(200);
+        res.json({ success: true });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to delete file');
