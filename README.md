@@ -11,8 +11,10 @@ Ventscape is a web application that serves as a platform for users to create and
 -   Express
 -   Prisma
 -   PostgreSQL
+-   AWS S3 Bucket
 -   React
 -   Redux Toolkit
+-   RTK Query
 -   Chakra UI
 -   JWT
 -   PWA
