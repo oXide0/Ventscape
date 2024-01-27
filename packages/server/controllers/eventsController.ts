@@ -64,7 +64,7 @@ export const createEvent = async (req: Request, res: Response) => {
             data: {
                 id: v4(),
                 creator_id: creatorId,
-                img_id: imgId,
+                img_id: imgId ? imgId : null,
                 ...restBody,
             },
         });
@@ -86,7 +86,7 @@ export const updateEvent = async (req: Request, res: Response) => {
             },
             data: {
                 creator_id: creatorId,
-                img_id: imgId,
+                img_id: imgId ? imgId : null,
                 ...restBody,
             },
         });

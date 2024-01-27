@@ -3,10 +3,13 @@ import { UPLOAD_ENDPOINT, IMAGES_ENDPOINT } from 'shared/types';
 
 export const imageApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getEventImageUrl: builder.query<{ imageUrl: string }, string | undefined>({
-            query: (imageId) => ({
-                url: `${IMAGES_ENDPOINT}/${imageId}`,
-            }),
+        getEventImageUrl: builder.query<{ imageUrl: string }, string | null>({
+            query: (imageId) => {
+                if (!imageId) return '';
+                return {
+                    url: `${IMAGES_ENDPOINT}/${imageId}`,
+                };
+            },
         }),
         uploadEventImage: builder.mutation<{ imageId: string }, { image: File | null }>({
             query: ({ image }) => {

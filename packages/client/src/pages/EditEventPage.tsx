@@ -15,7 +15,7 @@ const EditEventPage = () => {
     const toast = useToast();
     const { eventId } = useParams();
     const { data, isSuccess } = useGetEventByIdQuery(eventId);
-    const { data: imgUrl } = useGetEventImageUrlQuery(data?.imgId);
+    const { data: imgUrl } = useGetEventImageUrlQuery(data ? data.imgId : null);
     const [uploadEventImage] = useUploadEventImageMutation();
     const [removeEventImage] = useRemoveEventImageMutation();
     const [updateEvent] = useUpdateEventMutation();
@@ -24,7 +24,9 @@ const EditEventPage = () => {
         try {
             if (!eventId || !data) throw new Error('Event not found.');
 
-            await removeEventImage(data.imgId).unwrap();
+            if (data.imgId) {
+                await removeEventImage(data.imgId).unwrap();
+            }
             if (!image) {
                 await updateEvent({
                     id: data.id,
