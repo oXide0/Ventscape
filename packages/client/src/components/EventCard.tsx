@@ -37,9 +37,10 @@ import { DotsIcon, LocationIcon, MoneyIcon, OnlineIcon, TimeIcon } from 'utils/i
 
 interface EventCardProps extends IEvent {
     onRemoveEvent?: (eventId: string) => void;
+    applyButton?: boolean;
 }
 
-const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
+const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetEventImageUrlQuery(event.imgId, { skip: !event.imgId });
     const navigate = useNavigate();
@@ -79,7 +80,7 @@ const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
                 <Heading size='lg'>{event.title}</Heading>
                 <Text pt={1}>{event.description}</Text>
             </CardBody>
-            <CardFooter {...event} />
+            <CardFooter applyButton={applyButton} {...event} />
         </Card>
     );
 });
@@ -94,9 +95,19 @@ interface CardFooterProps {
     country: string;
     street: string;
     link: string;
+    applyButton: boolean;
 }
 
-const CardFooter = ({ mode, city, date, price, country, street, link }: CardFooterProps) => {
+const CardFooter = ({
+    mode,
+    city,
+    date,
+    price,
+    country,
+    street,
+    link,
+    applyButton,
+}: CardFooterProps) => {
     const { isAuth } = useAppSelector(selectUser);
     const apllyPath = isAuth ? link : '/login';
 
@@ -149,16 +160,18 @@ const CardFooter = ({ mode, city, date, price, country, street, link }: CardFoot
                         {`${country}, ${city}, ${street}`}
                     </Text>
                 )}
-                <Button
-                    colorScheme='brand'
-                    color='text.white'
-                    px='14'
-                    as={ReactRouterLink}
-                    to={apllyPath}
-                    w={{ base: 'full', md: 'auto' }}
-                >
-                    Apply
-                </Button>
+                {applyButton && (
+                    <Button
+                        colorScheme='brand'
+                        color='text.white'
+                        px='14'
+                        as={ReactRouterLink}
+                        to={apllyPath}
+                        w={{ base: 'full', md: 'auto' }}
+                    >
+                        Apply
+                    </Button>
+                )}
             </Flex>
         </ChakraCardFooter>
     );
@@ -187,8 +200,8 @@ const CardPopover = ({
                     >
                         Edit event
                     </Button>
-                    <Button w='100%' _hover={{ bg: 'red.400' }} onClick={onOpen}>
-                        Delete event
+                    <Button w='100%' colorScheme='red' onClick={onOpen}>
+                        Remove event
                     </Button>
                 </PopoverBody>
             </PopoverContent>
