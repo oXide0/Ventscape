@@ -6,6 +6,9 @@ import {
     getEventById,
     getEventsByCreatorId,
     updateEvent,
+    saveEventForUser,
+    getSavedEventsForUser,
+    unsaveEventForUser,
 } from '../controllers/eventsController';
 import { verifyJwt } from '../middlewares/verifyJwt';
 const router = express.Router();
@@ -17,5 +20,9 @@ router.route('/creator/:creatorId').get(getEventsByCreatorId);
 router.route('/').post(verifyJwt, createEvent);
 router.route('/:id').put(verifyJwt, updateEvent);
 router.route('/:id').delete(verifyJwt, deleteEvent);
+
+router.route('/save/:userId/:eventId').post(saveEventForUser);
+router.route('/saved/:userId').get(getSavedEventsForUser);
+router.route('/unsave/:id').delete(unsaveEventForUser);
 
 export default router;

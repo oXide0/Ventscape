@@ -113,3 +113,61 @@ export const deleteEvent = async (req: Request, res: Response) => {
         res.status(401).json({ message: 'Cannot delete event' });
     }
 };
+
+export const saveEventForUser = async (req: Request, res: Response) => {
+    try {
+        await prisma.userEvent.create({
+            data: {
+                id: v4(),
+                user_id: req.params.userId,
+                event_id: req.params.eventId,
+            },
+        });
+        res.status(200).json('Event saved');
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: 'Cannot save event' });
+    }
+};
+
+export const unsaveEventForUser = async (req: Request, res: Response) => {
+    try {
+        await prisma.userEvent.delete({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json('Event unsaved');
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: 'Cannot unsave event' });
+    }
+};
+
+export const getSavedEventsForUser = async (req: Request, res: Response) => {
+    try {
+        const userEventRecords = await prisma.userEvent.findMany({
+            where: {
+                user_id: req.params.userId,
+            },
+        });
+
+        const events = await prisma.events.findMany({
+            where: {
+                id: {
+                    in: userEventRecords.map((event) => event.event_id),
+                },
+            },
+        });
+
+        const userSavedEvents = userEventRecords.map((record) => ({
+            id: record.id,
+            event: events.find((event) => event.id === record.event_id),
+        }));
+
+        res.json(userSavedEvents);
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: 'Cannot get saved events' });
+    }
+};

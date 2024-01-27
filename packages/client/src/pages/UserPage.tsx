@@ -9,27 +9,29 @@ import { useGetImageUrlQuery } from 'services/imageApi';
 
 const UserPage = () => {
     const { userId } = useParams();
-    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(userId);
-    const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
-        skip: !user?.avatarId,
+    const { data, isSuccess, error } = useGetUserByIdQuery(userId);
+    const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
+        skip: !data?.avatarId,
     });
 
-    if (!isUserSuccess) return <Loader />;
+    if (!isSuccess) return <Loader />;
     if (error) {
-        <Heading textAlign='center' pt={6}>
-            User profile is not found
-        </Heading>;
+        return (
+            <Heading textAlign='center' pt={6}>
+                User profile is not found
+            </Heading>
+        );
     }
 
     return (
         <PageLayout>
-            <ProfileCard bgPhotoUrl={null} avatarUrl={avatar?.url} {...user} />
+            <ProfileCard bgPhotoUrl={null} avatarUrl={avatar?.url} {...data} />
             <InfoUserCard
                 title='About'
-                content={user.description}
+                content={data.description}
                 noContentText='User has no description'
             />
-            {user.accountType === 'creator' && (
+            {data.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
                     actions={

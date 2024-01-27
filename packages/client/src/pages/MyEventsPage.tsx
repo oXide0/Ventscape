@@ -8,7 +8,7 @@ import PageLayout from 'ui/PageLayout';
 
 const MyEventsPage = () => {
     const { id } = useAppSelector(selectUser);
-    const { data: events, isSuccess, error, refetch } = useGetEventsByCreatorIdQuery(id);
+    const { data, isSuccess, error, refetch } = useGetEventsByCreatorIdQuery(id);
     const [deleteEvent] = useDeleteEventMutation();
 
     const removeEvent = async (eventId: string) => {
@@ -31,7 +31,7 @@ const MyEventsPage = () => {
     return (
         <PageLayout heading='Your events'>
             <Stack pt={4} gap={8}>
-                {events.map((event) => (
+                {data.map((event) => (
                     <EventCard
                         key={event.id}
                         applyButton={false}

@@ -12,16 +12,18 @@ import { useGetImageUrlQuery } from 'services/imageApi';
 
 const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
-    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id, { skip: !id });
-    const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
-        skip: !user?.avatarId,
+    const { data, isSuccess, error } = useGetUserByIdQuery(id, { skip: !id });
+    const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
+        skip: !data?.avatarId,
     });
 
-    if (!isUserSuccess) return <Loader />;
+    if (!isSuccess) return <Loader />;
     if (error) {
-        <Heading textAlign='center' pt={6}>
-            Your profile is not found
-        </Heading>;
+        return (
+            <Heading textAlign='center' pt={6}>
+                Your profile is not found
+            </Heading>
+        );
     }
 
     return (
@@ -29,7 +31,7 @@ const ProfilePage = () => {
             <ProfileCard
                 bgPhotoUrl={null}
                 avatarUrl={avatar?.url}
-                {...user}
+                {...data}
                 actions={
                     <Button
                         colorScheme='brand'
@@ -49,10 +51,10 @@ const ProfilePage = () => {
             />
             <InfoUserCard
                 title='About'
-                content={user.description}
+                content={data.description}
                 noContentText='You have no description'
             />
-            {user.accountType === 'creator' && (
+            {data.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
                     actions={
