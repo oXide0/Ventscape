@@ -5,6 +5,7 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useCreateEventMutation } from 'services/eventApi';
 import { useUploadEventImageMutation } from 'services/imageApi';
+import { ImageValues } from 'types/types';
 
 const CreateEventPage = () => {
     const toast = useToast();
@@ -12,10 +13,10 @@ const CreateEventPage = () => {
     const [createEvent] = useCreateEventMutation();
     const [uploadEventImage] = useUploadEventImageMutation();
 
-    const handleSubmit = async (event: EventFormValues, image: File | null) => {
+    const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
         try {
             if (!id) throw new Error('User not logged in.');
-            const imgData = await uploadEventImage({ image }).unwrap();
+            const imgData = await uploadEventImage({ image: image.file }).unwrap();
             const imageId = imgData.id || '';
 
             await createEvent({ creatorId: id, imgId: imageId, ...event }).unwrap();
