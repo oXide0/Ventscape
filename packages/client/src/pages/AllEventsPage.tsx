@@ -34,7 +34,9 @@ const AllEventsPage = () => {
             <FiltersBar onFilter={onFilterEvents} />
             <Stack pt={10} direction='row' justifyContent='space-between'>
                 {!filteredEvents.length || error ? (
-                    <Heading textAlign='center'>Events not found!</Heading>
+                    <Heading w='full' textAlign='center'>
+                        Events not found!
+                    </Heading>
                 ) : (
                     <Stack direction='column' gap={8}>
                         {filteredEvents.map((event) => (

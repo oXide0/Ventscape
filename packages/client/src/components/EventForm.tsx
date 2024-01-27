@@ -99,7 +99,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                     />
                 </GridItem>
                 <GridItem colSpan={6}>
-                    <FormControl id='description' isRequired>
+                    <FormControl id='description'>
                         <FormLabel>Description</FormLabel>
                         <Textarea
                             rows={5}

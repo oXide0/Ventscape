@@ -158,6 +158,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
                 </GridItem>
                 <GridItem colSpan={[6, 3]}>
                     <SelectField
+                        disabled
                         name='accountType'
                         label='Account type'
                         register={register('accountType', {

@@ -54,9 +54,10 @@ interface EventCardProps extends IEvent {
 }
 
 const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
+    const { id, isAuth } = useAppSelector(selectUser);
     const { data } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetImageUrlQuery(event.imgId, { skip: !event.imgId });
-    const { data: savedEvents } = useGetSavedEventsByUserIdQuery(event.creatorId);
+    const { data: savedEvents } = useGetSavedEventsByUserIdQuery(id);
     const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
         skip: !data?.avatarId,
     });
@@ -71,12 +72,13 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
     };
 
     const onToggleSave = async () => {
+        if (!isAuth || !id) return navigate('/login');
         if (savedEvent) {
             setSavedEvent(false);
             await unsaveEvent(savedEventId);
         } else {
             setSavedEvent(true);
-            await saveEvent({ eventId: event.id, userId: event.creatorId });
+            await saveEvent({ eventId: event.id, userId: id });
         }
     };
 
@@ -101,6 +103,11 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
                             <Text>Creator, {data?.name}</Text>
                         </Box>
                     </Flex>
+                    <IconButton
+                        aria-label='Save event'
+                        icon={savedEvent ? <SaveFillIcon /> : <SaveIcon />}
+                        onClick={onToggleSave}
+                    />
                     {onRemoveEvent && (
                         <Popover>
                             <PopoverTrigger>
@@ -114,11 +121,6 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
                             <CardPopover eventId={event.id} removeEvent={onRemoveEvent} />
                         </Popover>
                     )}
-                    <IconButton
-                        aria-label='Save event'
-                        icon={savedEvent ? <SaveFillIcon /> : <SaveIcon />}
-                        onClick={onToggleSave}
-                    />
                 </Flex>
             </CardHeader>
             {img && <Image objectFit='cover' src={img.url} alt='event-image' />}
