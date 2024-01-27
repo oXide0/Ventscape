@@ -13,6 +13,7 @@ import {
     Text,
     Textarea,
 } from '@chakra-ui/react';
+import imageCompression from 'browser-image-compression';
 import { memo, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { UserRoles } from 'shared/types';
@@ -30,12 +31,12 @@ export interface ProfileFormValues {
 
 interface ProfileFormProps {
     userData: ProfileFormValues | null;
-    submit: (data: ProfileFormValues) => Promise<void>;
-    serverAvatarUrl: string | null | undefined;
+    submit: (data: ProfileFormValues, avatar: ImageValues) => Promise<void>;
+    avatarUrl: string | null | undefined;
 }
 
-const ProfileForm = memo(({ serverAvatarUrl, submit, userData }: ProfileFormProps) => {
-    const [avatar, setAvatar] = useState<ImageValues>({ file: null, url: serverAvatarUrl });
+const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => {
+    const [avatar, setAvatar] = useState<ImageValues>({ file: null, url: avatarUrl });
     const filePicker = useRef<HTMLInputElement>(null);
     const {
         register,
@@ -45,16 +46,18 @@ const ProfileForm = memo(({ serverAvatarUrl, submit, userData }: ProfileFormProp
     } = useForm<ProfileFormValues>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
-        await submit(data);
+        await submit(data, avatar);
     };
 
     const setFile = async (file: File | null) => {
         if (!file) return;
-        // const options = {
-        //     maxSizeMB: 1,
-        //     maxWidthOrHeight: 1920,
-        //     useWebWorker: true,
-        // };
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        setAvatar({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
     };
 
     const handlePick = () => {

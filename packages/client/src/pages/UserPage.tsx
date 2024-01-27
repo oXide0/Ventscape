@@ -5,10 +5,14 @@ import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useGetUserByIdQuery } from 'services/userApi';
+import { useGetImageUrlQuery } from 'services/imageApi';
 
 const UserPage = () => {
     const { userId } = useParams();
     const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(userId);
+    const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
+        skip: !user?.avatarId,
+    });
 
     if (!isUserSuccess) return <Loader />;
     if (error) {
@@ -19,16 +23,16 @@ const UserPage = () => {
 
     return (
         <PageLayout>
-            <ProfileCard bgPhotoUrl={null} {...user} />
+            <ProfileCard bgPhotoUrl={null} avatarUrl={avatar?.url} {...user} />
             <InfoUserCard
                 title='About'
                 content={user.description}
-                noItemsText='User has no description'
+                noContentText='User has no description'
             />
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
-                    items={[
+                    actions={
                         <Button
                             colorScheme='brand'
                             color='white'
@@ -36,9 +40,9 @@ const UserPage = () => {
                             to={`/user/${userId}/events`}
                         >
                             Show events
-                        </Button>,
-                    ]}
-                    noItemsText='You have no events'
+                        </Button>
+                    }
+                    noContentText='You have no events'
                 />
             )}
         </PageLayout>

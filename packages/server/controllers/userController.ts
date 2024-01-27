@@ -16,7 +16,7 @@ export const getUserById = async (req: Request, res: Response) => {
                 name: user.name,
                 email: user.email,
                 accountType: user.account_type,
-                avatarUrl: user.avatar_url,
+                avatarId: user.avatar_id,
                 description: user.description,
             });
         } else {
@@ -29,7 +29,7 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { name, email, avatarUrl, description }: UpdateUserRequest = req.body;
+    const { name, email, avatarId, description }: UpdateUserRequest = req.body;
 
     try {
         const user = await prisma.users.update({
@@ -39,7 +39,7 @@ export const updateUser = async (req: Request, res: Response) => {
             data: {
                 name: name,
                 email: email,
-                avatar_url: avatarUrl,
+                avatar_id: avatarId,
                 description: description,
             },
         });
@@ -47,7 +47,7 @@ export const updateUser = async (req: Request, res: Response) => {
             name: user.name,
             email: user.email,
             accountType: user.account_type,
-            avatarUrl: user.avatar_url,
+            avatarId: user.avatar_id,
             description: user.description,
         });
     } catch (err) {

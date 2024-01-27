@@ -8,10 +8,14 @@ import { useAppSelector } from 'hooks/redux-hooks';
 import { Link as RouterLink } from 'react-router-dom';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { EditIcon } from 'utils/icons';
+import { useGetImageUrlQuery } from 'services/imageApi';
 
 const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
-    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id);
+    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id, { skip: !id });
+    const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
+        skip: !user?.avatarId,
+    });
 
     if (!isUserSuccess) return <Loader />;
     if (error) {
@@ -24,6 +28,7 @@ const ProfilePage = () => {
         <PageLayout>
             <ProfileCard
                 bgPhotoUrl={null}
+                avatarUrl={avatar?.url}
                 {...user}
                 actions={
                     <Button
@@ -45,22 +50,23 @@ const ProfilePage = () => {
             <InfoUserCard
                 title='About'
                 content={user.description}
-                noItemsText='You have no description'
+                noContentText='You have no description'
             />
             {user.accountType === 'creator' && (
                 <InfoUserCard
                     title='Events'
-                    items={[
+                    actions={
                         <Button
                             colorScheme='brand'
                             color='white'
                             as={RouterLink}
                             to={`/user/${id}/events`}
+                            w='full'
                         >
                             Show events
-                        </Button>,
-                    ]}
-                    noItemsText='You have no events'
+                        </Button>
+                    }
+                    noContentText='You have no events'
                 />
             )}
         </PageLayout>

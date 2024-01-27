@@ -4,14 +4,14 @@ import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useCreateEventMutation } from 'services/eventApi';
-import { useUploadEventImageMutation } from 'services/imageApi';
+import { useUploadImageMutation } from 'services/imageApi';
 import { ImageValues } from 'types/types';
 
 const CreateEventPage = () => {
     const toast = useToast();
     const { id } = useAppSelector(selectUser);
     const [createEvent] = useCreateEventMutation();
-    const [uploadEventImage] = useUploadEventImageMutation();
+    const [uploadEventImage] = useUploadImageMutation();
 
     const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
         try {

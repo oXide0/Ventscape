@@ -4,27 +4,23 @@ import { memo } from 'react';
 interface InfoUserCardProps {
     title: string;
     content?: string;
-    items?: React.ReactNode[];
-    noItemsText: string;
+    actions?: React.ReactNode;
+    noContentText: string;
 }
 
-const InfoUserCard = memo(({ title, content, items, noItemsText }: InfoUserCardProps) => {
+const InfoUserCard = memo(({ title, content, actions, noContentText }: InfoUserCardProps) => {
     return (
         <Card mt={3} p={6}>
             <Text fontSize='3xl' fontWeight='semibold'>
                 {title}
             </Text>
-            {content || items ? (
-                <>
-                    {content && <Text>{content}</Text>}
-                    {items && (
-                        <Stack mt={3} spacing={3} direction='row' flexWrap='wrap'>
-                            {items.length ? items : <Text>{noItemsText}</Text>}
-                        </Stack>
-                    )}
-                </>
+            {content || actions ? (
+                <Stack pt={2}>
+                    {<Text>{content}</Text>}
+                    {actions}
+                </Stack>
             ) : (
-                <Text>{noItemsText}</Text>
+                <Text>{noContentText}</Text>
             )}
         </Card>
     );
