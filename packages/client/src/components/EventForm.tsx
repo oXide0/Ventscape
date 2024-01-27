@@ -37,7 +37,7 @@ export interface EventFormValues {
 interface EventFormProps {
     eventData?: EventFormValues | null;
     imgUrl?: string | null | undefined;
-    submit: (event: EventFormValues, image: File | null) => Promise<void>;
+    submit: (event: EventFormValues, image: ImageValues) => Promise<void>;
 }
 
 const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
@@ -55,11 +55,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
 
     const onSubmit: SubmitHandler<EventFormValues> = async (data) => {
         try {
-            if (!eventImage.url) {
-                await submit(data, null);
-            } else {
-                await submit(data, eventImage.file);
-            }
+            await submit(data, eventImage);
 
             if (!eventData) {
                 reset();

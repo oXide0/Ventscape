@@ -9,6 +9,7 @@ import {
     useRemoveEventImageMutation,
     useUploadEventImageMutation,
 } from 'services/imageApi';
+import { ImageValues } from 'types/types';
 import { mapEventToEventFormValues } from 'utils/events';
 
 const EditEventPage = () => {
@@ -22,27 +23,26 @@ const EditEventPage = () => {
     const [removeEventImage] = useRemoveEventImageMutation();
     const [updateEvent] = useUpdateEventMutation();
 
-    const handleSubmit = async (event: EventFormValues, image: File | null) => {
+    const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
         try {
-            if (!eventId || !data) throw new Error('Event not found.');
-
-            if (data.imgId) {
+            if (!data) throw new Error('Event not found.');
+            if (!image.file && image.url) {
+                await updateEvent({ ...data, ...event }).unwrap();
+            } else if (!image.file && !image.url) {
                 await removeEventImage(data.imgId).unwrap();
-            }
-            if (!image) {
                 await updateEvent({
                     id: data.id,
                     creatorId: data.creatorId,
                     imgId: '',
                     ...event,
                 }).unwrap();
-            } else {
-                const imgData = await uploadEventImage({ image }).unwrap();
-                const imageId = imgData.id || '';
+            } else if (image.file && image.url) {
+                await removeEventImage(data.imgId).unwrap();
+                const imgData = await uploadEventImage({ image: image.file }).unwrap();
                 await updateEvent({
-                    id: eventId,
+                    id: data.id,
                     creatorId: data.creatorId,
-                    imgId: imageId,
+                    imgId: imgData.id,
                     ...event,
                 }).unwrap();
             }
