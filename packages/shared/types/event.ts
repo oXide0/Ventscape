@@ -11,7 +11,7 @@ export interface IEvent {
     link: string;
     price: number;
     creatorId: string;
-    img: string;
+    imgId: string;
 }
 
 export interface CreateEventRequest {
@@ -26,7 +26,7 @@ export interface CreateEventRequest {
     link: string;
     price: number;
     creatorId: string;
-    img: string;
+    imgId: string;
 }
 
 export interface UpdateEventRequest {
@@ -42,7 +42,7 @@ export interface UpdateEventRequest {
     link: string;
     price: number;
     creatorId: string;
-    img: string;
+    imgId: string;
 }
 
 export const EVENTS_ENDPOINT = '/events';

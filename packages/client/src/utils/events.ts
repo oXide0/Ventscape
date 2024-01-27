@@ -1,3 +1,4 @@
+import { EventFormValues } from 'components/EventForm';
 import { IEvent } from 'shared/types';
 import { EventsFilter } from 'types/types';
 
@@ -140,4 +141,21 @@ export const truncateDescription = (description: string): string => {
         return description.slice(0, maxLength) + '...';
     }
     return description;
+};
+
+export const mapEventToEventFormValues = (event: IEvent): EventFormValues => {
+    const { title, description, date, category, mode, country, city, street, link, price } = event;
+
+    return {
+        title,
+        description,
+        date,
+        category,
+        mode,
+        country,
+        city,
+        street,
+        link,
+        price,
+    };
 };

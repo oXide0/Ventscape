@@ -2,23 +2,51 @@ import { useToast } from '@chakra-ui/react';
 import EventForm, { EventFormValues } from 'components/EventForm';
 import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
-import { selectUser } from 'features/userSlice';
-import { useAppSelector } from 'hooks/redux-hooks';
 import { useParams } from 'react-router-dom';
 import { useGetEventByIdQuery, useUpdateEventMutation } from 'services/eventApi';
+import {
+    useGetEventImageUrlQuery,
+    useRemoveEventImageMutation,
+    useUploadEventImageMutation,
+} from 'services/imageApi';
+import { ImageValues } from 'types/types';
+import { mapEventToEventFormValues } from 'utils/events';
 
 const EditEventPage = () => {
     const toast = useToast();
     const { eventId } = useParams();
-    const { id } = useAppSelector(selectUser);
-    const { data: event, isSuccess } = useGetEventByIdQuery(eventId);
+    const { data, isSuccess } = useGetEventByIdQuery(eventId);
+    const { data: imgUrl } = useGetEventImageUrlQuery(data?.imgId, {
+        skip: !data?.imgId,
+    });
+    const [uploadEventImage] = useUploadEventImageMutation();
+    const [removeEventImage] = useRemoveEventImageMutation();
     const [updateEvent] = useUpdateEventMutation();
 
-    const handleSubmit = async (event: EventFormValues) => {
+    const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
         try {
-            if (!id) throw new Error('User not logged in.');
-            if (!eventId) throw new Error('Event not found.');
-            await updateEvent({ id: eventId, creatorId: id, img: '', ...event }).unwrap();
+            if (!data) throw new Error('Event not found.');
+            if (!image.file && image.url) {
+                await updateEvent({ ...data, ...event }).unwrap();
+            } else if (!image.file && !image.url) {
+                await removeEventImage(data.imgId).unwrap();
+                await updateEvent({
+                    id: data.id,
+                    creatorId: data.creatorId,
+                    imgId: '',
+                    ...event,
+                }).unwrap();
+            } else if (image.file && image.url) {
+                await removeEventImage(data.imgId).unwrap();
+                const imgData = await uploadEventImage({ image: image.file }).unwrap();
+                await updateEvent({
+                    id: data.id,
+                    creatorId: data.creatorId,
+                    imgId: imgData.id,
+                    ...event,
+                }).unwrap();
+            }
+
             toast({
                 title: 'Event updated.',
                 description: "We've updated your event for you.",
@@ -28,6 +56,7 @@ const EditEventPage = () => {
                 position: 'top-right',
             });
         } catch (err) {
+            console.log(err);
             toast({
                 title: 'An error occurred.',
                 description: "We couldn't update your event, please try again later.",
@@ -45,7 +74,11 @@ const EditEventPage = () => {
 
     return (
         <PageLayout heading='Edit your event'>
-            <EventForm submit={handleSubmit} eventData={event} img={null} />
+            <EventForm
+                submit={handleSubmit}
+                eventData={mapEventToEventFormValues(data)}
+                imgUrl={imgUrl?.url}
+            />
         </PageLayout>
     );
 };

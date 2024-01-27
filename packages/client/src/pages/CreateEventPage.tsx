@@ -4,16 +4,22 @@ import PageLayout from 'components/ui/PageLayout';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { useCreateEventMutation } from 'services/eventApi';
+import { useUploadEventImageMutation } from 'services/imageApi';
+import { ImageValues } from 'types/types';
 
 const CreateEventPage = () => {
     const toast = useToast();
     const { id } = useAppSelector(selectUser);
     const [createEvent] = useCreateEventMutation();
+    const [uploadEventImage] = useUploadEventImageMutation();
 
-    const handleSubmit = async (event: EventFormValues) => {
+    const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
         try {
             if (!id) throw new Error('User not logged in.');
-            await createEvent({ creatorId: id, img: '', ...event }).unwrap();
+            const imgData = await uploadEventImage({ image: image.file }).unwrap();
+            const imageId = imgData.id || '';
+
+            await createEvent({ creatorId: id, imgId: imageId, ...event }).unwrap();
             toast({
                 title: 'Event created.',
                 description: "We've created your event for you.",
@@ -23,6 +29,7 @@ const CreateEventPage = () => {
                 position: 'top-right',
             });
         } catch (err) {
+            console.log(err);
             toast({
                 title: 'An error occurred.',
                 description: "We couldn't create your event, please try again later.",

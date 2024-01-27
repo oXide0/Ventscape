@@ -17,10 +17,10 @@ model events {
   link        String?  @db.VarChar(255)
   price       Decimal? @db.Decimal(10, 2)
   creator_id  String?  @db.Uuid
-  img         String?  @db.VarChar(255)
   date        String?  @db.VarChar(255)
   description String?
   title       String?  @db.VarChar(255)
+  img_id      String?
   users       users?   @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
