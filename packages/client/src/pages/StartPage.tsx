@@ -11,7 +11,7 @@ const StartPage = () => {
         <PageLayout>
             {name ? (
                 <Heading>
-                    {getGreeting()} {name}!
+                    {getGreeting()}, {name}!
                 </Heading>
             ) : (
                 <Heading>{getGreeting()}!</Heading>
