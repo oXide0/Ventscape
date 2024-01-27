@@ -18,9 +18,9 @@ const SelectField = memo(
         return (
             <FormControl isInvalid={errors ? !!errors[name] : false}>
                 <FormLabel htmlFor={name}>{label ? label : capitalizeFirstLetter(name)}</FormLabel>
-                <Select {...register} defaultValue={defaultValue}>
+                <Select {...register} defaultValue=''>
                     {defaultValue && (
-                        <option disabled value={defaultValue}>
+                        <option disabled value=''>
                             {defaultValue}
                         </option>
                     )}

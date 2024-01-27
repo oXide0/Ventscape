@@ -27,13 +27,26 @@ import {
 } from '@chakra-ui/react';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import {
+    useGetSavedEventsByUserIdQuery,
+    useSaveEventMutation,
+    useUnsaveEventMutation,
+} from 'services/eventApi';
 import { useGetImageUrlQuery } from 'services/imageApi';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { IEvent } from 'shared/types';
 import { convertDateFormat } from 'utils/events';
-import { DotsIcon, LocationIcon, MoneyIcon, OnlineIcon, TimeIcon } from 'utils/icons';
+import {
+    DotsIcon,
+    LocationIcon,
+    MoneyIcon,
+    OnlineIcon,
+    SaveFillIcon,
+    SaveIcon,
+    TimeIcon,
+} from 'utils/icons';
 
 interface EventCardProps extends IEvent {
     onRemoveEvent?: (eventId: string) => void;
@@ -41,16 +54,41 @@ interface EventCardProps extends IEvent {
 }
 
 const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
-    const { data: creator } = useGetUserByIdQuery(event.creatorId);
+    const { data } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetImageUrlQuery(event.imgId, { skip: !event.imgId });
-    const { data: avatar } = useGetImageUrlQuery(creator?.avatarId, {
-        skip: !creator?.avatarId,
+    const { data: savedEvents } = useGetSavedEventsByUserIdQuery(event.creatorId);
+    const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
+        skip: !data?.avatarId,
     });
+    const [saveEvent] = useSaveEventMutation();
+    const [unsaveEvent] = useUnsaveEventMutation();
+    const [savedEvent, setSavedEvent] = useState(false);
+    const [savedEventId, setSavedEventId] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const onAvatarClick = () => {
         navigate(`/user/${event.creatorId}`);
     };
+
+    const onToggleSave = async () => {
+        if (savedEvent) {
+            setSavedEvent(false);
+            await unsaveEvent(savedEventId);
+        } else {
+            setSavedEvent(true);
+            await saveEvent({ eventId: event.id, userId: event.creatorId });
+        }
+    };
+
+    useEffect(() => {
+        if (savedEvents) {
+            const savedEvent = savedEvents.find((savedEvent) => savedEvent.event.id === event.id);
+            if (savedEvent) {
+                setSavedEventId(savedEvent.id);
+                setSavedEvent(true);
+            }
+        }
+    }, [savedEvents]);
 
     return (
         <Card maxW='650px' h='auto'>
@@ -59,8 +97,8 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                         <Avatar src={avatar?.url} cursor='pointer' onClick={onAvatarClick} />
                         <Box>
-                            <Heading size='sm'>{creator?.name}</Heading>
-                            <Text>Creator, {creator?.name}</Text>
+                            <Heading size='sm'>{data?.name}</Heading>
+                            <Text>Creator, {data?.name}</Text>
                         </Box>
                     </Flex>
                     {onRemoveEvent && (
@@ -76,6 +114,11 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
                             <CardPopover eventId={event.id} removeEvent={onRemoveEvent} />
                         </Popover>
                     )}
+                    <IconButton
+                        aria-label='Save event'
+                        icon={savedEvent ? <SaveFillIcon /> : <SaveIcon />}
+                        onClick={onToggleSave}
+                    />
                 </Flex>
             </CardHeader>
             {img && <Image objectFit='cover' src={img.url} alt='event-image' />}

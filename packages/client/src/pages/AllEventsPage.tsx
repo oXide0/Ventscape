@@ -1,4 +1,4 @@
-import { Heading, Stack } from '@chakra-ui/react';
+import { Heading, Stack, Card } from '@chakra-ui/react';
 import EventCard from 'components/EventCard';
 import FiltersBar from 'components/FiltersBar';
 import Loader from 'components/ui/Loader';
@@ -11,32 +11,30 @@ import { filterEvents } from 'utils/events';
 
 const AllEventsPage = () => {
     const [filteredEvents, setFilteredEvents] = useState<IEvent[]>([]);
-    const { data: events, isLoading, error } = useGetAllEventsQuery();
+    const { data, isSuccess, error } = useGetAllEventsQuery();
 
     const onFilterEvents = (filterData: EventsFilter) => {
-        if (!events) return;
-        const filteredEvents = filterEvents(events, filterData);
+        if (!data) return;
+        const filteredEvents = filterEvents(data, filterData);
         setFilteredEvents(filteredEvents);
     };
 
     useEffect(() => {
-        if (events) {
-            setFilteredEvents(events);
+        if (data) {
+            setFilteredEvents(data);
         }
-    }, [events]);
+    }, [data]);
 
-    if (isLoading) {
+    if (!isSuccess) {
         return <Loader />;
     }
 
     return (
         <PageLayout>
             <FiltersBar onFilter={onFilterEvents} />
-            <Stack pt={10} gap={8}>
+            <Stack pt={10} direction='row' justifyContent='space-between'>
                 {!filteredEvents.length || error ? (
-                    <Heading textAlign='center' pt={10}>
-                        Events not found!
-                    </Heading>
+                    <Heading textAlign='center'>Events not found!</Heading>
                 ) : (
                     <Stack direction='column' gap={8}>
                         {filteredEvents.map((event) => (
@@ -44,6 +42,9 @@ const AllEventsPage = () => {
                         ))}
                     </Stack>
                 )}
+                <Card p={5} maxW={400} w='full'>
+                    <Heading>Saved Events</Heading>
+                </Card>
             </Stack>
         </PageLayout>
     );

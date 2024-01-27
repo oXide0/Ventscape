@@ -13,21 +13,21 @@ import { filterEvents } from 'utils/events';
 const UserEventsPage = () => {
     const { userId } = useParams();
     const [filteredEvents, setFilteredEvents] = useState<IEvent[]>([]);
-    const { data: events, isLoading, error } = useGetEventsByCreatorIdQuery(userId);
+    const { data, isSuccess, error } = useGetEventsByCreatorIdQuery(userId);
 
     const onFilterEvents = (filterData: EventsFilter) => {
-        if (!events) return;
-        const filteredEvents = filterEvents(events, filterData);
+        if (!data) return;
+        const filteredEvents = filterEvents(data, filterData);
         setFilteredEvents(filteredEvents);
     };
 
     useEffect(() => {
-        if (events) {
-            setFilteredEvents(events);
+        if (data) {
+            setFilteredEvents(data);
         }
-    }, [events]);
+    }, [data]);
 
-    if (isLoading) {
+    if (!isSuccess) {
         return <Loader />;
     }
 

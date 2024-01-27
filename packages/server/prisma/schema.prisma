@@ -8,31 +8,41 @@ datasource db {
 }
 
 model events {
-  id          String   @id @db.Uuid
-  mode        String?  @db.VarChar(255)
-  category    String?  @db.VarChar(255)
-  street      String?  @db.VarChar(255)
-  city        String?  @db.VarChar(255)
-  country     String?  @db.VarChar(255)
-  link        String?  @db.VarChar(255)
-  price       Decimal? @db.Decimal(10, 2)
-  creator_id  String?  @db.Uuid
-  date        String?  @db.VarChar(255)
+  id          String      @id @db.Uuid
+  mode        String?     @db.VarChar(255)
+  category    String?     @db.VarChar(255)
+  street      String?     @db.VarChar(255)
+  city        String?     @db.VarChar(255)
+  country     String?     @db.VarChar(255)
+  link        String?     @db.VarChar(255)
+  price       Decimal?    @db.Decimal(10, 2)
+  creator_id  String?     @db.Uuid
+  date        String?     @db.VarChar(255)
   description String?
-  title       String?  @db.VarChar(255)
-  img_id      String?  @db.VarChar(255)
-  users       users?   @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title       String?     @db.VarChar(255)
+  img_id      String?     @db.VarChar(255)
+  users       users?      @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userEvent   userEvent[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model users {
-  id            String   @id @db.Uuid
-  name          String   @db.VarChar(255)
-  password      String   @db.VarChar(255)
-  email         String   @unique @db.VarChar(255)
+  id            String      @id @db.Uuid
+  name          String      @db.VarChar(255)
+  password      String      @db.VarChar(255)
+  email         String      @unique @db.VarChar(255)
   description   String?
-  account_type  String?  @db.VarChar(255)
-  refresh_token String?  @unique @db.VarChar(255)
-  avatar_id     String?  @db.VarChar(255)
+  account_type  String?     @db.VarChar(255)
+  refresh_token String?     @unique @db.VarChar(255)
+  avatar_id     String?     @db.VarChar(255)
   events        events[]
+  userEvent     userEvent[]
+}
+
+model userEvent {
+  id       String @id @db.Uuid
+  user_id  String @db.Uuid
+  event_id String @db.Uuid
+  user     users  @relation(fields: [user_id], references: [id])
+  event    events @relation(fields: [event_id], references: [id])
 }
