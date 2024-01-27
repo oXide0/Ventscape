@@ -1,3 +1,6 @@
+import { ProfileFormValues } from 'components/ProfileForm';
+import { UserResponse } from 'shared/types';
+
 export function isErrorWithMessage(error: unknown): error is { data: { message: string } } {
     return (
         typeof error === 'object' &&
@@ -24,3 +27,14 @@ export function getGreeting(): string {
 export function capitalizeFirstLetter(word: string): string {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+export const mapUsersToProfileFormValues = (user: UserResponse): ProfileFormValues => {
+    const { name, email, accountType, description } = user;
+
+    return {
+        name,
+        email,
+        accountType,
+        description,
+    };
+};

@@ -2,8 +2,8 @@ import { useToast } from '@chakra-ui/react';
 import ProfileForm, { ProfileFormValues } from 'components/ProfileForm';
 import Loader from 'components/ui/Loader';
 import PageLayout from 'components/ui/PageLayout';
-import { selectUser } from 'features/userSlice';
-import { useAppSelector } from 'hooks/redux-hooks';
+import { selectUser, setUserAvatar } from 'features/userSlice';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import {
     useGetImageUrlQuery,
     useRemoveImageMutation,
@@ -11,8 +11,7 @@ import {
 } from 'services/imageApi';
 import { useGetUserByIdQuery, useUpdateUserMutation } from 'services/userApi';
 import { ImageValues } from 'types/types';
-import { useAppDispatch } from 'hooks/redux-hooks';
-import { setUserAvatar } from 'features/userSlice';
+import { mapUsersToProfileFormValues } from 'utils/helpers';
 
 const EditProfilePage = () => {
     const toast = useToast();
@@ -58,6 +57,7 @@ const EditProfilePage = () => {
                 position: 'top-right',
             });
         } catch (err) {
+            console.log(err);
             toast({
                 title: 'An error occurred.',
                 description: "We couldn't update your profile, please try again later.",
@@ -73,7 +73,11 @@ const EditProfilePage = () => {
 
     return (
         <PageLayout heading='Profile settings'>
-            <ProfileForm submit={handleSubmit} userData={data} avatarUrl={avatarUrl?.url} />
+            <ProfileForm
+                submit={handleSubmit}
+                userData={mapUsersToProfileFormValues(data)}
+                avatarUrl={avatarUrl?.url}
+            />
         </PageLayout>
     );
 };
