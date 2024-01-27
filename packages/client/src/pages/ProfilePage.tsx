@@ -12,7 +12,7 @@ import { useGetImageUrlQuery } from 'services/imageApi';
 
 const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
-    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id);
+    const { data: user, isSuccess: isUserSuccess, error } = useGetUserByIdQuery(id, { skip: !id });
     const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
         skip: !user?.avatarId,
     });
