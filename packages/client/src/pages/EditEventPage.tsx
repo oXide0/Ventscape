@@ -5,9 +5,9 @@ import PageLayout from 'components/ui/PageLayout';
 import { useParams } from 'react-router-dom';
 import { useGetEventByIdQuery, useUpdateEventMutation } from 'services/eventApi';
 import {
-    useGetEventImageUrlQuery,
-    useRemoveEventImageMutation,
-    useUploadEventImageMutation,
+    useGetImageUrlQuery,
+    useRemoveImageMutation,
+    useUploadImageMutation,
 } from 'services/imageApi';
 import { ImageValues } from 'types/types';
 import { mapEventToEventFormValues } from 'utils/events';
@@ -16,11 +16,11 @@ const EditEventPage = () => {
     const toast = useToast();
     const { eventId } = useParams();
     const { data, isSuccess } = useGetEventByIdQuery(eventId);
-    const { data: imgUrl } = useGetEventImageUrlQuery(data?.imgId, {
+    const { data: img } = useGetImageUrlQuery(data?.imgId, {
         skip: !data?.imgId,
     });
-    const [uploadEventImage] = useUploadEventImageMutation();
-    const [removeEventImage] = useRemoveEventImageMutation();
+    const [uploadEventImage] = useUploadImageMutation();
+    const [removeEventImage] = useRemoveImageMutation();
     const [updateEvent] = useUpdateEventMutation();
 
     const handleSubmit = async (event: EventFormValues, image: ImageValues) => {
@@ -77,7 +77,7 @@ const EditEventPage = () => {
             <EventForm
                 submit={handleSubmit}
                 eventData={mapEventToEventFormValues(data)}
-                imgUrl={imgUrl?.url}
+                imgUrl={img?.url}
             />
         </PageLayout>
     );

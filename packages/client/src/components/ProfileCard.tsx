@@ -4,7 +4,7 @@ import { memo } from 'react';
 interface ProfileCardProps {
     name: string;
     email: string;
-    avatarUrl: string;
+    avatarUrl: string | undefined;
     bgPhotoUrl: string | null;
     actions?: React.ReactNode;
 }

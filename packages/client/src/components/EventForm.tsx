@@ -74,10 +74,8 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
             maxWidthOrHeight: 1920,
             useWebWorker: true,
         };
-        if (file) {
-            const compressedFile = await imageCompression(file, options);
-            setEventImage({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
-        }
+        const compressedFile = await imageCompression(file, options);
+        setEventImage({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
     };
 
     useEffect(() => {

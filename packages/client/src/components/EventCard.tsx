@@ -29,7 +29,7 @@ import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { memo, useRef } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
-import { useGetEventImageUrlQuery } from 'services/imageApi';
+import { useGetImageUrlQuery } from 'services/imageApi';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { IEvent } from 'shared/types';
 import { convertDateFormat } from 'utils/events';
@@ -42,7 +42,10 @@ interface EventCardProps extends IEvent {
 
 const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
-    const { data: img } = useGetEventImageUrlQuery(event.imgId, { skip: !event.imgId });
+    const { data: img } = useGetImageUrlQuery(event.imgId, { skip: !event.imgId });
+    const { data: avatar } = useGetImageUrlQuery(creator?.avatarId, {
+        skip: !creator?.avatarId,
+    });
     const navigate = useNavigate();
 
     const onAvatarClick = () => {
@@ -54,7 +57,7 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
             <CardHeader>
                 <Flex gap={4}>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar src={creator?.avatarUrl} cursor='pointer' onClick={onAvatarClick} />
+                        <Avatar src={avatar?.url} cursor='pointer' onClick={onAvatarClick} />
                         <Box>
                             <Heading size='sm'>{creator?.name}</Heading>
                             <Text>Creator, {creator?.name}</Text>

@@ -24,7 +24,7 @@ export interface UserResponse {
     name: string;
     email: string;
     accountType: UserRoles.CREATOR | UserRoles.CUSTOMER;
-    avatarUrl: string;
+    avatarId: string;
     description: string;
 }
 
@@ -34,7 +34,7 @@ export interface UpdateUserRequest {
     description: string;
     email: string;
     accountType: UserRoles.CREATOR | UserRoles.CUSTOMER;
-    avatarUrl: string;
+    avatarId: string;
 }
 
 export const USERS_ENDPOINT = '/users';

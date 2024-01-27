@@ -20,7 +20,7 @@ model events {
   date        String?  @db.VarChar(255)
   description String?
   title       String?  @db.VarChar(255)
-  img_id      String?
+  img_id      String?  @db.VarChar(255)
   users       users?   @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -33,6 +33,6 @@ model users {
   description   String?
   account_type  String?  @db.VarChar(255)
   refresh_token String?  @unique @db.VarChar(255)
-  avatar_url    String?  @db.VarChar(255)
+  avatar_id     String?  @db.VarChar(255)
   events        events[]
 }
