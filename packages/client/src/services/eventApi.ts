@@ -1,6 +1,11 @@
 import { CreateEventRequest, EVENTS_ENDPOINT, IEvent, UpdateEventRequest } from 'shared/types';
 import { api } from './api';
 
+interface IGetSavedEventsResponse {
+    event: IEvent;
+    id: string;
+}
+
 export const eventApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAllEvents: builder.query<IEvent[], void>({
@@ -38,6 +43,26 @@ export const eventApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Events'],
         }),
+        getSavedEventsByUserId: builder.query<IGetSavedEventsResponse[], string | null | undefined>(
+            {
+                query: (userId) => `${EVENTS_ENDPOINT}/saved/${userId}`,
+                providesTags: ['Events'],
+            }
+        ),
+        saveEvent: builder.mutation<void, { userId: string; eventId: string }>({
+            query: ({ userId, eventId }) => ({
+                url: `${EVENTS_ENDPOINT}/save/${userId}/${eventId}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['Events'],
+        }),
+        unsaveEvent: builder.mutation<void, string | null>({
+            query: (id) => ({
+                url: `${EVENTS_ENDPOINT}/unsave/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Events'],
+        }),
     }),
 });
 
@@ -48,4 +73,7 @@ export const {
     useDeleteEventMutation,
     useGetEventsByCreatorIdQuery,
     useGetEventByIdQuery,
+    useGetSavedEventsByUserIdQuery,
+    useSaveEventMutation,
+    useUnsaveEventMutation,
 } = eventApi;
