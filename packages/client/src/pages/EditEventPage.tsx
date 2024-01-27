@@ -38,7 +38,7 @@ const EditEventPage = () => {
                 }).unwrap();
             } else {
                 const imgData = await uploadEventImage({ image }).unwrap();
-                const imageId = imgData.imageId || '';
+                const imageId = imgData.id || '';
                 await updateEvent({
                     id: eventId,
                     creatorId: data.creatorId,
@@ -77,7 +77,7 @@ const EditEventPage = () => {
             <EventForm
                 submit={handleSubmit}
                 eventData={mapEventToEventFormValues(data)}
-                imgUrl={imgUrl?.imageUrl}
+                imgUrl={imgUrl?.url}
             />
         </PageLayout>
     );

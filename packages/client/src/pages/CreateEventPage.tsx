@@ -16,7 +16,7 @@ const CreateEventPage = () => {
         try {
             if (!id) throw new Error('User not logged in.');
             const imgData = await uploadEventImage({ image }).unwrap();
-            const imageId = imgData.imageId || '';
+            const imageId = imgData.id || '';
 
             await createEvent({ creatorId: id, imgId: imageId, ...event }).unwrap();
             toast({

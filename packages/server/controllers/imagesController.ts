@@ -14,22 +14,22 @@ const s3Client = new S3Client({
 
 export const uploadImage = async (req: Request, res: Response) => {
     if (!req.file) {
-        res.json({ imageUrl: null });
+        res.json({ id: null });
         return;
     }
 
-    const imageId = `${v4()}-${req.file.originalname}`;
+    const id = `${v4()}-${req.file.originalname}`;
 
     try {
         const uploadParams = {
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: imageId,
+            Key: id,
             Body: req.file.buffer,
             ContentType: req.file.mimetype,
         };
 
         await s3Client.send(new PutObjectCommand(uploadParams));
-        res.json({ imageId });
+        res.json({ id });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to upload file');
@@ -43,8 +43,8 @@ export const getImage = async (req: Request, res: Response) => {
     });
 
     try {
-        const imageUrl = await getSignedUrl(s3Client, objectCommand, { expiresIn: 60 });
-        res.json({ imageUrl });
+        const url = await getSignedUrl(s3Client, objectCommand, { expiresIn: 60 });
+        res.json({ url });
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to get file');

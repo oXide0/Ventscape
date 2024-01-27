@@ -74,7 +74,7 @@ const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
                     )}
                 </Flex>
             </CardHeader>
-            {img && <Image objectFit='cover' src={img.imageUrl} alt='event-image' />}
+            {img && <Image objectFit='cover' src={img.url} alt='event-image' />}
             <CardBody>
                 <Heading size='lg'>{event.title}</Heading>
                 <Text pt={1}>{event.description}</Text>

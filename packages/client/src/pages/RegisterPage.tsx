@@ -7,13 +7,14 @@ import { useAppDispatch } from 'hooks/redux-hooks';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from 'services/authApi';
+import { UserRoles } from 'shared/types';
 import { isErrorWithMessage } from 'utils/helpers';
 
 interface FormValues {
     name: string;
     email: string;
     password: string;
-    accountType: 'customer' | 'creator';
+    accountType: UserRoles.CUSTOMER | UserRoles.CREATOR;
 }
 
 const RegisterPage = () => {
