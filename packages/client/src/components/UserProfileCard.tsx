@@ -1,6 +1,7 @@
 import { Avatar, Stack, Text } from '@chakra-ui/react';
 import { memo } from 'react';
 import { useGetUserByIdQuery } from 'services/userApi';
+import { useGetImageUrlQuery } from 'services/imageApi';
 
 interface UserProfileCardProps {
     userId: string;
@@ -8,18 +9,19 @@ interface UserProfileCardProps {
 }
 
 const UserProfileCard = memo(({ userId, showEmail = true }: UserProfileCardProps) => {
-    const { data: user } = useGetUserByIdQuery(userId);
+    const { data } = useGetUserByIdQuery(userId);
+    const { data: avatar } = useGetImageUrlQuery(data?.avatarId, { skip: !data?.avatarId });
 
-    if (!user) return null;
+    if (!data) return null;
 
     return (
         <Stack direction='row' alignItems={showEmail ? 'flex-start' : 'center'}>
-            <Avatar src={user.avatarUrl} name={user.name} />
+            <Avatar src={avatar?.url} name={data.name} />
             <Stack>
-                <Text>{user.name}</Text>
+                <Text>{data.name}</Text>
                 {showEmail && (
                     <Text fontSize='sm' color='text.secondary'>
-                        {user.email}
+                        {data.email}
                     </Text>
                 )}
             </Stack>

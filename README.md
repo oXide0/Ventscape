@@ -21,4 +21,7 @@ Ventscape is a web application that serves as a platform for users to create and
 
 ## Links
 
+-   Server - [https://ventscape.onrender.com/](https://ventscape.onrender.com/)
+-   Client - [https://ventscape.netlify.app/](https://ventscape.netlify.app/)
+
 Deployment Firebase (**Old version**) - [https://ventscape-ad39d.web.app/](https://ventscape-ad39d.web.app/)
