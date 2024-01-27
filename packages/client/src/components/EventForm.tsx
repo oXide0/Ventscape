@@ -58,9 +58,9 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
             await submit(data, eventImage);
 
             if (!eventData) {
-                reset();
                 setIsPaid(false);
                 setEventImage({ file: null, url: null });
+                reset();
             }
         } catch (err) {
             console.log(err);
