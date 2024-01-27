@@ -34,8 +34,8 @@ const MyEventsPage = () => {
                 {events.map((event) => (
                     <EventCard
                         key={event.id}
+                        applyButton={false}
                         onRemoveEvent={removeEvent}
-                        showActions={false}
                         {...event}
                     />
                 ))}

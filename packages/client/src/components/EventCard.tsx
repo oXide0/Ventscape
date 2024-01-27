@@ -36,11 +36,11 @@ import { convertDateFormat } from 'utils/events';
 import { DotsIcon, LocationIcon, MoneyIcon, OnlineIcon, TimeIcon } from 'utils/icons';
 
 interface EventCardProps extends IEvent {
-    showActions?: boolean;
     onRemoveEvent?: (eventId: string) => void;
+    applyButton?: boolean;
 }
 
-const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
+const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
     const { data: creator } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetEventImageUrlQuery(event.imgId, { skip: !event.imgId });
     const navigate = useNavigate();
@@ -80,7 +80,7 @@ const EventCard = memo(({ onRemoveEvent, ...event }: EventCardProps) => {
                 <Heading size='lg'>{event.title}</Heading>
                 <Text pt={1}>{event.description}</Text>
             </CardBody>
-            <CardFooter {...event} />
+            <CardFooter applyButton={applyButton} {...event} />
         </Card>
     );
 });
@@ -95,7 +95,7 @@ interface CardFooterProps {
     country: string;
     street: string;
     link: string;
-    showActions?: boolean;
+    applyButton: boolean;
 }
 
 const CardFooter = ({
@@ -106,7 +106,7 @@ const CardFooter = ({
     country,
     street,
     link,
-    showActions = true,
+    applyButton,
 }: CardFooterProps) => {
     const { isAuth } = useAppSelector(selectUser);
     const apllyPath = isAuth ? link : '/login';
@@ -160,7 +160,7 @@ const CardFooter = ({
                         {`${country}, ${city}, ${street}`}
                     </Text>
                 )}
-                {showActions && (
+                {applyButton && (
                     <Button
                         colorScheme='brand'
                         color='text.white'
@@ -200,8 +200,8 @@ const CardPopover = ({
                     >
                         Edit event
                     </Button>
-                    <Button w='100%' _hover={{ bg: 'red.400' }} onClick={onOpen}>
-                        Delete event
+                    <Button w='100%' colorScheme='red' onClick={onOpen}>
+                        Remove event
                     </Button>
                 </PopoverBody>
             </PopoverContent>
