@@ -4,7 +4,7 @@
     "main": "index.ts",
     "private": true,
     "scripts": {
-        "start": "nodemon server.ts"
+        "start": "tsc server.ts"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
