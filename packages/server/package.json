@@ -4,7 +4,7 @@
     "main": "index.ts",
     "private": true,
     "scripts": {
-        "start": "tsc server.ts"
+        "start": "npx tsc server.ts"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
