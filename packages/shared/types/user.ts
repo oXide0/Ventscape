@@ -11,6 +11,7 @@ export interface LoginRequest {
 export interface AuthResponse {
     userId: string;
     accessToken: string;
+    accountType: UserRoles.CREATOR | UserRoles.CUSTOMER;
 }
 
 export interface RegisterRequest {

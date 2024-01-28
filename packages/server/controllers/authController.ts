@@ -106,7 +106,7 @@ export const loginUser = async (req: Request, res: Response) => {
             secure: true,
             maxAge: 14 * 24 * 60 * 60 * 1000,
         });
-        res.json({ accessToken, userId: user.id });
+        res.json({ accessToken, userId: user.id, accountType: user.account_type });
     } else {
         return res.status(400).json({ message: 'Invalid credentials' });
     }

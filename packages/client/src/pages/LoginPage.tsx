@@ -1,7 +1,7 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 import TextField from 'components/TextField';
 import PageLayout from 'components/ui/PageLayout';
-import { setUserId } from 'features/userSlice';
+import { setUserId, setUserAccountType } from 'features/userSlice';
 import { useAppDispatch } from 'hooks/redux-hooks';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +29,7 @@ const RegisterPage = () => {
             localStorage.setItem('accessToken', response.accessToken);
             localStorage.setItem('userId', response.userId);
             dispatch(setUserId(response.userId));
+            dispatch(setUserAccountType(response.accountType));
             navigate('/');
         } catch (err) {
             console.error(err);
