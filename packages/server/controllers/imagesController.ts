@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 import { v4 } from 'uuid';
 
 const s3Client = new S3Client({
-    region: process.env.AWS_REGION,
+    region: process.env.AWS_SERVER_REGION,
 });
 
 export const uploadImage = async (req: Request, res: Response) => {
