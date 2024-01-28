@@ -10,7 +10,7 @@ import { useGetImageUrlQuery } from 'services/imageApi';
 const App = () => {
     const id = localStorage.getItem('userId');
     const dispatch = useAppDispatch();
-    const { data: user, isLoading } = useGetUserByIdQuery(id!);
+    const { data: user, isLoading } = useGetUserByIdQuery(id, { skip: !id });
     const { data: avatar } = useGetImageUrlQuery(user?.avatarId, {
         skip: !user?.avatarId,
     });
