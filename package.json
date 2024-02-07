@@ -11,7 +11,8 @@
         "generate": "npx prisma generate --schema=packages/server/prisma/schema.prisma"
     },
     "devDependencies": {
-        "husky": "^8.0.3"
+        "husky": "^8.0.3",
+        "prettier": "3.2.5"
     },
     "workspaces": [
         "packages/*"
