@@ -7,7 +7,6 @@ interface SelectFieldProps {
     readonly name: string;
     readonly label?: string;
     readonly register?: UseFormRegisterReturn;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly errors?: Record<string, any>;
     readonly defaultValue?: string;
     readonly options: { label: string; value: string }[];
@@ -22,7 +21,7 @@ const SelectField = memo(
         register,
         options,
         defaultValue,
-        disabled = false,
+        disabled = false
     }: SelectFieldProps) => {
         return (
             <FormControl isInvalid={errors ? !!errors[name] : false}>

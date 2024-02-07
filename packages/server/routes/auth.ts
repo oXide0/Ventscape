@@ -3,13 +3,13 @@ import {
     LOGIN_ENDPOINT,
     LOGOUT_ENDPOINT,
     REFRESH_TOKEN_ENDPOINT,
-    REGISTER_ENDPOINT,
+    REGISTER_ENDPOINT
 } from 'shared/types';
 import {
     handleRefreshToken,
     loginUser,
     logoutUser,
-    registerUser,
+    registerUser
 } from '../controllers/authController';
 const router = express.Router();
 

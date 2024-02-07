@@ -4,7 +4,7 @@ export { BsThreeDotsVertical as DotsIcon } from 'react-icons/bs';
 export {
     FaBookmark as SaveFillIcon,
     FaRegBookmark as SaveIcon,
-    FaRegUserCircle as UserIcon,
+    FaRegUserCircle as UserIcon
 } from 'react-icons/fa';
 export { FaLocationDot as LocationIcon } from 'react-icons/fa6';
 export { FiUpload as UploadIcon } from 'react-icons/fi';
@@ -14,6 +14,6 @@ export { IoIosAddCircleOutline as CircleIcon } from 'react-icons/io';
 export {
     MdDelete as DeleteIcon,
     MdEdit as EditIcon,
-    MdOutlineEventAvailable as EventIcon,
+    MdOutlineEventAvailable as EventIcon
 } from 'react-icons/md';
 export { RiMoneyEuroCircleLine as MoneyIcon } from 'react-icons/ri';

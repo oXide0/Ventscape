@@ -5,9 +5,9 @@ export const imageApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getImageUrl: builder.query<{ url: string }, string | null | undefined>({
             query: (imageId) => ({
-                url: `${IMAGES_ENDPOINT}/${imageId}`,
+                url: `${IMAGES_ENDPOINT}/${imageId}`
             }),
-            providesTags: ['Images'],
+            providesTags: ['Images']
         }),
         uploadImage: builder.mutation<{ id: string }, { image: File | null }>({
             query: ({ image }) => {
@@ -17,19 +17,19 @@ export const imageApi = api.injectEndpoints({
                 return {
                     url: `${IMAGES_ENDPOINT}/${UPLOAD_ENDPOINT}`,
                     method: 'POST',
-                    body: formData,
+                    body: formData
                 };
             },
-            invalidatesTags: ['Images'],
+            invalidatesTags: ['Images']
         }),
         removeImage: builder.mutation<void, string>({
             query: (imageId) => ({
                 url: `${IMAGES_ENDPOINT}/${imageId}`,
-                method: 'DELETE',
+                method: 'DELETE'
             }),
-            invalidatesTags: ['Images'],
-        }),
-    }),
+            invalidatesTags: ['Images']
+        })
+    })
 });
 
 export const { useGetImageUrlQuery, useUploadImageMutation, useRemoveImageMutation } = imageApi;

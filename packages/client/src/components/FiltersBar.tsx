@@ -27,7 +27,7 @@ const FiltersBar = memo(({ onFilter }: FiltersBarProps) => {
                         { value: 'any', label: 'Any time' },
                         { value: 'this-week', label: 'This week' },
                         { value: 'this-month', label: 'This month' },
-                        { value: 'this-year', label: 'This year' },
+                        { value: 'this-year', label: 'This year' }
                     ]}
                 />
                 <SelectField
@@ -41,7 +41,7 @@ const FiltersBar = memo(({ onFilter }: FiltersBarProps) => {
                     options={[
                         { value: 'all', label: 'All' },
                         { value: 'online', label: 'Online' },
-                        { value: 'offline', label: 'Offline' },
+                        { value: 'offline', label: 'Offline' }
                     ]}
                 />
                 <SelectField
@@ -56,15 +56,14 @@ const FiltersBar = memo(({ onFilter }: FiltersBarProps) => {
                     options={[
                         { value: 'all', label: 'All' },
                         { value: 'free', label: 'Free' },
-                        { value: 'paid', label: 'Paid' },
+                        { value: 'paid', label: 'Paid' }
                     ]}
                 />
                 <Button
                     colorScheme='brand'
                     color='text.white'
                     type='submit'
-                    px={{ base: 5, xl: 10 }}
-                >
+                    px={{ base: 5, xl: 10 }}>
                     Apply
                 </Button>
             </Card>

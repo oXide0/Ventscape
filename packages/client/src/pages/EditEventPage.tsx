@@ -7,7 +7,7 @@ import { useGetEventByIdQuery, useUpdateEventMutation } from 'services/eventApi'
 import {
     useGetImageUrlQuery,
     useRemoveImageMutation,
-    useUploadImageMutation,
+    useUploadImageMutation
 } from 'services/imageApi';
 import { ImageValues } from 'types/types';
 import { mapEventToEventFormValues } from 'utils/events';
@@ -17,7 +17,7 @@ const EditEventPage = () => {
     const { eventId } = useParams();
     const { data, isSuccess } = useGetEventByIdQuery(eventId);
     const { data: img } = useGetImageUrlQuery(data?.imgId, {
-        skip: !data?.imgId,
+        skip: !data?.imgId
     });
     const [uploadEventImage] = useUploadImageMutation();
     const [removeEventImage] = useRemoveImageMutation();
@@ -34,7 +34,7 @@ const EditEventPage = () => {
                     id: data.id,
                     creatorId: data.creatorId,
                     imgId: '',
-                    ...event,
+                    ...event
                 }).unwrap();
             } else if (image.file && image.url) {
                 if (data.imgId) await removeEventImage(data.imgId).unwrap();
@@ -43,7 +43,7 @@ const EditEventPage = () => {
                     id: data.id,
                     creatorId: data.creatorId,
                     imgId: imgData.id,
-                    ...event,
+                    ...event
                 }).unwrap();
             }
 
@@ -53,7 +53,7 @@ const EditEventPage = () => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         } catch (err) {
             console.log(err);
@@ -63,7 +63,7 @@ const EditEventPage = () => {
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         }
     };

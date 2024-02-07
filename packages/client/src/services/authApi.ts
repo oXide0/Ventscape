@@ -4,7 +4,7 @@ import {
     LOGOUT_ENDPOINT,
     LoginRequest,
     REGISTER_ENDPOINT,
-    RegisterRequest,
+    RegisterRequest
 } from 'shared/types';
 import { api } from './api';
 
@@ -14,26 +14,26 @@ export const userApi = api.injectEndpoints({
             query: (body) => ({
                 url: REGISTER_ENDPOINT,
                 method: 'POST',
-                body,
+                body
             }),
-            invalidatesTags: ['Users'],
+            invalidatesTags: ['Users']
         }),
         login: builder.mutation<AuthResponse, LoginRequest>({
             query: (body) => ({
                 url: LOGIN_ENDPOINT,
                 method: 'POST',
-                body,
+                body
             }),
-            invalidatesTags: ['Users'],
+            invalidatesTags: ['Users']
         }),
         logout: builder.mutation<void, void>({
             query: () => ({
                 url: LOGOUT_ENDPOINT,
-                method: 'POST',
+                method: 'POST'
             }),
-            invalidatesTags: ['Users'],
-        }),
-    }),
+            invalidatesTags: ['Users']
+        })
+    })
 });
 
 export const { useRegisterMutation, useLoginMutation, useLogoutMutation } = userApi;

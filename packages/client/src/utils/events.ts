@@ -17,7 +17,7 @@ export const eventCategories = [
     { label: 'Government and Politics', value: 'Government and Politics' },
     { label: 'Religious and Spiritual', value: 'Religious and Spiritual' },
     { label: 'Family and Kids', value: 'Family and Kids' },
-    { label: 'Holiday and Seasonal', value: 'Holiday and Seasonal' },
+    { label: 'Holiday and Seasonal', value: 'Holiday and Seasonal' }
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 export const countries = [
@@ -43,7 +43,7 @@ export const countries = [
     { label: 'Denmark', value: 'Denmark' },
     { label: 'Sweden', value: 'Sweden' },
     { label: 'Norway', value: 'Norway' },
-    { label: 'Finland', value: 'Finland' },
+    { label: 'Finland', value: 'Finland' }
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 export const filterEventData = (event: IEvent) => {
@@ -55,7 +55,7 @@ export const filterEventData = (event: IEvent) => {
             category: event.category,
             date: event.date,
             link: event.link,
-            price: event.price ? event.price : 0,
+            price: event.price ? event.price : 0
         };
     }
     return {
@@ -68,7 +68,7 @@ export const filterEventData = (event: IEvent) => {
         city: event.city,
         country: event.country,
         link: event.link,
-        price: event.price ? event.price : 0,
+        price: event.price ? event.price : 0
     };
 };
 
@@ -156,6 +156,6 @@ export const mapEventToEventFormValues = (event: IEvent): EventFormValues => {
         city,
         street,
         link,
-        price,
+        price
     };
 };

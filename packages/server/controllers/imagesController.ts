@@ -2,7 +2,7 @@ import {
     DeleteObjectCommand,
     GetObjectCommand,
     PutObjectCommand,
-    S3Client,
+    S3Client
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Request, Response } from 'express';
@@ -12,8 +12,8 @@ const s3Client = new S3Client({
     region: process.env.AWS_REGION,
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+    }
 });
 
 export const uploadImage = async (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ export const uploadImage = async (req: Request, res: Response) => {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: id,
             Body: req.file.buffer,
-            ContentType: req.file.mimetype,
+            ContentType: req.file.mimetype
         };
 
         await s3Client.send(new PutObjectCommand(uploadParams));
@@ -43,7 +43,7 @@ export const uploadImage = async (req: Request, res: Response) => {
 export const getImage = async (req: Request, res: Response) => {
     const objectCommand = new GetObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.params.imageId,
+        Key: req.params.imageId
     });
 
     try {
@@ -58,7 +58,7 @@ export const getImage = async (req: Request, res: Response) => {
 export const removeImage = async (req: Request, res: Response) => {
     const objectCommand = new DeleteObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.params.imageId,
+        Key: req.params.imageId
     });
 
     try {

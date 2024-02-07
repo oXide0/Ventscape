@@ -23,7 +23,7 @@ import {
     PopoverContent,
     PopoverTrigger,
     Text,
-    useDisclosure,
+    useDisclosure
 } from '@chakra-ui/react';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
@@ -41,7 +41,7 @@ import {
     OnlineIcon,
     SaveFillIcon,
     SaveIcon,
-    TimeIcon,
+    TimeIcon
 } from 'utils/icons';
 
 interface EventCardProps extends IEvent {
@@ -53,7 +53,7 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
     const { data } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetImageUrlQuery(event.imgId, { skip: !event.imgId });
     const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
-        skip: !data?.avatarId,
+        skip: !data?.avatarId
     });
     const { handleSaveEvent, isSavedEvent } = useSavedEvent(event.id);
     const navigate = useNavigate();
@@ -124,7 +124,7 @@ const CardFooter = ({
     country,
     street,
     link,
-    applyButton,
+    applyButton
 }: CardFooterProps) => {
     const { isAuth } = useAppSelector(selectUser);
     const apllyPath = isAuth ? link : '/login';
@@ -137,10 +137,9 @@ const CardFooter = ({
                 w='full'
                 sx={{
                     '& > button': {
-                        minW: '136px',
-                    },
-                }}
-            >
+                        minW: '136px'
+                    }
+                }}>
                 {mode === 'offline' ? (
                     <Flex alignItems='center' gap={2} pt={4}>
                         <LocationIcon size='1.5em' />
@@ -168,8 +167,7 @@ const CardFooter = ({
                 pt={4}
                 direction={{ base: 'column', md: 'row' }}
                 w={{ base: 'full', md: 'auto' }}
-                gap={4}
-            >
+                gap={4}>
                 {mode === 'offline' && (
                     <Text fontSize='lg'>
                         <Highlight query='Address:' styles={{ fontWeight: 'bold', color: 'white' }}>
@@ -185,8 +183,7 @@ const CardFooter = ({
                         px='14'
                         as={ReactRouterLink}
                         to={apllyPath}
-                        w={{ base: 'full', md: 'auto' }}
-                    >
+                        w={{ base: 'full', md: 'auto' }}>
                         Apply
                     </Button>
                 )}
@@ -197,7 +194,7 @@ const CardFooter = ({
 
 const CardPopover = ({
     eventId,
-    removeEvent,
+    removeEvent
 }: {
     eventId: string;
     removeEvent: (eventId: string) => void;
@@ -214,8 +211,7 @@ const CardPopover = ({
                         w='100%'
                         to={`/events/edit/${eventId}`}
                         as={ReactRouterLink}
-                        _hover={{ bg: 'brand.200' }}
-                    >
+                        _hover={{ bg: 'brand.200' }}>
                         Edit event
                     </Button>
                     <Button w='100%' colorScheme='red' onClick={onOpen}>

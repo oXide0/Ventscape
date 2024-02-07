@@ -2,7 +2,7 @@ import {
     extendTheme,
     ThemeConfig,
     defineStyleConfig,
-    createMultiStyleConfigHelpers,
+    createMultiStyleConfigHelpers
 } from '@chakra-ui/react';
 import { cardAnatomy } from '@chakra-ui/anatomy';
 
@@ -12,22 +12,22 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 
 const config: ThemeConfig = {
     initialColorMode: 'dark',
-    useSystemColorMode: false,
+    useSystemColorMode: false
 };
 
 const colors = {
     bg: {
         default: '#252B3C',
-        navbar: '#2F3647',
+        navbar: '#2F3647'
     },
     text: {
         primary: '#FFFFFF',
-        secondary: '#A0AEC0',
+        secondary: '#A0AEC0'
     },
     brand: {
         100: '#6B72FF',
-        200: '#5056ED',
-    },
+        200: '#5056ED'
+    }
 };
 
 const styles = {
@@ -35,22 +35,22 @@ const styles = {
         body: {
             bg: 'bg.default',
             color: 'text.primary',
-            overflowX: 'hidden',
+            overflowX: 'hidden'
         },
         '::-webkit-scrollbar': {
-            width: '10px',
+            width: '10px'
         },
         '::-webkit-scrollbar-track': {
-            background: 'none',
+            background: 'none'
         },
         '::-webkit-scrollbar-thumb': {
             background: 'text.secondary',
-            borderRadius: '4px',
+            borderRadius: '4px'
         },
         '::-webkit-scrollbar-thumb:hover': {
-            background: 'brand.100',
-        },
-    },
+            background: 'brand.100'
+        }
+    }
 };
 
 const Spinner = defineStyleConfig({
@@ -58,53 +58,53 @@ const Spinner = defineStyleConfig({
         color: 'purple.400',
         position: 'absolute',
         top: '45%',
-        left: '48%',
+        left: '48%'
     },
     defaultProps: {
-        size: 'xl',
-    },
+        size: 'xl'
+    }
 });
 const Divider = defineStyleConfig({
     baseStyle: {
-        bg: 'text.secondary',
-    },
+        bg: 'text.secondary'
+    }
 });
 const Text = defineStyleConfig({
     baseStyle: {
-        color: 'text.primary',
-    },
+        color: 'text.primary'
+    }
 });
 
 const Input = defineStyleConfig({
     defaultProps: {
         // @ts-expect-error This is intentional to set a default focusBorderColor.
-        focusBorderColor: 'brand.100',
-    },
+        focusBorderColor: 'brand.100'
+    }
 });
 const Select = defineStyleConfig({
     defaultProps: {
         // @ts-expect-error This is intentional to set a default focusBorderColor.
-        focusBorderColor: 'brand.100',
-    },
+        focusBorderColor: 'brand.100'
+    }
 });
 
 const baseStyle = definePartsStyle({
     container: {
         backgroundColor: 'bg.navbar',
-        borderRadius: '5px',
+        borderRadius: '5px'
     },
     header: {
         backgroundColor: 'bg.navbar',
-        borderRadius: '5px',
+        borderRadius: '5px'
     },
     body: {
         backgroundColor: 'bg.navbar',
-        borderRadius: '5px',
+        borderRadius: '5px'
     },
     footer: {
         backgroundColor: 'bg.navbar',
-        borderRadius: '5px',
-    },
+        borderRadius: '5px'
+    }
 });
 
 export const cardTheme = defineMultiStyleConfig({ baseStyle });
@@ -113,7 +113,7 @@ const theme = extendTheme({
     config,
     styles,
     colors,
-    components: { Spinner, Divider, Text, Input, Select, Card: cardTheme },
+    components: { Spinner, Divider, Text, Input, Select, Card: cardTheme }
 });
 
 export default theme;

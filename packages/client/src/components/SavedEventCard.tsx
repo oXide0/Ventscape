@@ -14,8 +14,7 @@ const SavedEventCard = memo((data: IGetSavedEventsResponse) => {
             p={4}
             direction='row'
             alignItems='center'
-            justifyContent='space-between'
-        >
+            justifyContent='space-between'>
             <Heading fontSize='xl'>{data.event.title}</Heading>
             <IconButton
                 aria-label='Save event'

@@ -20,11 +20,11 @@ export default defineConfig({
                     {
                         src: '/logo.png',
                         sizes: '220x220',
-                        type: 'image/png',
-                    },
-                ],
-            },
-        }),
+                        type: 'image/png'
+                    }
+                ]
+            }
+        })
     ],
     resolve: {
         alias: {
@@ -38,8 +38,8 @@ export default defineConfig({
             types: '/src/types',
             store: '/src/store',
             features: '/src/features',
-            config: '/src/config',
-        },
+            config: '/src/config'
+        }
     },
     build: {
         outDir: 'build',
@@ -69,14 +69,14 @@ export default defineConfig({
                     if (id.includes('firebase')) {
                         return '@firebase';
                     }
-                },
-            },
-        },
+                }
+            }
+        }
     },
     test: {
         globals: true,
         environment: 'jsdom',
         setupFiles: ['/src/setupTests.ts'],
-        watch: false,
-    },
+        watch: false
+    }
 });

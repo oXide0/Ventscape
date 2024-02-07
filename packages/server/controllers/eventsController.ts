@@ -24,8 +24,8 @@ export const getEventById = async (req: Request, res: Response) => {
     try {
         const event = await prisma.events.findUnique({
             where: {
-                id: req.params.id,
-            },
+                id: req.params.id
+            }
         });
 
         if (!event) return res.status(401).json({ message: 'Not events found' });
@@ -41,8 +41,8 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
     try {
         const events = await prisma.events.findMany({
             where: {
-                creator_id: req.params.creatorId,
-            },
+                creator_id: req.params.creatorId
+            }
         });
 
         res.json(
@@ -65,8 +65,8 @@ export const createEvent = async (req: Request, res: Response) => {
                 id: v4(),
                 creator_id: creatorId,
                 img_id: imgId ? imgId : null,
-                ...restBody,
-            },
+                ...restBody
+            }
         });
 
         const { creator_id, img_id, ...restEvent } = event;
@@ -82,13 +82,13 @@ export const updateEvent = async (req: Request, res: Response) => {
         const { creatorId, imgId, ...restBody }: UpdateEventRequest = req.body;
         const event = await prisma.events.update({
             where: {
-                id: req.params.id,
+                id: req.params.id
             },
             data: {
                 creator_id: creatorId,
                 img_id: imgId ? imgId : null,
-                ...restBody,
-            },
+                ...restBody
+            }
         });
 
         const { creator_id, img_id, ...restEvent } = event;
@@ -103,8 +103,8 @@ export const deleteEvent = async (req: Request, res: Response) => {
     try {
         await prisma.events.delete({
             where: {
-                id: req.params.id,
-            },
+                id: req.params.id
+            }
         });
 
         res.json('Event deleted');
@@ -120,8 +120,8 @@ export const saveEventForUser = async (req: Request, res: Response) => {
             data: {
                 id: v4(),
                 user_id: req.params.userId,
-                event_id: req.params.eventId,
-            },
+                event_id: req.params.eventId
+            }
         });
         res.status(200).json('Event saved');
     } catch (err) {
@@ -134,8 +134,8 @@ export const unsaveEventForUser = async (req: Request, res: Response) => {
     try {
         await prisma.userEvent.delete({
             where: {
-                id: req.params.id,
-            },
+                id: req.params.id
+            }
         });
         res.status(200).json('Event unsaved');
     } catch (err) {
@@ -148,21 +148,21 @@ export const getSavedEventsForUser = async (req: Request, res: Response) => {
     try {
         const userEventRecords = await prisma.userEvent.findMany({
             where: {
-                user_id: req.params.userId,
-            },
+                user_id: req.params.userId
+            }
         });
 
         const events = await prisma.events.findMany({
             where: {
                 id: {
-                    in: userEventRecords.map((event) => event.event_id),
-                },
-            },
+                    in: userEventRecords.map((event) => event.event_id)
+                }
+            }
         });
 
         const userSavedEvents = userEventRecords.map((record) => ({
             id: record.id,
-            event: events.find((event) => event.id === record.event_id),
+            event: events.find((event) => event.id === record.event_id)
         }));
 
         res.json(userSavedEvents);

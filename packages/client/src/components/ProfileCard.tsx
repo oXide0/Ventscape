@@ -17,8 +17,7 @@ const ProfileCard = memo(({ bgPhotoUrl, avatarUrl, name, email, actions }: Profi
                     bg={bgPhotoUrl ? 'transparent' : 'gray.500'}
                     roundedTop='md'
                     h='260px'
-                    objectFit='cover'
-                >
+                    objectFit='cover'>
                     {bgPhotoUrl && (
                         <Image src={bgPhotoUrl} roundedTop='md' maxH='260px' objectFit='cover' />
                     )}

@@ -15,8 +15,8 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const duplicateUser = await prisma.users.findUnique({
         where: {
-            email: email,
-        },
+            email: email
+        }
     });
     if (duplicateUser) {
         return res.status(404).json({ message: 'User already exists' });
@@ -31,32 +31,32 @@ export const registerUser = async (req: Request, res: Response) => {
                 name: name,
                 email: email,
                 password: hashedPassword,
-                account_type: accountType,
-            },
+                account_type: accountType
+            }
         });
 
         const accessToken = jwt.sign({ name }, process.env.ACCESS_TOKEN_SECRET!, {
-            expiresIn: '1h',
+            expiresIn: '1h'
         });
 
         const refreshToken = jwt.sign({ name }, process.env.REFRESH_TOKEN_SECRET!, {
-            expiresIn: '14d',
+            expiresIn: '14d'
         });
 
         await prisma.users.update({
             where: {
-                id: userId,
+                id: userId
             },
             data: {
-                refresh_token: refreshToken,
-            },
+                refresh_token: refreshToken
+            }
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-            maxAge: 14 * 24 * 60 * 60 * 1000,
+            maxAge: 14 * 24 * 60 * 60 * 1000
         });
 
         res.status(201).json({ accessToken, userId });
@@ -73,8 +73,8 @@ export const loginUser = async (req: Request, res: Response) => {
     }
     const user = await prisma.users.findUnique({
         where: {
-            email: email,
-        },
+            email: email
+        }
     });
 
     if (!user) {
@@ -84,27 +84,27 @@ export const loginUser = async (req: Request, res: Response) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
         const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET!, {
-            expiresIn: '1h',
+            expiresIn: '1h'
         });
 
         const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET!, {
-            expiresIn: '14d',
+            expiresIn: '14d'
         });
 
         await prisma.users.update({
             where: {
-                id: user.id,
+                id: user.id
             },
             data: {
-                refresh_token: refreshToken,
-            },
+                refresh_token: refreshToken
+            }
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-            maxAge: 14 * 24 * 60 * 60 * 1000,
+            maxAge: 14 * 24 * 60 * 60 * 1000
         });
         res.json({ accessToken, userId: user.id, accountType: user.account_type });
     } else {
@@ -120,8 +120,8 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
     const refreshToken = cookies.refreshToken;
     const foundUser = await prisma.users.findUnique({
         where: {
-            refresh_token: refreshToken,
-        },
+            refresh_token: refreshToken
+        }
     });
 
     if (!foundUser) {
@@ -154,8 +154,8 @@ export const logoutUser = async (req: Request, res: Response) => {
 
     const foundUser = await prisma.users.findUnique({
         where: {
-            refresh_token: refreshToken,
-        },
+            refresh_token: refreshToken
+        }
     });
     if (!foundUser) {
         res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });
@@ -164,11 +164,11 @@ export const logoutUser = async (req: Request, res: Response) => {
 
     await prisma.users.update({
         where: {
-            id: foundUser.id,
+            id: foundUser.id
         },
         data: {
-            refresh_token: null,
-        },
+            refresh_token: null
+        }
     });
 
     res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });

@@ -7,7 +7,7 @@ export type {
     LoginRequest,
     RegisterRequest,
     UpdateUserRequest,
-    UserResponse,
+    UserResponse
 } from './types/user';
 
 export {
@@ -16,7 +16,7 @@ export {
     REFRESH_TOKEN_ENDPOINT,
     REGISTER_ENDPOINT,
     USERS_ENDPOINT,
-    UserRoles,
+    UserRoles
 } from './types/user';
 
 export { IMAGES_ENDPOINT, UPLOAD_ENDPOINT } from './types/images';

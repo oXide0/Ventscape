@@ -8,7 +8,7 @@ import {
     Input,
     Text,
     VStack,
-    useColorModeValue,
+    useColorModeValue
 } from '@chakra-ui/react';
 import { memo, useRef } from 'react';
 import { CloseIcon, UploadIcon } from 'utils/icons';
@@ -61,8 +61,7 @@ const ImageUpload = memo(({ setFile, imgUrl }: ImageUploadProps) => {
                 borderColor={borderColor}
                 borderRadius='lg'
                 cursor={!imgUrl ? 'pointer' : 'default'}
-                onClick={handlePick}
-            >
+                onClick={handlePick}>
                 <VStack spacing={4} pos='relative'>
                     {imgUrl ? (
                         <>
@@ -72,8 +71,7 @@ const ImageUpload = memo(({ setFile, imgUrl }: ImageUploadProps) => {
                                 variant='unstyled'
                                 pos='absolute'
                                 right={-2}
-                                top={-1}
-                            >
+                                top={-1}>
                                 <CloseIcon size='2em' />
                             </IconButton>
                             <Image src={imgUrl} alt='event-preview' maxH='80' borderRadius='md' />
@@ -87,8 +85,7 @@ const ImageUpload = memo(({ setFile, imgUrl }: ImageUploadProps) => {
                         fontSize='inherit'
                         color='indigo.400'
                         _hover={{ color: 'indigo.500' }}
-                        _focusWithin={{ ring: 2, ringColor: 'indigo.600' }}
-                    >
+                        _focusWithin={{ ring: 2, ringColor: 'indigo.600' }}>
                         <Input
                             // data-testid='file-upload'
                             ref={filePicker}
@@ -108,8 +105,7 @@ const ImageUpload = memo(({ setFile, imgUrl }: ImageUploadProps) => {
                     <Text fontSize='sm' color={textColor}>
                         <Highlight
                             query='Upload a file'
-                            styles={{ color: '#6B8FFF', fontWeight: 'bold' }}
-                        >
+                            styles={{ color: '#6B8FFF', fontWeight: 'bold' }}>
                             Upload a file or drag and drop
                         </Highlight>
                     </Text>

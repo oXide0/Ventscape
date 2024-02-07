@@ -11,7 +11,7 @@ const UserPage = () => {
     const { userId } = useParams();
     const { data, isSuccess, error } = useGetUserByIdQuery(userId);
     const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
-        skip: !data?.avatarId,
+        skip: !data?.avatarId
     });
 
     if (!isSuccess) return <Loader />;
@@ -39,8 +39,7 @@ const UserPage = () => {
                             colorScheme='brand'
                             color='white'
                             as={RouterLink}
-                            to={`/user/${userId}/events`}
-                        >
+                            to={`/user/${userId}/events`}>
                             Show events
                         </Button>
                     }

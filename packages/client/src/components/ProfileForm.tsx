@@ -11,7 +11,7 @@ import {
     Input,
     Stack,
     Text,
-    Textarea,
+    Textarea
 } from '@chakra-ui/react';
 import imageCompression from 'browser-image-compression';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -42,7 +42,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
         register,
         handleSubmit,
         setValue,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useForm<ProfileFormValues>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
@@ -54,7 +54,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
-            useWebWorker: true,
+            useWebWorker: true
         };
         const compressedFile = await imageCompression(file, options);
         setAvatar({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
@@ -92,8 +92,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
                     size='xl'
                     pos='relative'
                     mt={2}
-                    onClick={handlePick}
-                >
+                    onClick={handlePick}>
                     {avatar.url && (
                         <IconButton
                             aria-label='remove'
@@ -101,8 +100,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
                             variant='unstyled'
                             pos='absolute'
                             right={-6}
-                            top={-3}
-                        >
+                            top={-3}>
                             <CloseIcon size='1.7em' />
                         </IconButton>
                     )}
@@ -162,13 +160,13 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
                         name='accountType'
                         label='Account type'
                         register={register('accountType', {
-                            required: 'Account type is required',
+                            required: 'Account type is required'
                         })}
                         errors={errors}
                         defaultValue='offline'
                         options={[
                             { value: 'customer', label: 'Customer' },
-                            { value: 'creator', label: 'Creator' },
+                            { value: 'creator', label: 'Creator' }
                         ]}
                     />
                 </GridItem>
@@ -179,8 +177,7 @@ const ProfileForm = memo(({ avatarUrl, submit, userData }: ProfileFormProps) => 
                 color='white'
                 isLoading={isSubmitting}
                 type='submit'
-                w='full'
-            >
+                w='full'>
                 Submit
             </Button>
         </Box>

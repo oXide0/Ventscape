@@ -10,7 +10,7 @@ import {
     InputGroup,
     InputLeftElement,
     Switch,
-    Textarea,
+    Textarea
 } from '@chakra-ui/react';
 import imageCompression from 'browser-image-compression';
 import ImageUpload from 'components/ImageUpload';
@@ -50,7 +50,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
         watch,
         reset,
         setValue,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useForm<EventFormValues>({ mode: 'onChange' });
 
     const onSubmit: SubmitHandler<EventFormValues> = async (data) => {
@@ -72,7 +72,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
-            useWebWorker: true,
+            useWebWorker: true
         };
         const compressedFile = await imageCompression(file, options);
         setEventImage({ file: compressedFile, url: URL.createObjectURL(compressedFile) });
@@ -143,7 +143,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                         errors={errors}
                         options={[
                             { label: 'Online', value: 'online' },
-                            { label: 'Offline', value: 'offline' },
+                            { label: 'Offline', value: 'offline' }
                         ]}
                     />
                 </GridItem>
@@ -172,7 +172,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                                 label='Street Address'
                                 placeholder='Street address of event'
                                 register={register('street', {
-                                    required: 'Street address is required',
+                                    required: 'Street address is required'
                                 })}
                                 errors={errors}
                             />
@@ -185,7 +185,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                         label='Link to event'
                         placeholder='Link to event'
                         register={register('link', {
-                            required: 'Link to event is required',
+                            required: 'Link to event is required'
                         })}
                         errors={errors}
                     />
@@ -231,8 +231,7 @@ const EventForm = memo(({ eventData, imgUrl, submit }: EventFormProps) => {
                 color='white'
                 isLoading={isSubmitting}
                 type='submit'
-                w='full'
-            >
+                w='full'>
                 Submit
             </Button>
         </Box>

@@ -53,9 +53,7 @@ const AllEventsPage = () => {
                 <Card p={5} maxW={400} w='full'>
                     <Heading>Saved Events</Heading>
                     <Stack spacing={4} pt={5}>
-                        {savedEvents?.map((event) => (
-                            <SavedEventCard key={event.id} {...event} />
-                        ))}
+                        {savedEvents?.map((event) => <SavedEventCard key={event.id} {...event} />)}
                     </Stack>
                 </Card>
             </Stack>

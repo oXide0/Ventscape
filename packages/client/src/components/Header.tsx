@@ -34,8 +34,7 @@ const Header = memo(() => {
                         variant='link'
                         as={ReactRouterLink}
                         to='/login'
-                        style={{ textDecoration: 'none' }}
-                    >
+                        style={{ textDecoration: 'none' }}>
                         Login
                     </Button>
                     <Divider orientation='vertical' />

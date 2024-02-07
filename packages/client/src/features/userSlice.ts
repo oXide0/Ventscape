@@ -16,7 +16,7 @@ const initialState: UserState = {
     email: null,
     isAuth: false,
     accountType: null,
-    avatarUrl: null,
+    avatarUrl: null
 };
 
 export const userSlice = createSlice({
@@ -48,11 +48,11 @@ export const userSlice = createSlice({
         },
         setUserAccountType: (state, action: PayloadAction<'customer' | 'creator'>) => {
             state.accountType = action.payload;
-        },
+        }
     },
     selectors: {
-        selectUser: (state) => state,
-    },
+        selectUser: (state) => state
+    }
 });
 
 export const { setUserData, removeUserData, setUserId, setUserAvatar, setUserAccountType } =

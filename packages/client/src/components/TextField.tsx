@@ -5,7 +5,7 @@ import {
     FormLabel,
     Input,
     InputGroup,
-    InputRightElement,
+    InputRightElement
 } from '@chakra-ui/react';
 import { memo, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
@@ -17,7 +17,6 @@ interface TextFieldProps {
     readonly placeholder?: string;
     readonly type?: string;
     readonly register?: UseFormRegisterReturn;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly errors?: Record<string, any>;
 }
 

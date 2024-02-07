@@ -8,7 +8,7 @@ import {
     updateEvent,
     saveEventForUser,
     getSavedEventsForUser,
-    unsaveEventForUser,
+    unsaveEventForUser
 } from '../controllers/eventsController';
 import { verifyJwt } from '../middlewares/verifyJwt';
 const router = express.Router();

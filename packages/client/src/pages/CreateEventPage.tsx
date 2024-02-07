@@ -26,7 +26,7 @@ const CreateEventPage = () => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         } catch (err) {
             console.log(err);
@@ -36,7 +36,7 @@ const CreateEventPage = () => {
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         }
     };

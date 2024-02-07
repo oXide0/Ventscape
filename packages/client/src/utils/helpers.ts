@@ -35,6 +35,6 @@ export const mapUsersToProfileFormValues = (user: UserResponse): ProfileFormValu
         name,
         email,
         accountType,
-        description,
+        description
     };
 };

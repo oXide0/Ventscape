@@ -20,7 +20,7 @@ const RegisterPage = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useForm<FormValues>({ mode: 'onChange' });
 
     const onSubmit = async (data: FormValues) => {
@@ -44,8 +44,7 @@ const RegisterPage = () => {
                 display='flex'
                 flexDirection='column'
                 gap={3}
-                onSubmit={handleSubmit(onSubmit)}
-            >
+                onSubmit={handleSubmit(onSubmit)}>
                 {error && (
                     <Text color='red.400' fontSize='xl' textAlign='center'>
                         {error && isErrorWithMessage(error) && error.data.message}
@@ -59,8 +58,8 @@ const RegisterPage = () => {
                         required: '*This field is required',
                         pattern: {
                             value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: '*Please enter a valid email address',
-                        },
+                            message: '*Please enter a valid email address'
+                        }
                     })}
                     errors={errors}
                 />
@@ -72,12 +71,12 @@ const RegisterPage = () => {
                         required: '*This field is required',
                         pattern: {
                             value: /^\S*$/,
-                            message: '*Password cannot contain spaces',
+                            message: '*Password cannot contain spaces'
                         },
                         minLength: {
                             value: 6,
-                            message: '*Password must be at least 6 characters long',
-                        },
+                            message: '*Password must be at least 6 characters long'
+                        }
                     })}
                     errors={errors}
                 />
@@ -86,8 +85,7 @@ const RegisterPage = () => {
                     color='text.white'
                     isLoading={isSubmitting}
                     type='submit'
-                    mt={5}
-                >
+                    mt={5}>
                     Submit
                 </Button>
             </Box>

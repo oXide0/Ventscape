@@ -5,9 +5,9 @@ import { api } from 'services/api';
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        [api.reducerPath]: api.reducer,
+        [api.reducerPath]: api.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

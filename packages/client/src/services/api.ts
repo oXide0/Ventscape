@@ -15,7 +15,7 @@ const baseQuery = fetchBaseQuery({
             headers.set('authorization', `Bearer ${accessToken}`);
         }
         return headers;
-    },
+    }
 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
@@ -40,5 +40,5 @@ export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),
-    tagTypes: ['Events', 'Users', 'Images'],
+    tagTypes: ['Events', 'Users', 'Images']
 });

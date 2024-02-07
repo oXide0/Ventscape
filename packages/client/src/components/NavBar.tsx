@@ -17,8 +17,7 @@ const NavBar = memo(() => {
             pos='fixed'
             minW={{ base: '100%', sm: '80px', xl: '300px' }}
             p={3}
-            bottom={0}
-        >
+            bottom={0}>
             <Heading textTransform='uppercase' size='lg' pl={4} as={ReactRouterLink} to='/'>
                 ventscape
             </Heading>
@@ -26,8 +25,7 @@ const NavBar = memo(() => {
             <Stack
                 pt={{ base: 0, sm: 8 }}
                 direction={{ base: 'row', sm: 'column' }}
-                height={{ base: 'auto', sm: '95%' }}
-            >
+                height={{ base: 'auto', sm: '95%' }}>
                 <Stack flex='1 1 auto' direction={{ base: 'row', sm: 'column' }}>
                     <TabLink to='/' label='Home' icon={<HomeIcon />} />
                     <TabLink to='/events' label='Events' icon={<CalendarIcon />} />

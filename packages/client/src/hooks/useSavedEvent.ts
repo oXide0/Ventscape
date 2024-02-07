@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     useGetSavedEventsByUserIdQuery,
     useSaveEventMutation,
-    useUnsaveEventMutation,
+    useUnsaveEventMutation
 } from 'services/eventApi';
 import { useAppSelector } from './redux-hooks';
 

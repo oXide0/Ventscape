@@ -1,6 +1,6 @@
 export enum UserRoles {
     CREATOR = 'creator',
-    CUSTOMER = 'customer',
+    CUSTOMER = 'customer'
 }
 
 export interface LoginRequest {

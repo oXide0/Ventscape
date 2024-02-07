@@ -19,9 +19,8 @@ const TabLink = ({ to, icon, label, isBold }: TabLinkProps) => {
         <IconContext.Provider
             value={{
                 size: '1.7em',
-                color: isActive ? theme.colors.text.primary : theme.colors.text.secondary,
-            }}
-        >
+                color: isActive ? theme.colors.text.primary : theme.colors.text.secondary
+            }}>
             <ChakraLink as={ReactRouterLink} to={to} style={{ textDecoration: 'none' }}>
                 <Stack
                     direction='row'
@@ -33,14 +32,12 @@ const TabLink = ({ to, icon, label, isBold }: TabLinkProps) => {
                     px={3}
                     py={2}
                     rounded='md'
-                    cursor='pointer'
-                >
+                    cursor='pointer'>
                     {icon}
                     <Text
                         color={isActive ? 'text.primary' : 'text.secondary'}
                         display={{ base: 'none', xl: 'block' }}
-                        fontWeight={isBold ? 'bold' : 'normal'}
-                    >
+                        fontWeight={isBold ? 'bold' : 'normal'}>
                         {label}
                     </Text>
                 </Stack>

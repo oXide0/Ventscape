@@ -10,7 +10,7 @@ const PageLayout = ({ children, heading, centered = false }: PageLayoutProps) =>
     const styles = {
         margin: centered ? '0 auto' : '0',
         maxW: centered ? 'lg' : 'none',
-        width: '100%',
+        width: '100%'
     };
 
     return (

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import {
     useGetImageUrlQuery,
     useRemoveImageMutation,
-    useUploadImageMutation,
+    useUploadImageMutation
 } from 'services/imageApi';
 import { useGetUserByIdQuery, useUpdateUserMutation } from 'services/userApi';
 import { ImageValues } from 'types/types';
@@ -19,7 +19,7 @@ const EditProfilePage = () => {
     const { id } = useAppSelector(selectUser);
     const { data, isSuccess } = useGetUserByIdQuery(id);
     const { data: avatarUrl } = useGetImageUrlQuery(data?.avatarId, {
-        skip: !data?.avatarId,
+        skip: !data?.avatarId
     });
     const [updateUser] = useUpdateUserMutation();
     const [uploadAvatar] = useUploadImageMutation();
@@ -35,7 +35,7 @@ const EditProfilePage = () => {
                 await updateUser({
                     id,
                     avatarId: '',
-                    ...user,
+                    ...user
                 }).unwrap();
                 dispatch(setUserAvatar(null));
             } else if (avatar.file && avatar.url) {
@@ -44,7 +44,7 @@ const EditProfilePage = () => {
                 await updateUser({
                     id,
                     avatarId: avatarData.id,
-                    ...user,
+                    ...user
                 }).unwrap();
                 dispatch(setUserAvatar(avatar.url));
             }
@@ -54,7 +54,7 @@ const EditProfilePage = () => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         } catch (err) {
             console.log(err);
@@ -64,7 +64,7 @@ const EditProfilePage = () => {
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-                position: 'top-right',
+                position: 'top-right'
             });
         }
     };

@@ -14,8 +14,7 @@ const Layout = () => {
                 py={4}
                 pb={{ base: 20, sm: 0 }}
                 pos={{ base: 'static', sm: 'relative' }}
-                left={{ base: 0, sm: '4%', xl: '20%' }}
-            >
+                left={{ base: 0, sm: '4%', xl: '20%' }}>
                 <Header />
                 <Outlet />
             </Stack>

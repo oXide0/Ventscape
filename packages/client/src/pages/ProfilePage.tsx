@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const { id } = useAppSelector(selectUser);
     const { data, isSuccess, error } = useGetUserByIdQuery(id, { skip: !id });
     const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
-        skip: !data?.avatarId,
+        skip: !data?.avatarId
     });
 
     if (!isSuccess) return <Loader />;
@@ -42,8 +42,7 @@ const ProfilePage = () => {
                         as={RouterLink}
                         to='/profile/edit'
                         maxW='200px'
-                        w='full'
-                    >
+                        w='full'>
                         <EditIcon />
                         Edit profile
                     </Button>
@@ -63,8 +62,7 @@ const ProfilePage = () => {
                             color='white'
                             as={RouterLink}
                             to={`/user/${id}/events`}
-                            w='full'
-                        >
+                            w='full'>
                             Show events
                         </Button>
                     }

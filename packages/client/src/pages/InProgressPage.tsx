@@ -18,8 +18,7 @@ const InProgressPage = () => {
                     mt='4'
                     fontSize={{ base: '3xl', sm: '5xl' }}
                     fontWeight='bold'
-                    color='white'
-                >
+                    color='white'>
                     Page is under development
                 </Heading>
                 <Text textAlign='center' mt='6' fontSize='base' lineHeight='7' color='gray.300'>
