@@ -31,7 +31,7 @@ const EditProfilePage = () => {
             if (!avatar.file && avatar.url) {
                 await updateUser({ id, ...data, ...user }).unwrap();
             } else if (!avatar.file && !avatar.url) {
-                await removeAvatar(data.avatarId).unwrap();
+                if (data.avatarId) await removeAvatar(data.avatarId).unwrap();
                 await updateUser({
                     id,
                     avatarId: '',
@@ -39,7 +39,7 @@ const EditProfilePage = () => {
                 }).unwrap();
                 dispatch(setUserAvatar(null));
             } else if (avatar.file && avatar.url) {
-                await removeAvatar(data.avatarId).unwrap();
+                if (data.avatarId) await removeAvatar(data.avatarId).unwrap();
                 const avatarData = await uploadAvatar({ image: avatar.file }).unwrap();
                 await updateUser({
                     id,

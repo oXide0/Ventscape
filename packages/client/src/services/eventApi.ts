@@ -1,7 +1,7 @@
 import { CreateEventRequest, EVENTS_ENDPOINT, IEvent, UpdateEventRequest } from 'shared/types';
 import { api } from './api';
 
-interface IGetSavedEventsResponse {
+export interface IGetSavedEventsResponse {
     event: IEvent;
     id: string;
 }

@@ -27,13 +27,9 @@ import {
 } from '@chakra-ui/react';
 import { selectUser } from 'features/userSlice';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { memo, useEffect, useRef, useState } from 'react';
+import { useSavedEvent } from 'hooks/useSavedEvent';
+import { memo, useRef } from 'react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
-import {
-    useGetSavedEventsByUserIdQuery,
-    useSaveEventMutation,
-    useUnsaveEventMutation,
-} from 'services/eventApi';
 import { useGetImageUrlQuery } from 'services/imageApi';
 import { useGetUserByIdQuery } from 'services/userApi';
 import { IEvent } from 'shared/types';
@@ -54,43 +50,17 @@ interface EventCardProps extends IEvent {
 }
 
 const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCardProps) => {
-    const { id, isAuth } = useAppSelector(selectUser);
     const { data } = useGetUserByIdQuery(event.creatorId);
     const { data: img } = useGetImageUrlQuery(event.imgId, { skip: !event.imgId });
-    const { data: savedEvents } = useGetSavedEventsByUserIdQuery(id);
     const { data: avatar } = useGetImageUrlQuery(data?.avatarId, {
         skip: !data?.avatarId,
     });
-    const [saveEvent] = useSaveEventMutation();
-    const [unsaveEvent] = useUnsaveEventMutation();
-    const [savedEvent, setSavedEvent] = useState(false);
-    const [savedEventId, setSavedEventId] = useState<string | null>(null);
+    const { handleSaveEvent, isSavedEvent } = useSavedEvent(event.id);
     const navigate = useNavigate();
 
     const onAvatarClick = () => {
         navigate(`/user/${event.creatorId}`);
     };
-
-    const onToggleSave = async () => {
-        if (!isAuth || !id) return navigate('/login');
-        if (savedEvent) {
-            setSavedEvent(false);
-            await unsaveEvent(savedEventId);
-        } else {
-            setSavedEvent(true);
-            await saveEvent({ eventId: event.id, userId: id });
-        }
-    };
-
-    useEffect(() => {
-        if (savedEvents) {
-            const savedEvent = savedEvents.find((savedEvent) => savedEvent.event.id === event.id);
-            if (savedEvent) {
-                setSavedEventId(savedEvent.id);
-                setSavedEvent(true);
-            }
-        }
-    }, [savedEvents]);
 
     return (
         <Card maxW='650px' h='auto'>
@@ -105,8 +75,8 @@ const EventCard = memo(({ onRemoveEvent, applyButton = true, ...event }: EventCa
                     </Flex>
                     <IconButton
                         aria-label='Save event'
-                        icon={savedEvent ? <SaveFillIcon /> : <SaveIcon />}
-                        onClick={onToggleSave}
+                        icon={isSavedEvent ? <SaveFillIcon /> : <SaveIcon />}
+                        onClick={handleSaveEvent}
                     />
                     {onRemoveEvent && (
                         <Popover>
@@ -202,8 +172,8 @@ const CardFooter = ({
             >
                 {mode === 'offline' && (
                     <Text fontSize='lg'>
-                        <Highlight query='Adress:' styles={{ fontWeight: 'bold', color: 'white' }}>
-                            Adress:
+                        <Highlight query='Address:' styles={{ fontWeight: 'bold', color: 'white' }}>
+                            Address:
                         </Highlight>{' '}
                         {`${country}, ${city}, ${street}`}
                     </Text>

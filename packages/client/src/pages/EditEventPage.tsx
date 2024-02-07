@@ -29,7 +29,7 @@ const EditEventPage = () => {
             if (!image.file && image.url) {
                 await updateEvent({ ...data, ...event }).unwrap();
             } else if (!image.file && !image.url) {
-                await removeEventImage(data.imgId).unwrap();
+                if (data.imgId) await removeEventImage(data.imgId).unwrap();
                 await updateEvent({
                     id: data.id,
                     creatorId: data.creatorId,
@@ -37,7 +37,7 @@ const EditEventPage = () => {
                     ...event,
                 }).unwrap();
             } else if (image.file && image.url) {
-                await removeEventImage(data.imgId).unwrap();
+                if (data.imgId) await removeEventImage(data.imgId).unwrap();
                 const imgData = await uploadEventImage({ image: image.file }).unwrap();
                 await updateEvent({
                     id: data.id,
