@@ -65,10 +65,7 @@ export default defineConfig({
                     ) {
                         return '@react-helpers';
                     }
-
-                    if (id.includes('firebase')) {
-                        return '@firebase';
-                    }
+                    return null;
                 }
             }
         }

@@ -1,16 +1,9 @@
 {
-    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "useDefineForClassFields": true,
-        /* Bundler mode */
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
         "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
         "jsx": "react-jsx",
-        /* Linting */
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
         "baseUrl": "src",
         "paths": {
             "routes/*": ["routes/*"],
@@ -24,13 +17,10 @@
             "store/*": ["store/*"],
             "features/*": ["features/*"],
             "config/*": ["config/*"]
-        },
-        "types": ["node", "jest", "@testing-library/jest-dom"]
+        }
+        // "types": ["node", "jest", "@testing-library/jest-dom"]
     },
     "include": ["src", "vite.config.ts"],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
-    ]
+    "extends": "../../tsconfig.base.json",
+    "references": [{ "path": "./tsconfig.node.json" }]
 }
