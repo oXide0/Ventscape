@@ -18,7 +18,19 @@ const PageLayout = ({ children, heading, centered = false }: PageLayoutProps) =>
             <Heading textAlign='center' pb={8}>
                 {heading}
             </Heading>
-            {children}
+            {centered ? (
+                <Box
+                    sx={{
+                        height: '60vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
+                    }}>
+                    {children}
+                </Box>
+            ) : (
+                children
+            )}
         </Box>
     );
 };

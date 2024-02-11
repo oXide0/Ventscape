@@ -42,7 +42,6 @@ const RegisterPage = () => {
     return (
         <PageLayout heading='Create new account' centered>
             <Box
-                pt='10'
                 as='form'
                 display='flex'
                 flexDirection='column'
