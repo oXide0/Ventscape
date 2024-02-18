@@ -20,7 +20,6 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.5",
         "husky": "^8.0.3",
-        "lerna": "^8.1.2",
         "prettier": "3.2.5"
     },
     "workspaces": [
