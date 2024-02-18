@@ -17,14 +17,12 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/recommended",
-        "plugin:prettier/recommended"
+        "plugin:jsx-a11y/recommended"
     ],
     "plugins": ["react-refresh", "react-hooks", "jsx-a11y", "prettier"],
     "rules": {
         "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
         "react-hooks/exhaustive-deps": "off",
-        "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off"
     },

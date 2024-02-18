@@ -4,5 +4,6 @@
     "printWidth": 100,
     "tabWidth": 4,
     "trailingComma": "none",
-    "bracketSameLine": true
+    "bracketSameLine": true,
+    "endOfLine": "lf"
 }
