@@ -12,13 +12,7 @@ export const getUserById = async (req: Request, res: Response) => {
             }
         });
         if (user) {
-            res.status(200).json({
-                name: user.name,
-                email: user.email,
-                accountType: user.account_type,
-                avatarId: user.avatar_id,
-                description: user.description
-            });
+            res.status(200).json(user);
         } else {
             throw new Error('User not found');
         }
@@ -29,27 +23,16 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { name, email, avatarId, description }: UpdateUserRequest = req.body;
+    const body: UpdateUserRequest = req.body;
 
     try {
         const user = await prisma.users.update({
             where: {
                 id: req.params.id
             },
-            data: {
-                name: name,
-                email: email,
-                avatar_id: avatarId,
-                description: description
-            }
+            data: body
         });
-        res.status(200).json({
-            name: user.name,
-            email: user.email,
-            accountType: user.account_type,
-            avatarId: user.avatar_id,
-            description: user.description
-        });
+        res.status(200).json(user);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not user found' });

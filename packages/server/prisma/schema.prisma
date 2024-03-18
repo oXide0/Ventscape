@@ -16,33 +16,33 @@ model events {
   country     String?     @db.VarChar(255)
   link        String?     @db.VarChar(255)
   price       Decimal?    @db.Decimal(10, 2)
-  creator_id  String?     @db.Uuid
+  creatorId   String?     @db.Uuid
   date        String?     @db.VarChar(255)
   description String?
   title       String?     @db.VarChar(255)
-  img_id      String?     @db.VarChar(255)
-  users       users?      @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  imgId       String?     @db.VarChar(255)
+  users       users?      @relation(fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userEvent   userEvent[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model users {
-  id            String      @id @db.Uuid
-  name          String      @db.VarChar(255)
-  password      String      @db.VarChar(255)
-  email         String      @unique @db.VarChar(255)
-  description   String?
-  account_type  String?     @db.VarChar(255)
-  refresh_token String?     @unique @db.VarChar(255)
-  avatar_id     String?     @db.VarChar(255)
-  events        events[]
-  userEvent     userEvent[]
+  id           String      @id @db.Uuid
+  name         String      @db.VarChar(255)
+  password     String      @db.VarChar(255)
+  email        String      @unique @db.VarChar(255)
+  description  String?
+  accountType  String?     @db.VarChar(255)
+  refreshToken String?     @unique @db.VarChar(255)
+  avatarId     String?     @db.VarChar(255)
+  events       events[]
+  userEvent    userEvent[]
 }
 
 model userEvent {
-  id       String @id @db.Uuid
-  event_id String @db.Uuid
-  user_id  String @db.Uuid
-  event    events @relation(fields: [event_id], references: [id])
-  user     users  @relation(fields: [user_id], references: [id])
+  id      String @id @db.Uuid
+  eventId String @db.Uuid
+  userId  String @db.Uuid
+  event   events @relation(fields: [eventId], references: [id])
+  user    users  @relation(fields: [userId], references: [id])
 }

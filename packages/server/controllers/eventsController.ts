@@ -8,12 +8,7 @@ const prisma = new PrismaClient();
 export const getAllEvents = async (_: Request, res: Response) => {
     try {
         const events = await prisma.events.findMany();
-        res.json(
-            events.map((event) => {
-                const { creator_id, img_id, ...restEvent } = event;
-                return { ...restEvent, creatorId: creator_id, imgId: img_id };
-            })
-        );
+        res.json(events);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -29,8 +24,7 @@ export const getEventById = async (req: Request, res: Response) => {
         });
 
         if (!event) return res.status(401).json({ message: 'Not events found' });
-        const { creator_id, img_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -41,16 +35,11 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
     try {
         const events = await prisma.events.findMany({
             where: {
-                creator_id: req.params.creatorId
+                creatorId: req.params.creatorId
             }
         });
 
-        res.json(
-            events.map((event) => {
-                const { creator_id, img_id, ...restEvent } = event;
-                return { ...restEvent, creatorId: creator_id, imgId: img_id };
-            })
-        );
+        res.json(events);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Not events found' });
@@ -59,18 +48,15 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, imgId, ...restBody }: CreateEventRequest = req.body;
+        const body: CreateEventRequest = req.body;
         const event = await prisma.events.create({
             data: {
                 id: v4(),
-                creator_id: creatorId,
-                img_id: imgId ? imgId : null,
-                ...restBody
+                ...body
             }
         });
 
-        const { creator_id, img_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot add event' });
@@ -79,20 +65,15 @@ export const createEvent = async (req: Request, res: Response) => {
 
 export const updateEvent = async (req: Request, res: Response) => {
     try {
-        const { creatorId, imgId, ...restBody }: UpdateEventRequest = req.body;
+        const body: UpdateEventRequest = req.body;
         const event = await prisma.events.update({
             where: {
                 id: req.params.id
             },
-            data: {
-                creator_id: creatorId,
-                img_id: imgId ? imgId : null,
-                ...restBody
-            }
+            data: body
         });
 
-        const { creator_id, img_id, ...restEvent } = event;
-        res.json({ ...restEvent, creatorId: creator_id, imgId: img_id });
+        res.json(event);
     } catch (err) {
         console.error(err);
         res.status(401).json({ message: 'Cannot update event' });
@@ -119,8 +100,8 @@ export const saveEventForUser = async (req: Request, res: Response) => {
         await prisma.userEvent.create({
             data: {
                 id: v4(),
-                user_id: req.params.userId,
-                event_id: req.params.eventId
+                userId: req.params.userId,
+                eventId: req.params.eventId
             }
         });
         res.status(200).json('Event saved');
@@ -148,21 +129,21 @@ export const getSavedEventsForUser = async (req: Request, res: Response) => {
     try {
         const userEventRecords = await prisma.userEvent.findMany({
             where: {
-                user_id: req.params.userId
+                userId: req.params.userId
             }
         });
 
         const events = await prisma.events.findMany({
             where: {
                 id: {
-                    in: userEventRecords.map((event) => event.event_id)
+                    in: userEventRecords.map((event) => event.eventId)
                 }
             }
         });
 
         const userSavedEvents = userEventRecords.map((record) => ({
             id: record.id,
-            event: events.find((event) => event.id === record.event_id)
+            event: events.find((event) => event.id === record.eventId)
         }));
 
         res.json(userSavedEvents);

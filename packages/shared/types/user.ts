@@ -30,11 +30,9 @@ export interface UserResponse {
 }
 
 export interface UpdateUserRequest {
-    id: string | null;
     name: string;
     description: string;
     email: string;
-    accountType: UserRoles.CREATOR | UserRoles.CUSTOMER;
     avatarId: string;
 }
 

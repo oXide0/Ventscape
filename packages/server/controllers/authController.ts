@@ -31,7 +31,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 name: name,
                 email: email,
                 password: hashedPassword,
-                account_type: accountType
+                accountType: accountType
             }
         });
 
@@ -48,7 +48,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 id: userId
             },
             data: {
-                refresh_token: refreshToken
+                refreshToken: refreshToken
             }
         });
 
@@ -96,7 +96,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 id: user.id
             },
             data: {
-                refresh_token: refreshToken
+                refreshToken: refreshToken
             }
         });
 
@@ -106,7 +106,7 @@ export const loginUser = async (req: Request, res: Response) => {
             secure: true,
             maxAge: 14 * 24 * 60 * 60 * 1000
         });
-        res.json({ accessToken, userId: user.id, accountType: user.account_type });
+        res.json({ accessToken, userId: user.id, accountType: user.accountType });
     } else {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -120,7 +120,7 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
     const refreshToken = cookies.refreshToken;
     const foundUser = await prisma.users.findUnique({
         where: {
-            refresh_token: refreshToken
+            refreshToken: refreshToken
         }
     });
 
@@ -154,7 +154,7 @@ export const logoutUser = async (req: Request, res: Response) => {
 
     const foundUser = await prisma.users.findUnique({
         where: {
-            refresh_token: refreshToken
+            refreshToken: refreshToken
         }
     });
     if (!foundUser) {
@@ -167,7 +167,7 @@ export const logoutUser = async (req: Request, res: Response) => {
             id: foundUser.id
         },
         data: {
-            refresh_token: null
+            refreshToken: null
         }
     });
 
