@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon server.ts",
         "schema": "npx prisma db pull --schema=prisma/schema.prisma",
-        "generate": "npx prisma generate --schema=prisma/schema.prisma"
+        "generate": "npx prisma generate --schema=prisma/schema.prisma",
+        "migrate": "npx prisma migrate dev --schema=prisma/schema.prisma"
     },
     "devDependencies": {
         "@prisma/client": "^5.7.1",
