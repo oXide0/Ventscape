@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model events {
+model event {
   id          String      @id @db.Uuid
   mode        String?     @db.VarChar(255)
   category    String?     @db.VarChar(255)
@@ -21,12 +21,12 @@ model events {
   description String?
   title       String?     @db.VarChar(255)
   imgId       String?     @db.VarChar(255)
-  users       users?      @relation(fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        user?       @relation(fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userEvent   userEvent[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model users {
+model user {
   id           String      @id @db.Uuid
   name         String      @db.VarChar(255)
   password     String      @db.VarChar(255)
@@ -35,7 +35,7 @@ model users {
   accountType  String?     @db.VarChar(255)
   refreshToken String?     @unique @db.VarChar(255)
   avatarId     String?     @db.VarChar(255)
-  events       events[]
+  events       event[]
   userEvent    userEvent[]
 }
 
@@ -43,6 +43,6 @@ model userEvent {
   id      String @id @db.Uuid
   eventId String @db.Uuid
   userId  String @db.Uuid
-  event   events @relation(fields: [eventId], references: [id])
-  user    users  @relation(fields: [userId], references: [id])
+  event   event  @relation(fields: [eventId], references: [id])
+  user    user   @relation(fields: [userId], references: [id])
 }

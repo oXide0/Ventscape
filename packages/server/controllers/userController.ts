@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 id: req.params.id
             }
@@ -26,7 +26,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const body: UpdateUserRequest = req.body;
 
     try {
-        const user = await prisma.users.update({
+        const user = await prisma.user.update({
             where: {
                 id: req.params.id
             },

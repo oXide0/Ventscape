@@ -13,7 +13,7 @@ export const registerUser = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Please enter all fields' });
     }
 
-    const duplicateUser = await prisma.users.findUnique({
+    const duplicateUser = await prisma.user.findUnique({
         where: {
             email: email
         }
@@ -25,7 +25,7 @@ export const registerUser = async (req: Request, res: Response) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const userId = v4();
-        await prisma.users.create({
+        await prisma.user.create({
             data: {
                 id: userId,
                 name: name,
@@ -43,7 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
             expiresIn: '14d'
         });
 
-        await prisma.users.update({
+        await prisma.user.update({
             where: {
                 id: userId
             },
@@ -71,7 +71,7 @@ export const loginUser = async (req: Request, res: Response) => {
     if (!email || !password) {
         return res.status(400).json({ message: 'Please enter all fields' });
     }
-    const user = await prisma.users.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             email: email
         }
@@ -91,7 +91,7 @@ export const loginUser = async (req: Request, res: Response) => {
             expiresIn: '14d'
         });
 
-        await prisma.users.update({
+        await prisma.user.update({
             where: {
                 id: user.id
             },
@@ -118,7 +118,7 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
         return res.status(401).json({ message: 'No cookies found' });
     }
     const refreshToken = cookies.refreshToken;
-    const foundUser = await prisma.users.findUnique({
+    const foundUser = await prisma.user.findUnique({
         where: {
             refreshToken: refreshToken
         }
@@ -152,7 +152,7 @@ export const logoutUser = async (req: Request, res: Response) => {
     }
     const refreshToken = cookies.refreshToken;
 
-    const foundUser = await prisma.users.findUnique({
+    const foundUser = await prisma.user.findUnique({
         where: {
             refreshToken: refreshToken
         }
@@ -162,7 +162,7 @@ export const logoutUser = async (req: Request, res: Response) => {
         return res.status(204).json({ message: 'Invalid refresh token' });
     }
 
-    await prisma.users.update({
+    await prisma.user.update({
         where: {
             id: foundUser.id
         },

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export const getAllEvents = async (_: Request, res: Response) => {
     try {
-        const events = await prisma.events.findMany();
+        const events = await prisma.event.findMany();
         res.json(events);
     } catch (err) {
         console.error(err);
@@ -17,7 +17,7 @@ export const getAllEvents = async (_: Request, res: Response) => {
 
 export const getEventById = async (req: Request, res: Response) => {
     try {
-        const event = await prisma.events.findUnique({
+        const event = await prisma.event.findUnique({
             where: {
                 id: req.params.id
             }
@@ -33,7 +33,7 @@ export const getEventById = async (req: Request, res: Response) => {
 
 export const getEventsByCreatorId = async (req: Request, res: Response) => {
     try {
-        const events = await prisma.events.findMany({
+        const events = await prisma.event.findMany({
             where: {
                 creatorId: req.params.creatorId
             }
@@ -49,7 +49,7 @@ export const getEventsByCreatorId = async (req: Request, res: Response) => {
 export const createEvent = async (req: Request, res: Response) => {
     try {
         const body: CreateEventRequest = req.body;
-        const event = await prisma.events.create({
+        const event = await prisma.event.create({
             data: {
                 id: v4(),
                 ...body
@@ -66,7 +66,7 @@ export const createEvent = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
     try {
         const body: UpdateEventRequest = req.body;
-        const event = await prisma.events.update({
+        const event = await prisma.event.update({
             where: {
                 id: req.params.id
             },
@@ -82,7 +82,7 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = async (req: Request, res: Response) => {
     try {
-        await prisma.events.delete({
+        await prisma.event.delete({
             where: {
                 id: req.params.id
             }
@@ -133,7 +133,7 @@ export const getSavedEventsForUser = async (req: Request, res: Response) => {
             }
         });
 
-        const events = await prisma.events.findMany({
+        const events = await prisma.event.findMany({
             where: {
                 id: {
                     in: userEventRecords.map((event) => event.eventId)
