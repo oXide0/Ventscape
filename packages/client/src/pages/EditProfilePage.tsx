@@ -27,6 +27,7 @@ const EditProfilePage = () => {
 
     const handleSubmit = async (user: ProfileFormValues, avatar: ImageValues) => {
         try {
+            if (!id) return;
             if (!data) throw new Error('Event not found.');
             if (!avatar.file && avatar.url) {
                 await updateUser({ id, ...data, ...user }).unwrap();
