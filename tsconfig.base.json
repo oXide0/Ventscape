@@ -1,16 +1,14 @@
 {
     "compilerOptions": {
         "strict": true,
-        "noEmit": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "skipLibCheck": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "declaration": false,
         "declarationMap": false,
         "target": "ES2022",
-        "isolatedModules": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

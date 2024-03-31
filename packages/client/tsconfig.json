@@ -5,6 +5,8 @@
         "moduleResolution": "bundler",
         "jsx": "react-jsx",
         "baseUrl": "src",
+        "isolatedModules": true,
+        "noEmit": true,
         "paths": {
             "routes/*": ["routes/*"],
             "pages/*": ["pages/*"],
