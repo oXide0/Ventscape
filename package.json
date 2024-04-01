@@ -5,6 +5,7 @@
     "scripts": {
         "client": "cd packages/client && npm start",
         "server": "cd packages/server && npm start",
+        "fe test": "cd packages/client && npm test",
         "prepare": "husky install",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" "
