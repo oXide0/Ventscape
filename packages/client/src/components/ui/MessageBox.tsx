@@ -12,7 +12,7 @@ const MessageBox = ({ avatarUrl, author, message }: MessageBoxProps) => {
     return (
         <Card p={4} border={author === 'AI' ? '1px solid #B600E4' : '1px solid #5056ED'}>
             <Stack direction='row' alignItems='center'>
-                <Avatar size='sm' src={avatarUrl ? avatarUrl : ''} />
+                <Avatar size='sm' src={avatarUrl ? avatarUrl : ''} name={author} />
                 <Text fontWeight='semibold' fontSize='18px'>
                     {author}
                 </Text>

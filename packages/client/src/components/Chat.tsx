@@ -23,7 +23,8 @@ interface ChatProps {
 const Chat = memo(({ messages, onSend }: ChatProps) => {
     const [inputMessage, setInputMessage] = useState('');
 
-    const handleSend = () => {
+    const handleSend = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setInputMessage('');
         onSend(inputMessage);
     };
@@ -43,32 +44,34 @@ const Chat = memo(({ messages, onSend }: ChatProps) => {
                 </Stack>
             </Stack>
             <Stack pos='fixed' maxW='865px' w='100%' bottom={4} zIndex={2}>
-                <InputGroup size='md'>
-                    <Input
-                        placeholder='Enter message'
-                        py='6'
-                        bg='bg.navbar'
-                        boxShadow='0 0 15px #B600E4'
-                        border='none !important'
-                        _focus={{ boxShadow: '0 0 40px #B600E4', border: 'none !important' }}
-                        _placeholder={{ color: '#A000E4' }}
-                        value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
-                    />
-                    <InputRightElement h='full' w='50px'>
-                        <IconButton
-                            aria-label='search'
-                            bg='#A000E4'
-                            color='white'
-                            h='full'
-                            w='full'
-                            _hover={{ bg: '#7D00B3' }}
-                            roundedLeft={0}
-                            onClick={handleSend}>
-                            <IoSend />
-                        </IconButton>
-                    </InputRightElement>
-                </InputGroup>
+                <form onSubmit={(e) => handleSend(e)}>
+                    <InputGroup size='md'>
+                        <Input
+                            placeholder='Enter message'
+                            py='6'
+                            bg='bg.navbar'
+                            boxShadow='0 0 15px #B600E4'
+                            border='none !important'
+                            _focus={{ boxShadow: '0 0 40px #B600E4', border: 'none !important' }}
+                            _placeholder={{ color: '#A000E4' }}
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                        />
+                        <InputRightElement h='full' w='50px'>
+                            <IconButton
+                                aria-label='search'
+                                type='submit'
+                                bg='#A000E4'
+                                color='white'
+                                h='full'
+                                w='full'
+                                _hover={{ bg: '#7D00B3' }}
+                                roundedLeft={0}>
+                                <IoSend />
+                            </IconButton>
+                        </InputRightElement>
+                    </InputGroup>
+                </form>
             </Stack>
         </Container>
     );

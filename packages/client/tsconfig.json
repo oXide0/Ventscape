@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
+        "module": "ES2022",
         "moduleResolution": "bundler",
         "jsx": "react-jsx",
         "baseUrl": "src",
@@ -20,7 +20,6 @@
             "features/*": ["features/*"],
             "config/*": ["config/*"]
         }
-        // "types": ["node", "jest", "@testing-library/jest-dom"]
     },
     "include": ["src", "vite.config.ts"],
     "extends": "../../tsconfig.base.json",

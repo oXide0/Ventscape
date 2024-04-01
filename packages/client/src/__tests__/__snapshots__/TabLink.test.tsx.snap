@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabLink component creating snapshot for label 1`] = `
+<p
+  class="chakra-text css-hu7h93"
+>
+  Home
+</p>
+`;

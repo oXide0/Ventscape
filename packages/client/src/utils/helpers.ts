@@ -7,6 +7,7 @@ export function isErrorWithMessage(error: unknown): error is { data: { message: 
         error !== null &&
         'data' in error &&
         typeof (error as { data?: unknown }).data === 'object' &&
+        (error as { data?: unknown }).data !== null && // Add null check here
         'message' in (error as { data: { message?: unknown } }).data &&
         typeof (error as { data: { message: unknown } }).data.message === 'string'
     );
