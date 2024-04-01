@@ -16,8 +16,14 @@ Ventscape is a web application that serves as a platform for users to create and
 -   React
 -   Redux Toolkit
 -   RTK Query
+-   Websockets
+-   Jest
+-   React Testing Library
 -   Chakra UI
 -   JWT
 -   PWA
+-   GitHub CI
+-   Prettier
+-   Eslint
 
 Deployment Firebase (**Old version**) - [https://ventscape-ad39d.web.app/](https://ventscape-ad39d.web.app/)
