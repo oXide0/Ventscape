@@ -6,14 +6,15 @@ import expressWs from 'express-ws';
 import { errorHandler } from './middlewares/errorHandler';
 import router from './routes/router';
 import Websocket from 'ws';
+import { environment } from './environment';
 
 config();
 
 const app = express();
 const expressWsInstance = expressWs(app);
-const port = process.env.PORT || 5000;
+const port = environment.port || 5000;
 const corsOptions = {
-    origin: process.env.CLIENT_URL,
+    origin: environment.clientUrl,
     credentials: true,
     optionsSuccessStatus: 200
 };

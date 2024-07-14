@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.env
 node_modules
 dist
 build
@@ -14,7 +14,7 @@ dist-ssr
 dev-dist
 .firebase
 *.local
-.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

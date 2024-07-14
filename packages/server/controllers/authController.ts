@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { LoginRequest, RegisterRequest } from 'shared/types';
 import { v4 } from 'uuid';
+import { environment } from '../environment';
 
 const prisma = new PrismaClient();
 
@@ -35,11 +36,11 @@ export const registerUser = async (req: Request, res: Response) => {
             }
         });
 
-        const accessToken = jwt.sign({ name }, process.env.ACCESS_TOKEN_SECRET!, {
+        const accessToken = jwt.sign({ name }, environment.accessTokenSecret!, {
             expiresIn: '1h'
         });
 
-        const refreshToken = jwt.sign({ name }, process.env.REFRESH_TOKEN_SECRET!, {
+        const refreshToken = jwt.sign({ name }, environment.refreshTokenSecret!, {
             expiresIn: '14d'
         });
 
@@ -83,11 +84,11 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-        const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET!, {
+        const accessToken = jwt.sign({ name: user.name }, environment.accessTokenSecret!, {
             expiresIn: '1h'
         });
 
-        const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET!, {
+        const refreshToken = jwt.sign({ name: user.name }, environment.refreshTokenSecret!, {
             expiresIn: '14d'
         });
 
@@ -130,16 +131,14 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
 
     jwt.verify(
         refreshToken,
-        process.env.REFRESH_TOKEN_SECRET!,
+        environment.refreshTokenSecret!,
         (err: jwt.VerifyErrors | null, decoded: any) => {
             if (err || foundUser.name !== decoded.name) {
                 return res.status(403).json({ message: 'Invalid refresh token' });
             }
-            const accessToken = jwt.sign(
-                { name: foundUser.name },
-                process.env.ACCESS_TOKEN_SECRET!,
-                { expiresIn: '1h' }
-            );
+            const accessToken = jwt.sign({ name: foundUser.name }, environment.accessTokenSecret!, {
+                expiresIn: '1h'
+            });
             res.json({ accessToken });
         }
     );

@@ -7,12 +7,13 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Request, Response } from 'express';
 import { v4 } from 'uuid';
+import { environment } from '../environment';
 
 const s3Client = new S3Client({
-    region: process.env.AWS_REGION,
+    region: environment.awsRegion,
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+        accessKeyId: environment.awsAccessKeyId!,
+        secretAccessKey: environment.awsSecretAccessKey!
     }
 });
 
@@ -26,7 +27,7 @@ export const uploadImage = async (req: Request, res: Response) => {
 
     try {
         const uploadParams = {
-            Bucket: process.env.AWS_BUCKET_NAME,
+            Bucket: environment.awsBucketName,
             Key: id,
             Body: req.file.buffer,
             ContentType: req.file.mimetype
@@ -42,7 +43,7 @@ export const uploadImage = async (req: Request, res: Response) => {
 
 export const getImage = async (req: Request, res: Response) => {
     const objectCommand = new GetObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: environment.awsBucketName,
         Key: req.params.imageId
     });
 
@@ -57,7 +58,7 @@ export const getImage = async (req: Request, res: Response) => {
 
 export const removeImage = async (req: Request, res: Response) => {
     const objectCommand = new DeleteObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: environment.awsBucketName,
         Key: req.params.imageId
     });
 
